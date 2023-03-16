@@ -1,0 +1,259 @@
+{%extends 'executive/ex_base.html'%}
+{%load static%}
+{%block content%}
+
+<style>
+  .col-md-4{
+    margin-bottom: 30px;
+  }
+  .col-md-8{
+    margin-bottom: 30px;
+  }
+</style>
+
+
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">PROJECTS</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <div class="card-title">Projects</div>
+      <input type="text" class="form-control" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">Task name</th>
+              <th scope="col" style="color:#6C7293;">AssignedTo</th>
+              <th scope="col" style="color:#6C7293;">Task Status</th>
+              <th scope="col" style="color:#6C7293;">Project Details</th>
+
+            </tr>
+          </thead>
+          <tbody id="myTable">
+
+            
+           
+              <tr>
+              <td style="color:white;">Seo, Smm, Email</td>
+             
+              <td style="color:white;">Employee 1</td>
+              <td class="text-primary"><a href="" data-toggle="modal" data-target="#taskstatus"
+                  style="text-decoration: none;">
+                  <div class="badge badge-outline-info">Task Status</div>
+                </a></td>
+
+             
+              <td>
+                <div  data-toggle="modal" data-target="#exampleModalCenter3"
+                  >
+                  <div class="badge badge-outline-info">Work Details</div>
+                  <!-- <div class="progress-bar" style="height:20px;">dp.progress</div> -->
+
+                </div>
+              </td>
+              
+              
+           
+              
+
+            </tr>
+        
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+<!-- pop up window for Work acceptance letter -->
+
+
+
+
+
+<!-- pop up window for Project details -->
+
+
+<form action="" method="post">
+  {% csrf_token %}
+  <div class="rowmt-5 modal fade" id="exampleModalCenter3">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+              <div class="container">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;">Work Details</div>
+
+              <div class="row mt-5">
+                <div class="col-md-1"></div>
+                <div class="col-md-2 mt-2" style="color:white;">Start date</div>
+                <div class="col-md-2 mt-2">
+                  <div class="ml-3" style="color:white;">{{work.start_date}}</div>
+                </div>
+                <div class="col-md-2"></div>
+                <div class="col-md-2 mt-2" style="color:white;"> End date</div>
+                <div class="col-md-2 mt-2" style="color:white;"> {{work.end_date}}</div>
+                <div class="col-md-1"></div>
+              </div>
+            </div>
+
+            <div class="row mt-5 ml-2">
+              <div class="col-md-1"></div>
+              <div class="col-md-2 mt-2" style="color:white;">Assigned to</div>
+              <div class="col-md-2 mt-2">
+                <div style="color:white;">{{usr.fullname}}</div>
+              </div>
+              <div class="col-md-2"></div>
+              
+              <div class="col-md-1"></div>
+            </div>
+
+            
+
+          </div>
+
+
+        </div>
+
+        <div class="container mt-3 " style="border-top:1px solid grey;">
+          <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Task Details</div>
+          <div class="pt-3 " style="margin-left:20px;color:white;">{{work.task}}</div>
+          {% if work.file_attached == ""%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+          {%else%}
+            <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{work.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+          {%endif%}
+        </div>
+
+        <div class="container mt-3" style="border-top:1px solid grey;border-bottom:1px solid grey;">
+          <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;">Task Description</div>
+          <div class="row pt-1">
+            
+            <div class="col-md-12">
+              <p>{{work.description}}</p>
+            </div>
+            
+          </div>
+        
+        </div>
+            
+          </div>
+        
+        </div>
+        <br><br>
+      </div>
+    </div>
+  </div>
+</form>
+
+
+
+<form action="{%url 'daily_work_done' work.id%}" method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  <div class="modal fade" id="taskstatus">
+    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="modal-header">
+          <h5 class="modal-title text-info">Daily Work Report</h5>
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="font-size: 20px;;background-color: #191c24;border:none;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="table-responsive mt-3 mb-3 container">
+
+          <table class="table   table-bordered ">
+            <thead style="background-color: black;">
+              <tr>
+                <th scope="col" style="color:#6C7293;">Date</th>
+                <th scope="col" style="color:#6C7293;">Task</th>
+                
+                <th scope="col" style="color:#6C7293;">Work Done</th>
+
+                <th scope="col" style="color:#6C7293;">Files</th>
+                
+                <th scope="col" style="color:#6C7293;">Action</th>
+              </tr>
+            </thead>
+
+            <tbody>
+
+              {% for dl in daily %}
+              <tr>
+                <td style="color:white;">{{dl.date}}</td>
+
+                <td style="color:white;">{{dl.task}}
+                </td>
+                
+                <td style="color:white;">{{dl.workdone}}
+                </td>
+
+                <td style="color:white;">
+                  {% if dl.daily_file == ""%}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="" download>No File Attached</a></div>
+                  {%else%}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{dl.daily_file.url }}" download>
+                      Download</a></div>
+                  {%endif%}
+                  
+                </td>
+                
+                <td>
+                  <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
+                      target="_blank">View</a></div> -->
+                </td>
+              </tr>
+              {%endfor%}
+
+             
+
+              <tr>
+                <td style="color:white;">{{cr_date}}</td>
+
+                <td style="color:white;">{{work.task}}
+                </td>
+               
+
+                <td style="color:white;"><textarea name="workdone" class="form-control-sm bg-transparent text-light"
+                    cols="25" rows="7"></textarea></td>
+
+                <td class="text-info"><input type="file" name="filed" multiple></td>
+              
+                
+                <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
+
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</form>
+
+
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}

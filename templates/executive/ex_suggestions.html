@@ -1,0 +1,157 @@
+{%extends 'executive/ex_base.html'%}
+<!-- DEVprojects -->
+{%load static%}
+{%block content%}
+<style>
+  #replay{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+  #warning{
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    text-align: justify;
+  }
+</style>
+<div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Suggestions</div>
+  </div>
+
+
+<div class="row mt-4" style="background-color: #191c24">
+
+    <div class="table-responsive mt-3 mb-3 container">
+
+        <table class="table   table-bordered ">
+          <thead style="background-color: black;">
+            <tr>
+              <th scope="col" style="color:#6C7293;">Date</th>
+              <th scope="col" style="color:#6C7293;">Suggestions</th>
+              
+              <th scope="col" style="color:#6C7293;">Replay</th>
+
+             
+              
+              <th scope="col" style="color:#6C7293;">Action</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+
+            <tr>
+              <td style="color:white;">20-03-2023</td>
+
+              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Suggestion</div></td>
+              <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></td>
+              
+              <td>
+                <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
+                    target="_blank">View</a></div> -->
+              </td>
+            </tr>
+
+           
+
+            <tr>
+              <td style="color:white;">11-03-2023</td>
+
+              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Suggestion</div></td>
+             
+
+              <td style="color:white;"><textarea name="workdone" class="form-control-sm bg-transparent text-light"
+                  cols="25" rows="7"></textarea></td>
+
+              <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
+
+            </tr>
+          </tbody>
+        </table>
+      
+      </div>
+
+
+      <div class="rowmt-5 modal fade" id="feed">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Suggestions</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis illum iusto eum culpa! Culpa laborum repellendus natus, eligendi quae fugit! Sit labore ducimus ratione dignissimos nam magni hic aliquid autem?</p>
+                </div>
+                
+              </div>
+             
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="rowmt-5 modal fade" id="reply">
+    <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+      <div class="modal-content modal-m" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <div class="container">
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="text-info" style="font-size: 20px;font-weight: 600;">Reply</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis illum iusto eum culpa! Culpa laborum repellendus natus, eligendi quae fugit! Sit labore ducimus ratione dignissimos nam magni hic aliquid autem?</p>
+                </div>
+                
+              </div>
+             
+          </div>
+        </div>
+    </div>
+  </div>
+
+    
+
+<!-- <div class="row mt-4">
+  {% for dp in devp %}
+  <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
+    <div class="card">
+      <a href="{% url 'DEVtable' dp.project_id %}" class="text-decoration-none text-white ">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-8 col-sm-12 col-xl-8 my-auto">
+              <div class="d-flex d-sm-block d-md-flex align-items-center">
+                
+                {% for p in pros %}
+          
+                  {% if dp.project_id == p.id %}           
+
+                    <h4 class="mb-0" style="color:white;">{{p.project}}</h4>
+
+                  {% endif %}
+                  
+                {% endfor %}
+              </div>
+            </div>
+            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
+              <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
+            </div>
+          </div>
+
+        </div>
+      </a>
+    </div>
+  </div> -->
+  {% endfor %}
+  {% endblock %}
