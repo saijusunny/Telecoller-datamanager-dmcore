@@ -70,50 +70,21 @@
           <tbody id="myTable">
 
             
-           
+              {% for i in pr_work%}
               <tr>
-                <td style="color:white;">20-03-2023</td>
-              <td style="color:white;">Altos</td>
+                <td style="color:white;">{{i.start_date}}</td>
+              <td style="color:white;">{{i.cl_name}}</td>
              
-              <td style="color:white;">Raman</td>
+              <td style="color:white;">{{usr.fullname}}</td>
             
 
-              <td class="text-primary"><a href="{% url 'ad_work_progress_det'%}"
+              <td class="text-primary"><a href="{% url 'ad_work_progress_det' i.id%}"
                   style="text-decoration: none;">
                   <div class="badge badge-outline-info">View Details</div>
                 </a></td>
               
               </tr>
-              <tr>
-                <td style="color:white;">21-03-2023</td>
-                <td style="color:white;">Infox</td>
-               
-                <td style="color:white;">Kannan</td>
-               
-                
-      
-  
-                <td class="text-primary"><a href="{% url 'ad_work_progress_det'%}"
-                    style="text-decoration: none;">
-                    <div class="badge badge-outline-info">View Details</div>
-                  </a></td>
-                
-                </tr>
-
-                <tr>
-                    <td style="color:white;">22-03-2023</td>
-                    <td style="color:white;">Rappid</td>
-                   
-                    <td style="color:white;">Arjun</td>
-                    
-            
-      
-                    <td class="text-primary"><a href="{% url 'ad_work_progress_det'%}"
-                        style="text-decoration: none;">
-                        <div class="badge badge-outline-info">View Details</div>
-                      </a></td>
-                    
-                    </tr>
+              {%endfor%}
           </tbody>
         </table>
       </div>

@@ -123,7 +123,7 @@
         <div class="container mt-3 " style="border-top:1px solid grey;">
           <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Task Details</div>
           <div class="pt-3 " style="margin-left:20px;color:white;">{{work.task}}</div>
-          {% if work.file_attached == ""%}
+          {% if work.file_attached == NULL%}
           <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
           {%else%}
             <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{work.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
@@ -153,8 +153,7 @@
 
 
 
-<form action="{%url 'daily_work_done' work.id%}" method="post" enctype="multipart/form-data">
-  {% csrf_token %}
+
   <div class="modal fade" id="taskstatus">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
       <div class="modal-content modal-xl" style="background-color: #191c24;">
@@ -184,6 +183,7 @@
             <tbody>
 
               {% for dl in daily %}
+              
               <tr>
                 <td style="color:white;">{{dl.date}}</td>
 

@@ -38,10 +38,7 @@ def login(request):
     return render(request, 'home/login.html')
 
 def signin(request):
-<<<<<<< HEAD
     print("function true")
-=======
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
     if request.method == 'POST':
         email  = request.POST['email']
         password = request.POST['password']
@@ -49,13 +46,13 @@ def signin(request):
         if user is not None:
             return redirect('login')
         
-<<<<<<< HEAD
+
         
         if user_registration.objects.filter(email=request.POST['email'], password=request.POST['password'],department="Admin",status="active").exists():
             print("function sucsess")
-=======
+
         if user_registration.objects.filter(email=request.POST['email'], password=request.POST['password'],department="Admin",status="active").exists():
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
+
             member = user_registration.objects.get(email=request.POST['email'],password=request.POST['password'])
             
             request.session['userid'] = member.id
@@ -74,10 +71,7 @@ def signin(request):
 
             return redirect('ex_profile')
         else:
-<<<<<<< HEAD
             print("function false")
-=======
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
             return redirect('login')
 
 
@@ -480,17 +474,12 @@ def update_client(request,id):
         client.vm_file = request.FILES.get('vm_file',None)
         client.user=usr
         client.save()
-<<<<<<< HEAD
-
-        
-        
         client = client_information.objects.get(id=id)
         print("id")
         print(id)
-=======
+
         
         client = client_information.objects.get(id=client.id)
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
         
         labels = request.POST.getlist('label[]')
         text =request.POST.getlist('dis[]')
@@ -499,7 +488,7 @@ def update_client(request,id):
             mapped = zip(labels,text)
             mapped=list(mapped)
             for ele in mapped:
-<<<<<<< HEAD
+
                 try:
                     
                     adiclient = addi_client_info.objects.get(client=client)
@@ -518,10 +507,10 @@ def update_client(request,id):
                 except:
                     created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
 
-=======
+
             
                 created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
+
         else:
             pass
 
@@ -531,7 +520,7 @@ def update_client(request,id):
         if len(labels2)==len(text2):
             mappeds = zip(labels2,text2)
             mappeds=list(mappeds)
-<<<<<<< HEAD
+
       
             for ele in mappeds:
                 try:
@@ -548,14 +537,13 @@ def update_client(request,id):
         else: 
             pass
         
-=======
+
             for ele in mappeds:
             
                 created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='business_details')
-        else: 
-            pass
+      
           
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
+
         
         files_req =request.FILES.getlist('file_add[]') 
         label_req =request.POST.getlist('label_req[]')
@@ -565,7 +553,7 @@ def update_client(request,id):
         if len(files_req)==len(label_req)==len(dis_req):
             mapped2 = zip(label_req,dis_req,files_req)
             mapped2=list(mapped2)
-<<<<<<< HEAD
+
             
         
             for ele in mapped2:
@@ -581,13 +569,11 @@ def update_client(request,id):
                 except:
                     created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
         
-=======
-         
+
             for ele in mapped2:
                 created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
 
         msg_success = "Save Successfully"
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
         return redirect('ad_view_clint',id)
     return redirect('ad_view_clint',id)
 
@@ -595,31 +581,93 @@ def update_client(request,id):
 
 
 def ad_daily_work_det(request):
-    return render(request, 'admin/ad_daily_work_det.html')
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    dl_work=daily_work.objects.filter(date=date.today())
+    context={
+        "usr":usr,
+        "dl_work":dl_work
+
+    }
+    return render(request, 'admin/ad_daily_work_det.html',context)
 
 
 def ad_work_analiz_det(request):
-    return render(request, 'admin/ad_work_analiz_det.html')
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+    dl_work=daily_work.objects.all()
+    context={
+        "usr":usr,
+        "dl_work":dl_work
+
+    }
+    return render(request, 'admin/ad_work_analiz_det.html',context)
 
 def ad_work_progress(request):
-    return render(request, 'admin/ad_work_progress.html')
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    pr_work=progress_report.objects.all()
+    context={
+        "usr":usr,
+        "pr_work":pr_work
+
+    }
+    return render(request, 'admin/ad_work_progress.html',context)
 
 
 
-def ad_work_progress_det(request):
-    return render(request, 'admin/ad_work_progress_det.html') 
+def ad_work_progress_det(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+    pr_work=progress_report.objects.get(id=id)
+    context={
+        "usr":usr,
+        "pr_work":pr_work
+
+    }
+    return render(request, 'admin/ad_work_progress_det.html',context) 
 
 def ad_warning_ex(request):
-    return render(request, 'admin/ad_warning_ex.html')
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+    context={
+        "usr":usr,
+
+    }
+    return render(request, 'admin/ad_warning_ex.html',context)
 
 def ad_warning_sugg_dash(request):
-    return render(request, 'admin/ad_warning_sugg_dash.html')
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+    context={
+        "usr":usr,
+
+    }
+    return render(request, 'admin/ad_warning_sugg_dash.html',context)
 
 def ad_warning_det(request):
-    return render(request, 'admin/ad_warning_det.html') 
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+    context={
+        "usr":usr,
+
+    }
+    return render(request, 'admin/ad_warning_det.html',context) 
 
 def ad_suggestions_det(request):
-    return render(request, 'admin/ad_suggestions_det.html')
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+    context={
+        "usr":usr,
+
+    }
+    return render(request, 'admin/ad_suggestions_det.html',context)
 
 # -----------------------------------------------------------------------------Executive Section
 
@@ -650,17 +698,21 @@ def ex_dashboard(request):
 def ex_daily_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    client=Work.objects.filter(exe_name=ids)
+    client=work_asign.objects.get(exe_name=ids)
+    work=Work.objects.filter(id=client.work_id)
     context={
         "usr":usr,
-        "client":client
+        "client":work
     }
     return render(request, 'executive/ex_daily_work_clint.html',context)
 
 def ex_daily_work_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    work=Work.objects.get(id=id)
+    
+    work_as=work_asign.objects.get(exe_name=ids)
+    work=Work.objects.get(id=work_as.work_id)
+
     daily=daily_work.objects.filter(work_id =id)
     cr_date=date.today()
     context={
@@ -674,7 +726,8 @@ def ex_daily_work_det(request,id):
 def daily_work_done(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    work=Work.objects.get(id=id)
+    work_as=work_asign.objects.get(exe_name=ids)
+    work=Work.objects.get(id=work_as.work_id)
     if request.method == 'POST':
         daily = daily_work()
         daily.task=work.task
@@ -683,6 +736,7 @@ def daily_work_done(request,id):
         daily.daily_file=request.FILES.get('filed',None)
         daily.work=work
         daily.user=usr
+        daily.cl_name=work.cl_name
         daily.save()
         return redirect("ex_daily_work_det",id)
     return redirect("ex_daily_work_det",id)
@@ -690,36 +744,70 @@ def daily_work_done(request,id):
 def ex_weekly_rep_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
+    client=work_asign.objects.get(exe_name=ids)
+    work=Work.objects.filter(id=client.work_id)
     context={
-        "usr":usr
+        "usr":usr,
+        "client":work
     }
     return render(request, 'executive/ex_weekly_rep_clint.html',context)
 
-def ex_weekly_rep_clint_det(request):
+def ex_weekly_rep_clint_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
+
+    work=Work.objects.filter(id=id)
+    works=Work.objects.get(id=id)
+    rep=progress_report.objects.filter(user=ids)
     context={
-        "usr":usr
+        "usr":usr,
+        "work":work,
+        "rep":rep,
+        "works":works
     }
     return render(request, 'executive/ex_weekly_rep_det.html',context)
+
+def sv_wk_rp(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    
+    work=Work.objects.get(id=id)
+    if request.method == 'POST':
+        pro = progress_report()
+        pro.task=work.task
+        pro.audit_rprt=request.FILES.get('repr_fl',None)
+        pro.graph=request.FILES.get('gr_fl',None)
+        pro.start_date=request.POST.get('st_dt',None)
+        pro.end_date=request.POST.get('ed_dt',None)
+        pro.work=work
+        pro.user=usr
+        pro.cl_name=work.cl_name
+        pro.save()
+        return redirect("ex_weekly_rep_clint_det",id)
+    return redirect("ex_weekly_rep_clint_det",id)
 
 def ex_view_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    client=Work.objects.filter(exe_name=ids)
+    
+        
+    work_as=work_asign.objects.get(exe_name=ids)
+    work=Work.objects.filter(id=work_as.work_id)
+    
     context={
         "usr":usr,
-        "client":client
+        "client":work
     }
     return render(request, 'executive/ex_view_work_clint.html',context)
 
 def ex_view_clint_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    client=Work.objects.get(id=id)
+    work_as=work_asign.objects.get(exe_name=ids)
+    work=Work.objects.get(id=work_as.work_id)
     context={
         "usr":usr, 
-        "client":client
+        "client":work
     }
     return render(request, 'executive/ex_view_clint_det.html',context)
 
@@ -735,18 +823,43 @@ def ex_warnings_dash(request):
 def ex_warning(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
+
+    warn=Warning.objects.filter(executive=ids,type="Warning")
     context={
-        "usr":usr
+        "usr":usr,
+        "warn":warn
     }
     return render(request, 'executive/ex_warning.html',context)
 
+def add_warning(request, id):
+   
+
+    if request.method == 'POST':
+        warn = Warning.objects.get(id=id)
+        warn.reply=request.POST.get('workdone',None)
+        warn.save()
+        return redirect("ex_warning")
+    return redirect("ex_warning")
+    
 def ex_suggestions(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
+    warn=Warning.objects.filter(executive=ids,type="Suggestion")
     context={
-        "usr":usr
+        "usr":usr,
+        "warn":warn
     }
     return render(request, 'executive/ex_suggestions.html',context)
+
+def add_suggestion(request, id):
+   
+
+    if request.method == 'POST':
+        warn = Warning.objects.get(id=id)
+        warn.reply=request.POST.get('workdone',None)
+        warn.save()
+        return redirect("ex_warning")
+    return redirect("ex_warning")
 
 
     

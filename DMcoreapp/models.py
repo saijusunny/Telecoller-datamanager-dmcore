@@ -194,13 +194,13 @@ class addi_client_info(models.Model):
     labels = models.CharField(max_length=220,default='', null=True, blank=True)
     discription =models.TextField(default='', null=True, blank=True)
     file =models.ImageField(upload_to='images/requirement/', null=True, blank=True)
-<<<<<<< HEAD
+
     section = models.CharField(max_length=220,default='', null=True, blank=True)
+
 
 
 class Work(models.Model):
     client_name = models.ForeignKey(client_information, on_delete=models.CASCADE, null=True,related_name='client_works', blank=True) 
-    exe_name=models.ForeignKey(user_registration, on_delete=models.CASCADE,related_name='exe_works' ,null=True, blank=True)
     cl_name = models.CharField(max_length=200,default='', null=True, blank=True)
     task=models.TextField(default='', null=True, blank=True)
     description=models.TextField(default='', null=True, blank=True)
@@ -208,9 +208,14 @@ class Work(models.Model):
     start_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
 
+class work_asign(models.Model):
+    work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)   
+    exe_name=models.ForeignKey(user_registration, on_delete=models.CASCADE,related_name='exe_works' ,null=True, blank=True)
+
 class daily_work(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)  
     user = models.ForeignKey(user_registration, on_delete=models.SET_NULL, null=True, blank=True)
+    cl_name = models.CharField(max_length=200,default='', null=True, blank=True)
     task=models.TextField(default='', null=True, blank=True)
     date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     workdone=models.TextField(default='', null=True, blank=True)
@@ -219,11 +224,17 @@ class daily_work(models.Model):
 class progress_report(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(user_registration, on_delete=models.SET_NULL, null=True, blank=True)
+    cl_name = models.CharField(max_length=200,default='', null=True, blank=True)
     task=models.TextField(default='', null=True, blank=True)
     audit_rprt=models.FileField(upload_to='images/pdf/',default='', null=True, blank=True)
     graph=models.FileField(upload_to='images/graph/',default='', null=True, blank=True)
     start_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
-=======
-    section = models.CharField(max_length=220,default='', null=True, blank=True)
->>>>>>> cfe4fd5b63886b3445b57c22b3fd5f579fa677cb
+
+    
+class Warning(models.Model):
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    description=models.TextField()
+    type=models.CharField(max_length=255)
+    date=models.DateField(auto_now_add=True, null=False)
+    reply=models.TextField(null=True)

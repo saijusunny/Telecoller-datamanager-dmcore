@@ -20,7 +20,7 @@
 
 
 <div class="row mt-4" style="background-color: #191c24">
-
+  
     <div class="table-responsive mt-3 mb-3 container">
 
         <table class="table   table-bordered ">
@@ -39,39 +39,43 @@
 
           <tbody>
 
-
+            {% for i in warn%}
+            <form action="{% url 'add_warning' i.id%}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
             <tr>
-              <td style="color:white;">20-03-2023</td>
+              
+              <td style="color:white;">{{i.date}}</td>
 
               <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Warnings</div></td>
-              <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></td>
+              
+              <td style="color:white;" > 
+                {% if i.reply != NULL %}
+                  <a href="" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></a>
+                {% else %}
+                <textarea name="workdone" class="form-control-sm bg-transparent text-light"
+                    cols="25" rows="7"></textarea>
+                {% endif %}
+              </td>
               
               <td>
-                <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
-                    target="_blank">View</a></div> -->
+                {% if i.reply != NULL %}
+                 
+                {% else %}
+                <button type="submit" class="btn badge-outline-primary">submit</button>
+                {% endif %}
+                
+         
+                
               </td>
             </tr>
-
-           
-
-            <tr>
-              <td style="color:white;">11-03-2023</td>
-
-              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Warnings</div></td>
-             
-
-              <td style="color:white;"><textarea name="workdone" class="form-control-sm bg-transparent text-light"
-                  cols="25" rows="7"></textarea></td>
-
-              <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
-
-            </tr>
+          </form>
+            {%endfor%}
           </tbody>
         </table>
       
       </div>
 
-
+  
       <div class="rowmt-5 modal fade" id="feed">
     <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
       aria-labelledby="myLargeModalLabel" aria-hidden="true">

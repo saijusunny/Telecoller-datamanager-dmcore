@@ -40,32 +40,37 @@
           <tbody>
 
 
+            {% for i in warn%}
+            <form action="{% url 'add_suggestion' i.id%}" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
             <tr>
-              <td style="color:white;">20-03-2023</td>
+              
+              <td style="color:white;">{{i.date}}</td>
 
-              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Suggestion</div></td>
-              <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></td>
+              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Suggestions</div></td>
+              
+              <td style="color:white;" > 
+                {% if i.reply != NULL %}
+                  <a href="" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></a>
+                {% else %}
+                <textarea name="workdone" class="form-control-sm bg-transparent text-light"
+                    cols="25" rows="7"></textarea>
+                {% endif %}
+              </td>
               
               <td>
-                <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
-                    target="_blank">View</a></div> -->
+                {% if i.reply != NULL %}
+                 
+                {% else %}
+                <button type="submit" class="btn badge-outline-primary">submit</button>
+                {% endif %}
+                
+         
+                
               </td>
             </tr>
-
-           
-
-            <tr>
-              <td style="color:white;">11-03-2023</td>
-
-              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Suggestion</div></td>
-             
-
-              <td style="color:white;"><textarea name="workdone" class="form-control-sm bg-transparent text-light"
-                  cols="25" rows="7"></textarea></td>
-
-              <td class="text-info"><button type="submit" class="btn badge-outline-primary">submit</button></td>
-
-            </tr>
+          </form>
+            {%endfor%}
           </tbody>
         </table>
       

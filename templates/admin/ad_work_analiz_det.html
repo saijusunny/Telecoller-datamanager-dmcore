@@ -84,59 +84,26 @@
           <tbody id="myTable">
 
             
-           
+            {% for work in dl_work %}
               <tr>
-                <td style="color:white;">20-03-2023</td>
-                <td style="color:white;">Altos Technologies</td>
-              <td style="color:white;">Seo</td>
+                <td style="color:white;">{{work.date}}</td>
+                <td style="color:white;">{{work.cl_name}}</td>
+              <td style="color:white;">{{work.task}}</td>
              
-              <td style="color:white;">Raman</td>
+              <td style="color:white;">{{usr.fullname}}</td>
               <td style="color:white;">
-               <p>sdfsdfsdfds sghdajhsdfhsag ashdfgsahgdf adhsafdsahg</p>
+               <p>{{work.workdone}}</p>
               </td>
-
-              <td class="text-primary"><a href="" data-toggle="modal" data-target="#testerstatus{{dp.id}}"
-                  style="text-decoration: none;">
-                  <div class="badge badge-outline-info">Download</div>
-                </a></td>
-              
+              <td>
+              {% if work.daily_file == ""%}
+                  <div class="badge badge-outline-info">No File Attached</div>
+              {% else %}
+                  <a href="{{work.daily_file.url}}"><div class="badge badge-outline-info">Download</div></a>
+              {% endif %}
+            </td>
               </tr>
-              <tr>
-                <td style="color:white;">20-03-2023</td>
-                <td style="color:white;">Infox Technologies</td>
-                <td style="color:white;">Sem</td>
-               
-                <td style="color:white;">Arjun</td>
-                <td style="color:white;">
-                    <p>sdfsdfsdfds sghdajhsdfhsag ashdfgsahgdf adhsafdsahg</p>
-              </td>
-                
-      
-  
-                <td class="text-primary"><a href="" data-toggle="modal" data-target="#testerstatus{{dp.id}}"
-                    style="text-decoration: none;">
-                    <div class="badge badge-outline-info">Download</div>
-                  </a></td>
-                
-                </tr>
-
-                <tr>
-                    <td style="color:white;">20-03-2023</td>
-                    <td style="color:white;">Reddit Technologies</td>
-                    <td style="color:white;">Smm</td>
-                   
-                    <td style="color:white;">kannan</td>
-                    <td style="color:white;">
-                        <p>sdfsdfsdfds sghdajhsdfhsag ashdfgsahgdf adhsafdsahg</p>
-                    </td>
-            
-      
-                    <td class="text-primary"><a href="" data-toggle="modal" data-target="#testerstatus{{dp.id}}"
-                        style="text-decoration: none;">
-                        <div class="badge badge-outline-info">Download</div>
-                      </a></td>
-                    
-                    </tr>
+            {%endfor%}
+              
           </tbody>
         </table>
       </div>

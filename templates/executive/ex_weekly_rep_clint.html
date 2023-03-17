@@ -14,16 +14,16 @@
 </div>
 
 <div class="row mt-4">
-
+  {% for clnt in client %}
     <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
       <div class="card">
-        <a href="{% url 'ex_weekly_rep_clint_det'%}" class="text-decoration-none text-white ">
+        <a href="{% url 'ex_weekly_rep_clint_det' clnt.id%}" class="text-decoration-none text-white ">
           <div class="card-body">
             <div class="row">
               <div class="col-8 col-sm-12 col-xl-8 my-auto">
                 <div class="d-flex d-sm-block d-md-flex align-items-center">
                   
-                      <h4 class="mb-0" style="color:white;">Client1</h4>
+                      <h4 class="mb-0" style="color:white;">{{clnt.cl_name}}</h4>
   
                 </div>
               </div>
@@ -39,61 +39,9 @@
 
 
 
-
-    <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
-      <div class="card">
-        <a href="{% url 'ex_weekly_rep_clint_det'%}" class="text-decoration-none text-white ">
-          <div class="card-body">
-            <div class="row">
-              <div class="col-8 col-sm-12 col-xl-8 my-auto">
-                <div class="d-flex d-sm-block d-md-flex align-items-center">
-                  
-                      <h4 class="mb-0" style="color:white;">Client2</h4>
-  
-                </div>
-              </div>
-              <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-                <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
-              </div>
-            </div>
-  
-          </div>
-        </a>
-      </div>
-    </div>
 
 
     
 
-<!-- <div class="row mt-4">
-  {% for dp in devp %}
-  <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
-    <div class="card">
-      <a href="{% url 'DEVtable' dp.project_id %}" class="text-decoration-none text-white ">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-8 col-sm-12 col-xl-8 my-auto">
-              <div class="d-flex d-sm-block d-md-flex align-items-center">
-                
-                {% for p in pros %}
-          
-                  {% if dp.project_id == p.id %}           
-
-                    <h4 class="mb-0" style="color:white;">{{p.project}}</h4>
-
-                  {% endif %}
-                  
-                {% endfor %}
-              </div>
-            </div>
-            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-              <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
-            </div>
-          </div>
-
-        </div>
-      </a>
-    </div>
-  </div> -->
   {% endfor %}
   {% endblock %}
