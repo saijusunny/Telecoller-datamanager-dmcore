@@ -21,7 +21,7 @@ from django.core.files import File
 from django.conf import settings
 from django.db.models import Q
 from num2words import num2words
-
+from django.http import JsonResponse
 from django.core.mail import send_mail
 
 from django.core.files.storage import FileSystemStorage
@@ -447,36 +447,85 @@ def update_client(request,id):
         client.bs_website = request.POST.get('bs_website',None)
        
         client.bs_location = request.POST.get('bs_location')
-        client.client_files = request.FILES.get('client_files',None)
+        if request.FILES.get('client_files',None) == None:
+            client.client_files=client.client_files
+        else:
+            client.client_files = request.FILES.get('client_files',None)
+      
         client.seo = request.POST.get('seo',None)
         client.seo_txt = request.POST.get('seo_txt',None)
-        client.seo_file = request.FILES.get('seo_file',None)
+        if request.FILES.get('seo_file',None) == None:
+            client.seo_file=client.seo_file
+        else:
+            client.seo_file = request.FILES.get('seo_file',None)
+
         client.smm = request.POST.get('smm',None)
         client.smm_txt = request.POST.get('smm_txt',None)
-        client.smm_file = request.FILES.get('smm_file',None)
+     
+        if request.FILES.get('smm_file',None) == None:
+            client.smm_file=client.smm_file
+        else:
+            client.smm_file = request.FILES.get('smm_file',None)
+
         client.sem = request.POST.get('sem',None)
         client.sem_txt = request.POST.get('sem_txt',None)
-        client.sem_file = request.FILES.get('sem_file',None)
+    
+
+        if request.FILES.get('sem_file',None) == None:
+            client.sem_file=client.sem_file
+        else:
+            client.sem_file = request.FILES.get('sem_file',None)
+
+
         client.em = request.POST.get('em',None)
         client.em_txt = request.POST.get('em_txt',None)
-        client.em_file = request.FILES.get('em_file',None)
+
+        if request.FILES.get('em_file',None) == None:
+            client.em_file=client.em_file
+        else:
+            client.em_file = request.FILES.get('em_file',None)
+
+
         client.cm = request.POST.get('cm',None)
         client.cm_txt = request.POST.get('cm_txt',None)
-        client.cm_file = request.FILES.get('cm_file',None)
+
+        if request.FILES.get('cm_file',None) == None:
+            client.cm_file=client.cm_file
+        else:
+            client.cm_file = request.FILES.get('cm_file',None)
+
+
         client.am = request.POST.get('am',None)
         client.am_txt = request.POST.get('am_txt',None)
-        client.am_file = request.FILES.get('am_file',None)
+
+        if request.FILES.get('am_file',None) == None:
+            client.am_file=client.am_file
+        else:
+            client.am_file = request.FILES.get('am_file',None)
+
+
         client.mm = request.POST.get('mm',None)
         client.mm_txt = request.POST.get('mm_txt',None)
-        client.mm_file = request.FILES.get('mm_file',None)
+
+        if request.FILES.get('mm_file',None) == None:
+            client.mm_file=client.mm_file
+        else:
+            client.mm_file = request.FILES.get('mm_file',None)
+
+
         client.vm = request.POST.get('vm',None)
         client.vm_txt = request.POST.get('vm_txt',None)
-        client.vm_file = request.FILES.get('vm_file',None)
+
+        if request.FILES.get('vm_file',None) == None:
+            client.vm_file=client.vm_file
+        else:
+            client.vm_file = request.FILES.get('vm_file',None)
+
+
         client.user=usr
         client.save()
         client = client_information.objects.get(id=id)
-        print("id")
-        print(id)
+       
 
         
         client = client_information.objects.get(id=client.id)
@@ -557,7 +606,7 @@ def update_client(request,id):
             
         
             for ele in mapped2:
-                try:
+               
        
                     adiclient=addi_client_info.objects.get(client=client)
                     if ((adiclient.labels==ele[0]) or (adiclient.text==ele[1])):
@@ -566,9 +615,7 @@ def update_client(request,id):
                         created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
                     else:
                         pass
-                except:
-                    created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
-        
+                
 
             for ele in mapped2:
                 created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
@@ -604,6 +651,21 @@ def ad_work_analiz_det(request):
     }
     return render(request, 'admin/ad_work_analiz_det.html',context)
 
+def flt_dt_analiz(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    st_dt=request.POST.get('str_dt')
+    en_dt=request.POST.get('end_dt')
+
+    dl_work=daily_work.objects.filter(date__gte=st_dt,date__lte=en_dt)
+    context={
+        "usr":usr,
+        "dl_work":dl_work
+
+    }
+    return render(request, 'admin/ad_work_analiz_det.html',context)
+
+
 def ad_work_progress(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
@@ -615,56 +677,80 @@ def ad_work_progress(request):
     }
     return render(request, 'admin/ad_work_progress.html',context)
 
-
-
-def ad_work_progress_det(request,id):
+def flt_progress(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
-    pr_work=progress_report.objects.get(id=id)
+    st_dt=request.POST.get('str_dt')
+    en_dt=request.POST.get('end_dt')
+    pr_work=progress_report.objects.filter(start_date__gte=st_dt,start_date__lte=en_dt)
     context={
         "usr":usr,
         "pr_work":pr_work
 
     }
+    return render(request, 'admin/ad_work_progress.html',context)
+
+
+def ad_work_progress_det(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    
+ 
+    pr_work=progress_report.objects.get(id=id)
+    print(pr_work.cl_name)
+    prv_work=progress_report.objects.all().order_by('-start_date')[2]
+    context={
+        "usr":usr,
+        "pr_work":pr_work,
+        "prv_work":prv_work
+
+    }
     return render(request, 'admin/ad_work_progress_det.html',context) 
+
+# 
 
 def ad_warning_ex(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
+    exe=user_registration.objects.filter(department="Digital Marketing Executive")
+   
     context={
         "usr":usr,
+        "exe":exe
 
     }
     return render(request, 'admin/ad_warning_ex.html',context)
 
-def ad_warning_sugg_dash(request):
+def ad_warning_sugg_dash(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
+    ids=id
     context={
         "usr":usr,
+        "ids":ids
+        
 
     }
     return render(request, 'admin/ad_warning_sugg_dash.html',context)
 
-def ad_warning_det(request):
+def ad_warning_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
+    warn = Warning.objects.filter(executive=id,type="Warning")
     context={
         "usr":usr,
+        "warn":warn
 
     }
     return render(request, 'admin/ad_warning_det.html',context) 
 
-def ad_suggestions_det(request):
+def ad_suggestions_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
+    warn = Warning.objects.filter(executive=id,type="Suggestion")
     context={
         "usr":usr,
+        "warn":warn
 
     }
     return render(request, 'admin/ad_suggestions_det.html',context)
@@ -863,3 +949,21 @@ def add_suggestion(request, id):
 
 
     
+def get_warns(request):
+    ele = request.GET.get('ele')
+    warn = Warning.objects.get(id=ele)
+    warns =warn.description
+    rep =warn.reply
+ 
+    return JsonResponse({"status":" not","warns":warns,"rep":rep})
+
+    
+def get_requ(request):
+    ele = request.GET.get('ele')
+    warn = addi_client_info.objects.get(id=ele)
+    warns =warn.discription
+    rep =warn.file
+    nm =warn.labels
+    vk=str(rep)
+    
+    return JsonResponse({"status":" not","warns":warns,"rep":vk,"nm":nm})

@@ -239,9 +239,9 @@
             {%else%}
             {%endif%}
             {% for j in addirq %}
-            <a href="" data-toggle="modal" data-target="#view_addi{{j.discription}}"
+            <a href="" data-toggle="modal" onclick="req('{{j.id}}')"  data-target="#view_addt"
               style="text-decoration: none;">
-              <div class="badge badge-outline-info m-2">{{j.labels}}</div>
+              <div class="badge badge-outline-info m-2" >{{j.labels}}</div>
             </a>
             {% endfor %}
 
@@ -257,7 +257,7 @@
   <div class="col-md-2"></div>
 </div>
 
-<div class="rowmt-5 modal fade" id="#view_addi{{j.discription}}">
+<div class="rowmt-5 modal fade" id="view_addt">
   <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
     aria-labelledby="myLargeModalLabel" aria-hidden="true">
     <div class="modal-content modal-xl" style="background-color: #191c24;">
@@ -267,19 +267,13 @@
             style="background-color: #191c24;border:none;float: right;font-size: 20px;">
             <span aria-hidden="true">&times;</span>
           </button>
-          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{client.seo}}</div>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;" id="ad_nm"></div>
 
             <div class="row mt-5">
               
-              <div class="col-md-12 ">
-                <p  class="" style="font-size: 18px;">{{client.seo_txt}}</p>
-                {% if client.seo_file != ""%}
-                <a href="{{client.seo_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
-                {%else%}
+              <div class="col-md-12 " id="add_fls">
+                <p  class="" style="font-size: 18px;" id="ad_txt"></p>
                 
-                  <div class="btn-primary Search" >No Attach File</div>
-               
-                {%endif%}
     
               </div>
             </div>
@@ -289,7 +283,6 @@
     </div>
   </div>
 </div>
-
 
 <div class="rowmt-5 modal fade" id="view_seo">
   <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
@@ -1192,5 +1185,46 @@
     });
   });
 </script>
+
+<script>
+  function req(el){
+        var elem=el
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_requ' %}",
+            data: {
+                ele : elem,
+                
+            },
+            success:function(response){
+                    console.log(response)
+                    warnss = response.warns
+                    rep=response.rep
+                    nms = response.nm
+                
+                    document.getElementById('ad_nm').innerHTML = nms;
+                    document.getElementById('ad_txt').innerHTML = warnss;
+                    
+    
+                    $('#add_fls').append(
+                        `
+                 
+                        <a href="${rep}.url"><div  class="btn-primary Search" >Download Attach File</div></a>
+                      
+                       
+                                                        
+                        `
+                    );
+            
+                   
+                    
+                    
+  
+            }});
+  
+        
+    }
+  </script>
 
 {% endblock %}

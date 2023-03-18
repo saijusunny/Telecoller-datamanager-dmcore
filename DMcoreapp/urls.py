@@ -10,7 +10,9 @@ urlpatterns = [
 
     path('reset_password', views.reset_password, name='reset_password'),
     path('internshipform', views.internshipform, name='internshipform'),
-    path('internship_save', views.internship_save, name='internship_save'),
+    path('internship_save', views.internship_save, name='internship_save'), 
+    path('get_warns', views.get_warns, name='get_warns'),
+    path('get_requ', views.get_requ, name='get_requ'),
     #---------------------------------------------------------------------------Admin Section
     path('ad_base', views.ad_base, name='ad_base'),
     path('ad_profile', views.ad_profile, name='ad_profile'),
@@ -22,12 +24,14 @@ urlpatterns = [
     path('update_client/<int:id>', views.update_client, name='update_client'),
     path('ad_daily_work_det', views.ad_daily_work_det, name='ad_daily_work_det'),
     path('ad_work_analiz_det', views.ad_work_analiz_det, name='ad_work_analiz_det'),
+    path('flt_dt_analiz', views.flt_dt_analiz, name='flt_dt_analiz'),
     path('ad_work_progress', views.ad_work_progress, name='ad_work_progress'),
+    path('flt_progress', views.flt_progress, name='flt_progress'),
     path('ad_work_progress_det/<int:id>', views.ad_work_progress_det, name='ad_work_progress_det'),
     path('ad_warning_ex', views.ad_warning_ex, name='ad_warning_ex'),
-    path('ad_warning_sugg_dash', views.ad_warning_sugg_dash, name='ad_warning_sugg_dash'),
-    path('ad_warning_det', views.ad_warning_det, name='ad_warning_det'),
-    path('ad_suggestions_det', views.ad_suggestions_det, name='ad_suggestions_det'),    #---------------------------------------------------------------------------Executive Section
+    path('ad_warning_sugg_dash/<int:id>', views.ad_warning_sugg_dash, name='ad_warning_sugg_dash'),
+    path('ad_warning_det/<int:id>', views.ad_warning_det, name='ad_warning_det'),
+    path('ad_suggestions_det/<int:id>', views.ad_suggestions_det, name='ad_suggestions_det'),    #---------------------------------------------------------------------------Executive Section
     path('ex_base', views.ex_base, name='ex_base'),
     path('ex_profile', views.ex_profile, name='ex_profile'),
     path('ex_dashboard', views.ex_dashboard, name='ex_dashboard'), 
@@ -43,7 +47,6 @@ urlpatterns = [
     path('add_warning/<int:id>', views.add_warning, name='add_warning'),
     path('add_suggestion/<int:id>', views.add_suggestion, name='add_suggestion'),
 
-    
     path('ex_warnings_dash', views.ex_warnings_dash, name='ex_warnings_dash'),
     path('ex_suggestions', views.ex_suggestions, name='ex_suggestions'),
     

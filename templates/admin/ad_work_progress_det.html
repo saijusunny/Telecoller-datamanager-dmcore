@@ -11,6 +11,15 @@
 <div class="row mt-4 ">
       <div class="card">
           <div class="card-body">
+            <div class="row mt-3 mb-5">
+              <div class="col-sm-12" style="text-align: right;">
+                {% if pr_work.audit_rprt != ""%}
+                <a href="{{pr_work.audit_rprt.url}}"><button class="btn-primary Search"> Download Report</button></a>
+                {%else%}
+                
+            {%endif%}
+              </div>
+            </div>
 
             <div class="row ">
               <div class="col-sm-4">
@@ -48,15 +57,7 @@
             
            
           </div>  
-          {% if pr_work.audit_rprt != ""%}
-                  <div class="row mt-5">
-                    
-                  <object data="{{pr_work.audit_rprt.url}}" type="application/pdf" width="500" height="600">
-                  </object>
-                </div>
-          {%else%}
-          {%endif%}
-          </div>
+         
       </div>
       <div class="row pt-3 mt-5" style="background-color: black;">
         <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">GRAPHICAL STATISTICAL VIEW</div>
@@ -67,9 +68,9 @@
             <div class="card" >
               <div class="card-body">
                 <h4 class="card-title" style="color:white;">Previous Week Graph</h4>
-                {% if pr_work.graph != ""%}
+                {% if prv_work.graph != ""%}
                 <div style="width:30rem">
-                  <img src="{{pr_work.graph.url}}" style="width:28rem" alt="">
+                  <img src="{{prv_work.graph.url}}" style="width:28rem" alt="">
                 </div>
                 {%else%}
               {%endif%}

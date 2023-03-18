@@ -21,16 +21,13 @@
               </tr>
             </thead>
             <tbody id="myTable">
+                {% for k in warn%}
                 <tr>
-                <td style="color:white;">02-02-2023</td>
-                <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Warnings</div></td>
-                <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></td>
+                <td style="color:white;">{{k.date}}</td>
+                <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info" onclick="warning('{{k.id}}')">View Warnings</div></td>
+                <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info" onclick="warning('{{k.id}}')">View Reply</div></td>
               </tr>
-              <tr>
-                <td style="color:white;">05-02-2023</td>
-                <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Warnings</div></td>
-                <td style="color:white;" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></td>
-              </tr>
+              {%endfor%}
           </table>
         </div>
   
@@ -51,7 +48,7 @@
   
               <div class="row mt-5">
                 <div class="col">
-                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis illum iusto eum culpa! Culpa laborum repellendus natus, eligendi quae fugit! Sit labore ducimus ratione dignissimos nam magni hic aliquid autem?</p>
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="warng"></p>
                 </div>
                 
               </div>
@@ -76,7 +73,7 @@
   
               <div class="row mt-5">
                 <div class="col">
-                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis illum iusto eum culpa! Culpa laborum repellendus natus, eligendi quae fugit! Sit labore ducimus ratione dignissimos nam magni hic aliquid autem?</p>
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="rep_des"></p>
                 </div>
                 
               </div>
@@ -101,5 +98,32 @@
     $('input[name="selected"]').val(id);
   }
 </script>
+
+<script>
+  function warning(el){
+        var elem=el
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_warns' %}",
+            data: {
+                ele : elem,
+                
+            },
+            success:function(response){
+                    console.log(response)
+                    warnss = response.warns
+                    repl = response.rep
+                    
+                    document.getElementById('warng').innerHTML = warnss;
+                    document.getElementById('rep_des').innerHTML = repl;
+                    
+                    
+  
+            }});
+  
+        
+    }
+  </script>
 
 {% endblock %}

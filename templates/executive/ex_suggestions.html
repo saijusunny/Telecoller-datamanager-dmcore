@@ -47,11 +47,11 @@
               
               <td style="color:white;">{{i.date}}</td>
 
-              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info">View Suggestions</div></td>
+              <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Suggestions</div></td>
               
               <td style="color:white;" > 
                 {% if i.reply != NULL %}
-                  <a href="" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info">View Reply</div></a>
+                  <a href="" data-toggle="modal" data-target="#reply"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Reply</div></a>
                 {% else %}
                 <textarea name="workdone" class="form-control-sm bg-transparent text-light"
                     cols="25" rows="7"></textarea>
@@ -91,7 +91,7 @@
   
               <div class="row mt-5">
                 <div class="col">
-                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis illum iusto eum culpa! Culpa laborum repellendus natus, eligendi quae fugit! Sit labore ducimus ratione dignissimos nam magni hic aliquid autem?</p>
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="warng"></p>
                 </div>
                 
               </div>
@@ -116,7 +116,7 @@
   
               <div class="row mt-5">
                 <div class="col">
-                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify">Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis illum iusto eum culpa! Culpa laborum repellendus natus, eligendi quae fugit! Sit labore ducimus ratione dignissimos nam magni hic aliquid autem?</p>
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="rep_des"></p>
                 </div>
                 
               </div>
@@ -126,37 +126,30 @@
     </div>
   </div>
 
-    
-
-<!-- <div class="row mt-4">
-  {% for dp in devp %}
-  <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
-    <div class="card">
-      <a href="{% url 'DEVtable' dp.project_id %}" class="text-decoration-none text-white ">
-        <div class="card-body">
-          <div class="row">
-            <div class="col-8 col-sm-12 col-xl-8 my-auto">
-              <div class="d-flex d-sm-block d-md-flex align-items-center">
+<script>
+  function warning(el){
+        var elem=el
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_warns' %}",
+            data: {
+                ele : elem,
                 
-                {% for p in pros %}
-          
-                  {% if dp.project_id == p.id %}           
-
-                    <h4 class="mb-0" style="color:white;">{{p.project}}</h4>
-
-                  {% endif %}
-                  
-                {% endfor %}
-              </div>
-            </div>
-            <div class="col-4 col-sm-12 col-xl-4 text-center text-xl-right">
-              <i class="icon-lg mdi mdi-arrange-send-backward text-primary ms-auto"></i>
-            </div>
-          </div>
-
-        </div>
-      </a>
-    </div>
-  </div> -->
-  {% endfor %}
+            },
+            success:function(response){
+                    console.log(response)
+                    warnss = response.warns
+                    repl = response.rep
+                    
+                    document.getElementById('warng').innerHTML = warnss;
+                    document.getElementById('rep_des').innerHTML = repl;
+                    
+                    
+  
+            }});
+  
+        
+    }
+  </script>
   {% endblock %}
