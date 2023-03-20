@@ -63,7 +63,7 @@ def signin(request):
         elif user_registration.objects.filter(email=request.POST['email'], password=request.POST['password'],department="Digital Marketing Head",status="active").exists():
             member = user_registration.objects.get(email=request.POST['email'],password=request.POST['password'])
             request.session['userid'] = member.id
-            return redirect('hd_profile')
+            return redirect('he_profile')
 
         elif user_registration.objects.filter(email=request.POST['email'], password=request.POST['password'],department="Digital Marketing Executive",status="active").exists():
             member = user_registration.objects.get(email=request.POST['email'],password=request.POST['password'])
@@ -274,6 +274,7 @@ def internship_save(request):
     else:
         
         return render(request, 'home/internship.html')
+
 
 
 # -----------------------------------------------------------------------------Admin Section
@@ -755,6 +756,65 @@ def ad_suggestions_det(request,id):
     }
     return render(request, 'admin/ad_suggestions_det.html',context)
 
+
+def change_pass(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+
+    if request.method == 'POST':
+        abc = user_registration.objects.get(id=devid)
+        cur = abc.password
+        oldps = request.POST["currentPassword"]
+        newps = request.POST["newPassword"]
+        cmps = request.POST["confirmPassword"]
+        if oldps == cur:
+            if oldps != newps:
+                if newps == cmps:
+                    abc.password = request.POST.get('confirmPassword')
+                    abc.save()
+                    return render(request, 'admin/ch_pass.html', {'dev': dev,"usr":usr})
+            elif oldps == newps:
+                messages.add_message(request, messages.INFO, 'Current and New password same')
+            else:
+                messages.info(request, 'Incorrect password same')
+
+            return render(request, 'admin/ch_pass.html', {'dev': dev,"usr":usr})
+        else:
+            messages.add_message(request, messages.INFO, 'old password wrong')
+            return render(request, 'admin/ch_pass.html', {'dev': dev,"usr":usr})
+    return render(request, 'admin/ch_pass.html', {'dev': dev,"usr":usr})
+
+def ad_accountset(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+    return render(request, 'admin/ad_accountset.html', {'dev': dev,"usr":usr})
+
+def ad_imagechange(request, id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+    if request.method == 'POST':
+        abc = user_registration.objects.get(id=id)
+        abc.photo = request.FILES['filename']
+        
+        abc.save()
+        return redirect('ad_accountset')
+    return render(request, 'admin/ad_accountset.html',{'dev': dev,"usr":usr})
+
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
@@ -784,20 +844,21 @@ def ex_dashboard(request):
 def ex_daily_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    client=work_asign.objects.get(exe_name=ids)
-    work=Work.objects.filter(id=client.work_id)
+    client=work_asign.objects.filter(exe_name=ids)
+    work=Work.objects.all()
+
+   
     context={
         "usr":usr,
-        "client":work
+        "client":client,
+        "work":work
     }
     return render(request, 'executive/ex_daily_work_clint.html',context)
 
 def ex_daily_work_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    
-    work_as=work_asign.objects.get(exe_name=ids)
-    work=Work.objects.get(id=work_as.work_id)
+    work=Work.objects.get(id=id)
 
     daily=daily_work.objects.filter(work_id =id)
     cr_date=date.today()
@@ -812,8 +873,8 @@ def ex_daily_work_det(request,id):
 def daily_work_done(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    work_as=work_asign.objects.get(exe_name=ids)
-    work=Work.objects.get(id=work_as.work_id)
+
+    work=Work.objects.get(id=id)
     if request.method == 'POST':
         daily = daily_work()
         daily.task=work.task
@@ -830,11 +891,14 @@ def daily_work_done(request,id):
 def ex_weekly_rep_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    client=work_asign.objects.get(exe_name=ids)
-    work=Work.objects.filter(id=client.work_id)
+    
+
+    client=work_asign.objects.filter(exe_name=ids)
+    work=Work.objects.all()
     context={
         "usr":usr,
-        "client":work
+        "client":client,
+        "work":work
     }
     return render(request, 'executive/ex_weekly_rep_clint.html',context)
 
@@ -876,9 +940,8 @@ def ex_view_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     
-        
-    work_as=work_asign.objects.get(exe_name=ids)
-    work=Work.objects.filter(id=work_as.work_id)
+    work_as=work_asign.objects.filter(exe_name=ids)
+    work=Work.objects.all()
     
     context={
         "usr":usr,
@@ -889,8 +952,8 @@ def ex_view_work_clint(request):
 def ex_view_clint_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    work_as=work_asign.objects.get(exe_name=ids)
-    work=Work.objects.get(id=work_as.work_id)
+    
+    work=Work.objects.get(id=id)
     context={
         "usr":usr, 
         "client":work
@@ -967,3 +1030,175 @@ def get_requ(request):
     vk=str(rep)
     
     return JsonResponse({"status":" not","warns":warns,"rep":vk,"nm":nm})
+
+
+def logout(request):
+    if 'userid' in request.session:  
+        request.session.flush()
+        return redirect('/')
+    else:
+        return redirect('/') 
+
+
+def ex_change_pass(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+
+    dev = user_registration.objects.filter(id=devid)
+
+    if request.method == 'POST':
+        abc = user_registration.objects.get(id=devid)
+        cur = abc.password
+        oldps = request.POST["currentPassword"]
+        newps = request.POST["newPassword"]
+        cmps = request.POST["confirmPassword"]
+        if oldps == cur:
+            if oldps != newps:
+                if newps == cmps:
+                    abc.password = request.POST.get('confirmPassword')
+                    abc.save()
+                    return render(request, 'executive/ex_ch_pass.html', {'dev': dev,"usr":usr})
+            elif oldps == newps:
+                messages.add_message(request, messages.INFO, 'Current and New password same')
+            else:
+                messages.info(request, 'Incorrect password same')
+
+            return render(request, 'executive/ex_ch_pass.html', {'dev': dev,"usr":usr})
+        else:
+            messages.add_message(request, messages.INFO, 'old password wrong')
+            return render(request, 'executive/ex_ch_pass.html', {'dev': dev,"usr":usr})
+    return render(request, 'executive/ex_ch_pass.html', {'dev': dev,"usr":usr})
+
+def ex_accountset(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+    return render(request, 'executive/ex_accountset.html', {'dev': dev,"usr":usr})
+
+def ex_imagechange(request, id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+    if request.method == 'POST':
+        abc = user_registration.objects.get(id=id)
+        abc.photo = request.FILES['filename']
+        
+        abc.save()
+        return redirect('ex_accountset')
+    return render(request, 'executive/ex_accountset.html',{'dev': dev,"usr":usr})
+
+#---------------------------------marketing section
+
+def ex_base(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    context={
+        "usr":usr,
+    }
+    return render(request, 'head/he_base.html',context)
+
+def he_profile(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    return render(request, 'head/he_profile.html',{"usr":usr})
+
+def he_project(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    return render(request,'head/he_project.html',{"usr":usr})
+
+def he_view_works(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    client=client_information.objects.all()
+    return render(request,'head/he_view_works.html',{'client':client,"usr":usr})
+
+def he_work_asign(request,pk):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    client=client_information.objects.get(id=pk)
+    exe=user_registration.objects.filter(department='Digital Marketing Executive')
+    return render(request,'head/he_work_asign.html',{'client':client,'exe':exe,"usr":usr})
+
+def he_daily_task(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    today=date.today()
+    work=daily_work.objects.filter(date=today)
+    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr})
+
+def he_workprogress_executive(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    prgs=progress_report.objects.all()
+    return render(request,'head/he_workprogress_executive.html',{'prgs':prgs,"usr":usr})
+
+def he_progress_report(request, pk):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    work=progress_report.objects.get(id=pk)
+    return render(request,'head/he_progress_report.html',{'work':work,"usr":usr})
+
+
+def he_feedback(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    exe=user_registration.objects.filter(department="Digital Marketing Executive")
+    return render(request,'head/he_feedback.html',{'exe':exe,"usr":usr})
+
+def he_feedbacke1(request,pk):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    exe=user_registration.objects.get(id=pk)
+    wrng=Warning.objects.filter(executive_id=exe.id)
+    return render(request,'head/he_feedback1.html',{'exe':exe,'wrng':wrng,"usr":usr})
+
+    
+def he_feedback_submit(request,pk):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.method=='POST':
+        des=request.POST['des']
+        typ=request.POST['option']
+        warning=Warning(executive_id=pk,description=des,type=typ,)
+        warning.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+def he_work_add(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    print(id)
+    if request.method == 'POST':
+        task = request.POST.get('task')
+        des = request.POST.get('des')
+        sdate=request.POST.get('sdate')
+        edate=request.POST.get('edate')
+        file=request.FILES.get('file')
+        client=client_information.objects.get(id=id)
+        json_data = request.POST.get('array', '')
+        array = json.loads(json_data)
+
+        w=Work(task=task,description=des,start_date=sdate,end_date=edate,file_attached=file,cl_name=client.bs_name,client_name=client)
+        w.save()
+        w=Work.objects.latest('id')
+        for i in array:
+            b=user_registration.objects.get(department="Digital Marketing Executive",fullname=i)
+            c=work_asign(work_id=w.id,exe_name_id=b.id)
+            c.save()
+    
+        return HttpResponse({"message": "success"})
+        
+    
+  

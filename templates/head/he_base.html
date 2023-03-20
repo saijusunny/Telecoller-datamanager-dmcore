@@ -55,19 +55,19 @@
                     <div class="profile-desc">
                         <div class="profile-pic">
                             <div class="count-indicator">
-                                <img class="img-xs rounded-circle " src="{{usr.photo.url}}" alt="">
+                                <img class="img-xs rounded-circle " src="{% static 'download.png' %}" alt="">
                                 <span class="count bg-success"></span>
                             </div>
                             <div class="profile-name">
-                                <h5 class="mb-0 font-weight-normal">{{usr.fullname}}</h5>
-                                <span>{{usr.designation}}</span>
+                                <h5 class="mb-0 font-weight-normal">JISHNU</h5>
+                                <span>marketing head</span>
                             </div>
                         </div>
                         <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
                                 class="mdi mdi-dots-vertical"></i></a>
                         <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
                             aria-labelledby="profile-dropdown">
-                            <a href="{% url 'ad_accountset'%}" class="dropdown-item preview-item">
+                            <a href="#" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
                                         <i class="mdi mdi-settings text-primary"></i>
@@ -78,7 +78,7 @@
                                 </div>
                             </a>
                             <div class="dropdown-divider"></div>
-                            <a href="{% url 'change_pass'%}" class="dropdown-item preview-item">
+                            <a href="#" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
                                         <i class="mdi mdi-onepassword  text-info"></i>
@@ -97,28 +97,27 @@
                     <span class="nav-link">Navigation</span>
                 </li>
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="{% url 'ad_profile' %}">
+                    <a class="nav-link" href="{% url 'he_profile' %}">
                         <span class="menu-icon">
-                            <i class="mdi mdi-file-document-box"></i>
+                            <i class="mdi mdi-apps"></i>
                         </span>
                         <span class="menu-title">Profile</span>
                     </a>
                 </li>
                <li class="nav-item menu-items">
-                    <a class="nav-link" href="{% url 'ad_dashboard'%}">
+                    <a class="nav-link" href="{% url 'he_project' %}">
                         <span class="menu-icon">
-                            <i class="mdi mdi-apps"></i>
+                            <i class="mdi mdi-currency-inr"></i>
                         </span>
                         <span class="menu-title">Dashboard</span>
                     </a>
                 </li>
-
                 <li class="nav-item menu-items">
-                    <a class="nav-link" href="{% url 'ad_warning_ex'%}">
+                    <a class="nav-link" href="{% url 'he_feedback' %}">
                         <span class="menu-icon">
-                            <i class="mdi mdi-file-document-box"></i>
+                            <i class="mdi mdi-currency-inr"></i>
                         </span>
-                        <span class="menu-title">Warnings & Suggestions</span>
+                        <span class="menu-title">Feedback</span>
                     </a>
                 </li>
                 
@@ -145,8 +144,8 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link" id="profileDropdown" href="#" data-bs-toggle="dropdown">
                                 <div class="navbar-profile">
-                                    <img class="img-xs rounded-circle" src="{{usr.photo.url}}" alt="">
-                                    <p class="mb-0 d-none d-sm-block navbar-profile-name">{{usr.fullname}}</p>
+                                    <img class="img-xs rounded-circle" src="{% static 'download.png' %}" alt="">
+                                    <p class="mb-0 d-none d-sm-block navbar-profile-name">jishnu</p>
                                     <i class="mdi mdi-menu-down d-none d-sm-block"></i>
                                 </div>
                             </a>
@@ -155,7 +154,7 @@
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item" href="{% url 'logout' %}">
+                                <a class="dropdown-item preview-item" href="">
                                     <div class="preview-thumbnail">
                                         <div class="preview-icon bg-dark rounded-circle">
                                             <i class="mdi mdi-logout text-danger"></i>

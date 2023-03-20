@@ -1,0 +1,86 @@
+{%extends 'head/he_base.html'%}
+{%load static%}
+{%block content%}
+<div class="row pt-3" style="background-color: black;">
+  <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">DAILY TASK</div>
+</div>
+<div class="row mt-4">
+  <div class="card">
+    <div class="card-body">
+      <input type="text" class="form-control" id="search" placeholder="search...">
+      <div class="table-responsive">
+        <table class="table">
+          <thead>
+            <tr>
+              <th scope="col" style="color:#6C7293;">CLIENT NAME</th> 
+              <th scope="col" style="color:#6C7293;">WORKDONE</th> 
+              <th scope="col" style="color:#6C7293;">EXECUTIVE NAME</th> 
+              <th scope="col" style="color:#6C7293;">FILE</th> 
+            </tr>
+          </thead>
+          <tbody id="myTable">
+            {% for i in work %}
+              <tr>
+              <td style="color:white;">{{i.work.client_name.client_name}}</td>
+              <td style="color:white;" data-toggle="modal" data-target="#workdetails{{i.id}}">{{i.work.task}}</td>
+              <td style="color:white;">{{i.user.fullname}}</td>
+              <td style="color:white;"><button class="btn btn-outline-success">
+                {% if i.daily_file %}
+                <a href="{{i.daily_file.url}}" download style="text-decoration:none;">
+                  {% endif %}
+                  Download</a>
+              </button></td>
+            </tr>
+            {% endfor %}
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+{% for i in work %}
+<div class="rowmt-5 modal fade" id="workdetails{{i.id}}">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">Work Details</div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white;">{{i.workdone}}</p>
+              </div>
+              
+            </div>
+           
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endfor %}
+<script>
+  $(document).ready(function () {
+    $("#search").on("keyup", function () {
+      var value = $(this).val().toLowerCase();
+      $("#myTable tr").filter(function () {
+        $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+      });
+    });
+  });
+</script>
+
+<script type="text/javascript">
+  function setselected(id) {
+    $('input[name="selected"]').val(id);
+  }
+</script>
+
+{% endblock %}
