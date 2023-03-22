@@ -430,6 +430,8 @@ def ad_view_clint(request,id):
     }
     return render(request, 'admin/ad_view_clint.html',context)
 
+
+
 def update_client(request,id):
     client = client_information.objects.get(id=id)
     ids=request.session['userid']
@@ -541,16 +543,16 @@ def update_client(request,id):
 
                 try:
                     
-                    adiclient = addi_client_info.objects.get(client=client)
-                    print("haiii")
-                 
-                    if ((adiclient.labels==ele[0]) or (adiclient.text==ele[1])):
-                        created = addi_client_info.objects.filter(client=client,labels=ele[0],discription=ele[1]).update(labels=ele[0],discription=ele[1])
-                        print("true")
+                    adiclient = addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
                     
-                    elif ((adiclient.labels!=ele[0]) or (adiclient.text!=ele[1])):
+                 
+                    if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
+                        created = addi_client_info.objects.filter(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1])).update(labels=ele[0],discription=ele[1])
+                     
+                    
+                    elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
                         created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
-                        print("false")
+                   
                     else:
                         pass
                         
@@ -558,8 +560,6 @@ def update_client(request,id):
                     created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
 
 
-            
-                created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
 
         else:
             pass
@@ -574,10 +574,10 @@ def update_client(request,id):
       
             for ele in mappeds:
                 try:
-                    adiclient=addi_client_info.objects.get(client=client)
-                    if ((adiclient.labels==ele[0]) or (adiclient.text==ele[1])):
-                        created = addi_client_info.objects.filter(client=client,labels=ele[0],discription=ele[1]).update(labels=ele[0],discription=ele[1])
-                    elif ((adiclient.labels!=ele[0]) or (adiclient.text!=ele[1])):
+                    adiclient=addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
+                    if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
+                        created = addi_client_info.objects.filter(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1])).update(labels=ele[0],discription=ele[1])
+                    elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
                         created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],client=client,user=usr,section='business_details')
                     else:
                         pass
@@ -587,10 +587,6 @@ def update_client(request,id):
         else: 
             pass
         
-
-            for ele in mappeds:
-            
-                created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='business_details')
       
           
 
@@ -598,28 +594,35 @@ def update_client(request,id):
         files_req =request.FILES.getlist('file_add[]') 
         label_req =request.POST.getlist('label_req[]')
         dis_req =request.POST.getlist('dis_req[]')
+        print("files_req")
+        print(files_req)
 
-        
-        if len(files_req)==len(label_req)==len(dis_req):
+        print("files_req")
+        print(files_req)
+
+        print("files_req")
+        print(files_req)
+        if len(label_req)==len(dis_req):
             mapped2 = zip(label_req,dis_req,files_req)
             mapped2=list(mapped2)
-
-            
+            print(mapped2)
+       
         
             for ele in mapped2:
                
-       
-                    adiclient=addi_client_info.objects.get(client=client)
-                    if ((adiclient.labels==ele[0]) or (adiclient.text==ele[1])):
-                        created = addi_client_info.objects.filter(client=client,labels=ele[0],discription=ele[1]).update(labels=ele[0],discription=ele[1],file=ele[2])
-                    elif ((adiclient.labels!=ele[0]) or (adiclient.text!=ele[1])):
+                    
+                    adiclient=addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
+                    if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
+                       
+                        created = addi_client_info.objects.filter(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1])).update(labels=ele[0],discription=ele[1],file=ele[2])
+                       
+                    elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
                         created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
                     else:
                         pass
                 
-
-            for ele in mapped2:
-                created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
+        else:
+            pass
 
         msg_success = "Save Successfully"
         return redirect('ad_view_clint',id)

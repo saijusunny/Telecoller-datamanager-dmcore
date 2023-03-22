@@ -874,7 +874,7 @@
               <textarea name="mm_txt" id="mm_txt" class="drop form-control ml-3 mt-2 text-light" required
                 style="border:1px solid #6C7293 ;height:70px; " >{{client.mm_txt}}</textarea>
                 {% if client.mm_file != ""%}
-                <input type="file" name="mm_file" id="mm_file" value="{{client.mm_file.url}}" class="form-control mt-2 "
+                <input type="file" name="mm_file" id="mm_file" value="{{client.mm_file.name}}" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                 {%else%}
                 <input type="file" name="mm_file" id="mm_file" class="form-control mt-2 "
@@ -935,8 +935,8 @@
                 
                 <textarea id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required> {{j.discription}}</textarea>
-                <input type="file"  id="vm_file" class="form-control mt-2 " value="{{j.file.url}}"
-                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' required>
+                <input type="file"  id="vm_file" class="form-control mt-2 " value="{{j.file.name}}"
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' >
               </div>
             </div>
             {% endfor %}
@@ -1176,7 +1176,7 @@
                 <textarea id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required></textarea>
                 <input type="file"  id="vm_file" class="form-control mt-2 "
-                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' required>
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' >
               </div>
             </div>
                                             
