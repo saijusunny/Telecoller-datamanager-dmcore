@@ -397,7 +397,12 @@ def save_create_work(request):
                 created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='requirments')
 
         msg_success = "Save Successfully"
-        return redirect("ad_create_work")
+        context={
+            "usr":usr,
+            "msg_success":msg_success,
+        }
+        return render(request, 'admin/ad_create_work.html',context)
+        
     return redirect("ad_create_work")
 
 
@@ -540,9 +545,7 @@ def update_client(request,id):
             mapped = zip(labels,text)
             mapped=list(mapped)
             for ele in mapped:
-
                 try:
-                    
                     adiclient = addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
                     
                  
@@ -594,14 +597,7 @@ def update_client(request,id):
         files_req =request.FILES.getlist('file_add[]') 
         label_req =request.POST.getlist('label_req[]')
         dis_req =request.POST.getlist('dis_req[]')
-        print("files_req")
-        print(files_req)
-
-        print("files_req")
-        print(files_req)
-
-        print("files_req")
-        print(files_req)
+        
         if len(label_req)==len(dis_req):
             mapped2 = zip(label_req,dis_req,files_req)
             mapped2=list(mapped2)
@@ -609,17 +605,24 @@ def update_client(request,id):
        
         
             for ele in mapped2:
-               
+                try:
                     
                     adiclient=addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
                     if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
-                       
-                        created = addi_client_info.objects.filter(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1])).update(labels=ele[0],discription=ele[1],file=ele[2])
+                        crt= addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
+                        crt.labels=ele[0]
+                        crt.discription=ele[1]
+                        crt.file=ele[2]
+                        crt.save()
+                        
                        
                     elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
+                        print("sdfsdsfd")
                         created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
                     else:
                         pass
+                except:
+                    created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
                 
         else:
             pass
@@ -686,6 +689,7 @@ def flt_progress(request):
     usr = user_registration.objects.get(id=ids)
     st_dt=request.POST.get('str_dt')
     en_dt=request.POST.get('end_dt')
+    print(en_dt)
     pr_work=progress_report.objects.filter(start_date__gte=st_dt,start_date__lte=en_dt)
     context={
         "usr":usr,
@@ -701,8 +705,10 @@ def ad_work_progress_det(request,id):
     
  
     pr_work=progress_report.objects.get(id=id)
-    print(pr_work.cl_name)
-    prv_work=progress_report.objects.all().order_by('-start_date')[2]
+    try:
+        prv_work=progress_report.objects.filter(work_id=pr_work.id).order_by('-end_date')[0]
+    except:
+        prv_work=None
     context={
         "usr":usr,
         "pr_work":pr_work,
@@ -911,7 +917,7 @@ def ex_weekly_rep_clint_det(request,id):
 
     work=Work.objects.filter(id=id)
     works=Work.objects.get(id=id)
-    rep=progress_report.objects.filter(user=ids)
+    rep=progress_report.objects.filter(user=ids,work_id=id)
     context={
         "usr":usr,
         "work":work,
@@ -1104,13 +1110,7 @@ def ex_imagechange(request, id):
 
 #---------------------------------marketing section
 
-def ex_base(request):
-    ids=request.session['userid']
-    usr = user_registration.objects.get(id=ids)
-    context={
-        "usr":usr,
-    }
-    return render(request, 'head/he_base.html',context)
+    
 
 def he_profile(request):
     ids=request.session['userid']
@@ -1126,47 +1126,47 @@ def he_view_works(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     client=client_information.objects.all()
-    return render(request,'head/he_view_works.html',{'client':client,"usr":usr})
+    return render(request,'head/he_view_works.html',{'client':client,"usr":usr,})
 
 def he_work_asign(request,pk):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     client=client_information.objects.get(id=pk)
     exe=user_registration.objects.filter(department='Digital Marketing Executive')
-    return render(request,'head/he_work_asign.html',{'client':client,'exe':exe,"usr":usr})
+    return render(request,'head/he_work_asign.html',{'client':client,'exe':exe,"usr":usr,})
 
 def he_daily_task(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     today=date.today()
     work=daily_work.objects.filter(date=today)
-    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr})
+    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,})
 
 def he_workprogress_executive(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     prgs=progress_report.objects.all()
-    return render(request,'head/he_workprogress_executive.html',{'prgs':prgs,"usr":usr})
+    return render(request,'head/he_workprogress_executive.html',{'prgs':prgs,"usr":usr,})
 
-def he_progress_report(request, pk):
+def he_progress_report(request,pk):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     work=progress_report.objects.get(id=pk)
-    return render(request,'head/he_progress_report.html',{'work':work,"usr":usr})
+    return render(request,'head/he_progress_report.html',{'work':work,"usr":usr,})
 
 
 def he_feedback(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     exe=user_registration.objects.filter(department="Digital Marketing Executive")
-    return render(request,'head/he_feedback.html',{'exe':exe,"usr":usr})
+    return render(request,'head/he_feedback.html',{'exe':exe,"usr":usr,})
 
 def he_feedbacke1(request,pk):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     exe=user_registration.objects.get(id=pk)
     wrng=Warning.objects.filter(executive_id=exe.id)
-    return render(request,'head/he_feedback1.html',{'exe':exe,'wrng':wrng,"usr":usr})
+    return render(request,'head/he_feedback1.html',{'exe':exe,'wrng':wrng,"usr":usr,})
 
     
 def he_feedback_submit(request,pk):
@@ -1182,7 +1182,6 @@ def he_feedback_submit(request,pk):
 def he_work_add(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    print(id)
     if request.method == 'POST':
         task = request.POST.get('task')
         des = request.POST.get('des')
@@ -1204,4 +1203,77 @@ def he_work_add(request,id):
         return HttpResponse({"message": "success"})
         
     
-  
+def he_change_pass(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+
+    if request.method == 'POST':
+        abc = user_registration.objects.get(id=devid)
+        cur = abc.password
+        oldps = request.POST["currentPassword"]
+        newps = request.POST["newPassword"]
+        cmps = request.POST["confirmPassword"]
+        if oldps == cur:
+            if oldps != newps:
+                if newps == cmps:
+                    abc.password = request.POST.get('confirmPassword')
+                    abc.save()
+                    return render(request, 'head/he_ch_pass.html', {'dev': dev,"usr":usr})
+            elif oldps == newps:
+                messages.add_message(request, messages.INFO, 'Current and New password same')
+            else:
+                messages.info(request, 'Incorrect password same')
+
+            return render(request, 'head/he_ch_pass.html', {'dev': dev,"usr":usr})
+        else:
+            messages.add_message(request, messages.INFO, 'old password wrong')
+            return render(request, 'head/he_ch_pass.html', {'dev': dev,"usr":usr})
+    return render(request, 'head/he_ch_pass.html', {'dev': dev,"usr":usr})
+
+def he_accountset(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+    return render(request, 'head/he_accountset.html', {'dev': dev,"usr":usr})
+
+def he_imagechange(request, id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.session.has_key('userid'):
+        devid = request.session['userid']
+    else:
+        return redirect('/')
+    dev = user_registration.objects.filter(id=devid)
+    if request.method == 'POST':
+        abc = user_registration.objects.get(id=id)
+        abc.photo = request.FILES['filename']
+        abc.save()
+        return redirect('he_accountset')
+    return render(request, 'head/he_accountset.html',{'dev': dev,"usr":usr})
+
+
+def he_flt_progress(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    st_dt=request.POST.get('str_dt')
+    en_dt=request.POST.get('end_dt')
+    print(en_dt)
+    pr_work=progress_report.objects.filter(start_date_gte=st_dt,start_date_lte=en_dt)
+    context={
+        "usr":usr,
+        "pr_work":pr_work
+
+    }
+    return render(request, 'head/he_workprogress_executive.html',context)
+
+
+

@@ -60,8 +60,8 @@ urlpatterns = [
     path('ex_accountset', views.ex_accountset, name='ex_accountset'),
     path('ex_imagechange/<int:id>', views.ex_imagechange, name='ex_imagechange'),
 
-     #---------------marketing head
-   
+       #---------------marketing head
+    
     path('he_profile', views.he_profile, name='he_profile'),
     path('he_project', views.he_project, name='he_project'),
     path('he_view_works',views.he_view_works,name='he_view_works'),
@@ -72,7 +72,11 @@ urlpatterns = [
     path('he_feedback',views.he_feedback,name='he_feedback'),
     path('he_feedbacke1/<int:pk>',views.he_feedbacke1,name='he_feedbacke1'),
     path('he_feedback_submit/<int:pk>',views.he_feedback_submit,name='he_feedback_submit'),
-    path('he_work_add/<int:id>',views.he_work_add,name='he_work_add')
+    path('he_work_add/<int:id>',views.he_work_add,name='he_work_add'),
+    path('he_change_pass',views.he_change_pass,name='he_change_pass'),
+    path('he_accountset',views.he_accountset,name='he_accountset'),
+    path('he_imagechange/<int:id>',views.he_imagechange,name='he_imagechange'),
+    path('he_flt_progress',views.he_flt_progress,name='he_flt_progress'),
     
     
 ]

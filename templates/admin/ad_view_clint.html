@@ -935,8 +935,9 @@
                 
                 <textarea id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required> {{j.discription}}</textarea>
-                <input type="file"  id="vm_file" class="form-control mt-2 " value="{{j.file.name}}"
+                <input type="file"  id="vm_file" class="form-control mt-2 " value="{{j.file.url}}"
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' >
+               
               </div>
             </div>
             {% endfor %}
@@ -1205,12 +1206,12 @@
                 
                     document.getElementById('ad_nm').innerHTML = nms;
                     document.getElementById('ad_txt').innerHTML = warnss;
-                    
+                   
     
                     $('#add_fls').append(
                         `
                  
-                        <a href="${rep}.url"><div  class="btn-primary Search" >Download Attach File</div></a>
+                        <a href="/media/{{'${rep}'}}"><div  class="btn-primary Search" >Download Attach File</div></a>
                       
                        
                                                         

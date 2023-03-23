@@ -11,6 +11,10 @@
     <div class="card-body">
       <div class="card-title">Work Progress Report</div> 
       <div class="row mt-3 mb-3" >
+        <div style="text-align: right;">
+          <a href="" data-toggle="modal" data-target="#flt_date"
+                      style="text-decoration: none;"><button type="submit" name="submit" id="alert2" class="btn-primary Search" >Filter By Date</button></a><br><br>
+        </div>
         <div class="col-sm-3">
           <input type="text" class="form-control" id="search" placeholder="Search by Client...">
         </div>
@@ -20,6 +24,7 @@
           <div class="col-sm-3">
             <input type="text" class="form-control search" id="search" placeholder="Search by Date...">
           </div>
+          
           <div class="col" style="margin-left: -20px;">
             <button type="button" class="btn btn-light" style="height: 38px;">
               <img src="{% static 'assets\images\icon\search.svg'%}" >
@@ -41,9 +46,9 @@
             {% for i in prgs %}
               <tr>
                 <td style="color:white;">{{i.end_date}}</td>
-              <td style="color:white;">{{i.Work.client_name.client_name}}</td>
+              <td style="color:white;">{{i.cl_name}}</td>
               <td style="color:white;">{{i.user.fullname}}</td>
-              <td class="text-primary"><a href="{% url 'he_progress_report' i.work_id %}"
+              <td class="text-primary"><a href="{% url 'he_progress_report' i.id %}"
                   style="text-decoration: none;">
                   <div class="badge badge-outline-info">View Details</div>
                 </a></td>
@@ -68,7 +73,7 @@
             </button>
             <div class="text-info" style="font-size: 20px;font-weight: 600;">Filter By Date</div>
   
-            <form action="" method="POST" enctype="multipart/form-data">
+            <form action="{% url 'he_flt_progress' %}" method="POST" enctype="multipart/form-data">
               {% csrf_token %} 
   
               <div class="row mt-5">
