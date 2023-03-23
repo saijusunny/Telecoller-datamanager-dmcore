@@ -950,11 +950,12 @@ def ex_view_work_clint(request):
     usr = user_registration.objects.get(id=ids)
     
     work_as=work_asign.objects.filter(exe_name=ids)
-    work=Work.objects.all()
+    client=Work.objects.all()
     
     context={
         "usr":usr,
-        "client":work
+        "client":client,
+        "work_as":work_as
     }
     return render(request, 'executive/ex_view_work_clint.html',context)
 

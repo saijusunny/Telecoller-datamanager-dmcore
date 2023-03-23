@@ -14,7 +14,10 @@
 </div>
 
 <div class="row mt-4">
-  {% for clnt in client %}
+
+  {% for i in client%}
+  {% for clnt in work_as %}
+  {% if clnt.work_id == i.id %}
     <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
       <div class="card">
         <a href="{% url 'ex_view_clint_det' clnt.id%}" class="text-decoration-none text-white ">
@@ -23,7 +26,7 @@
               <div class="col-8 col-sm-12 col-xl-8 my-auto">
                 <div class="d-flex d-sm-block d-md-flex align-items-center">
                   
-                      <h4 class="mb-0" style="color:white;">{{clnt.cl_name}}</h4>
+                      <h4 class="mb-0" style="color:white;">{{i.cl_name}}</h4>
   
                 </div>
               </div>
@@ -39,7 +42,7 @@
 
 
 
-
-    
+  {% endif %}
+  {% endfor %}
   {% endfor %}
   {% endblock %}
