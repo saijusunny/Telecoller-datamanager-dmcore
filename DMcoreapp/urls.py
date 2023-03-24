@@ -38,6 +38,7 @@ urlpatterns = [
    
     path('ad_imagechange/<int:id>', views.ad_imagechange, name='ad_imagechange'),
     path('ad_accountset', views.ad_accountset, name='ad_accountset'),  
+    path('get_dis', views.get_dis, name='get_dis'),
     #---------------------------------------------------------------------------Executive Section
     path('ex_base', views.ex_base, name='ex_base'),
     path('ex_profile', views.ex_profile, name='ex_profile'),

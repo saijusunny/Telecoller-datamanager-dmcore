@@ -203,6 +203,15 @@
             </a>
             {%else%}
             {%endif%}
+
+            {% if client.sem != None%}
+            <a href="" data-toggle="modal" data-target="#view_sem"
+              style="text-decoration: none;">
+              <div class="badge badge-outline-info m-2">{{client.sem}}</div>
+            </a>
+            {%else%}
+            {%endif%}
+
             {% if client.em != None%}
             <a href="" data-toggle="modal" data-target="#view_em"
               style="text-decoration: none;">

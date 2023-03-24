@@ -401,7 +401,7 @@ def save_create_work(request):
             "usr":usr,
             "msg_success":msg_success,
         }
-        return render(request, 'admin/ad_create_work.html',context)
+        return redirect("ad_dashboard") 
         
     return redirect("ad_create_work")
 
@@ -824,6 +824,15 @@ def ad_imagechange(request, id):
         return redirect('ad_accountset')
     return render(request, 'admin/ad_accountset.html',{'dev': dev,"usr":usr})
 
+
+def get_dis(request):
+    ele = request.GET.get('ele')
+    warn = daily_work.objects.get(id=ele)
+    
+    rep =warn.workdone
+ 
+    return JsonResponse({"status":" not","rep":rep})
+
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
@@ -949,13 +958,19 @@ def ex_view_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     
-    work_as=work_asign.objects.filter(exe_name=ids)
-    client=Work.objects.all()
+    work_as=work_asign.objects.filter(exe_name=ids).distinct('exe_name')
+    work=Work.objects.all()
+    cl=client_information.objects.all()
+    
+    print(work_as)
+    for i in work_as:
+        print(i.exe_name)
     
     context={
         "usr":usr,
-        "client":client,
-        "work_as":work_as
+        "work":work,
+        "work_as":work_as,
+        "cl":cl,
     }
     return render(request, 'executive/ex_view_work_clint.html',context)
 
