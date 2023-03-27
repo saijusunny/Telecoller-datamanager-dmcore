@@ -862,13 +862,14 @@ def ex_dashboard(request):
 def ex_daily_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    client=work_asign.objects.filter(exe_name=ids)
+    work_as=work_asign.objects.filter(exe_name=ids)
+  
     work=Work.objects.all()
 
    
     context={
         "usr":usr,
-        "client":client,
+        "work_as":work_as,
         "work":work
     }
     return render(request, 'executive/ex_daily_work_clint.html',context)
@@ -877,14 +878,15 @@ def ex_daily_work_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     work=Work.objects.get(id=id)
-
+    works=Work.objects.filter(client_name_id=work.client_name_id)
     daily=daily_work.objects.filter(work_id =id)
     cr_date=date.today()
     context={
         "usr":usr,
         "work":work,
         "cr_date":cr_date,
-        "daily":daily
+        "daily":daily,
+        "works":works
     }
     return render(request, 'executive/ex_daily_work_det.html',context)
 
@@ -898,7 +900,19 @@ def daily_work_done(request,id):
         daily.task=work.task
         daily.date=date.today()
         daily.workdone =request.POST.get('workdone',None)
-        daily.daily_file=request.FILES.get('filed',None)
+        
+        dct_file = dict(request.FILES)
+        lst_screenshot = dct_file['filed']
+        lst_file = []
+        for ins_screenshot in lst_screenshot:
+            str_img_path = ""
+            if ins_screenshot:
+                img_emp = ins_screenshot
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                daily.json_testerscreenshot = lst_file
         daily.work=work
         daily.user=usr
         daily.cl_name=work.cl_name

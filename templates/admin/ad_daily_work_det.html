@@ -69,7 +69,11 @@
                 {% if work.daily_file == ""%}
                   <div class="badge badge-outline-info">No File Attached</div>
                 {% else %}
-                  <a href="{{work.daily_file.url}}"><div class="badge badge-outline-info">Download</div></a>
+                {% for ss in work.json_testerscreenshot %}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
+                      Download</a></div>
+                  {% endfor %}
+
                 {% endif %}
               </td>
             </tr>

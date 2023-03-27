@@ -209,6 +209,7 @@ class Work(models.Model):
     end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
 
 class work_asign(models.Model):
+    client_name = models.ForeignKey(client_information, on_delete=models.CASCADE, null=True, blank=True) 
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)   
     exe_name=models.ForeignKey(user_registration, on_delete=models.CASCADE,related_name='exe_works' ,null=True, blank=True)
 
@@ -219,7 +220,9 @@ class daily_work(models.Model):
     task=models.TextField(default='', null=True, blank=True)
     date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     workdone=models.TextField(default='', null=True, blank=True)
-    daily_file=models.FileField(upload_to='images/pdf/',default='', null=True, blank=True)
+    json=models.FileField(upload_to = 'images/pdf/', null=True, blank=True,default='')
+    json_testerscreenshot = JSONField(blank=True, null=True,default='')
+    
 
 class progress_report(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)

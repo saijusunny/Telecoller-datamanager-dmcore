@@ -33,32 +33,30 @@
           </thead>
           <tbody id="myTable">
 
-            
+              {% for l in works%}
            
               <tr>
-              <td style="color:white;">{{work.task}}</td>
+              <td style="color:white;">{{l.task}}</td>
              
               <td style="color:white;">{{usr.fullname}}</td>
-              <td class="text-primary"><a href="" data-toggle="modal" data-target="#taskstatus"
+              <td class="text-primary"><a href="" data-toggle="modal" data-target="#taskstatus{{l.id}}"
                   style="text-decoration: none;">
                   <div class="badge badge-outline-info">Task Status</div>
                 </a></td>
 
              
               <td>
-                <div  data-toggle="modal" data-target="#exampleModalCenter3"
+                <div  data-toggle="modal" data-target="#exampleModalCenter3{{l.id}}"
                   >
                   <div class="badge badge-outline-info">Work Details</div>
                   <!-- <div class="progress-bar" style="height:20px;">dp.progress</div> -->
 
                 </div>
               </td>
-              
-              
-           
-              
+ 
 
             </tr>
+            {%endfor%}
         
           </tbody>
         </table>
@@ -78,9 +76,9 @@
 
 <!-- pop up window for Project details -->
 
+{% for dp in works %}
 
-
-  <div class="rowmt-5 modal fade" id="exampleModalCenter3">
+  <div class="rowmt-5 modal fade" id="exampleModalCenter3{{dp.id}}">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
       <div class="modal-content modal-xl" style="background-color: #191c24;">
         <div class="card ">
@@ -92,11 +90,11 @@
                 <div class="col-md-1"></div>
                 <div class="col-md-2 mt-2" style="color:white;">Start date</div>
                 <div class="col-md-2 mt-2">
-                  <div class="ml-3" style="color:white;">{{work.start_date}}</div>
+                  <div class="ml-3" style="color:white;">{{dp.start_date}}</div>
                 </div>
                 <div class="col-md-2"></div>
                 <div class="col-md-2 mt-2" style="color:white;"> End date</div>
-                <div class="col-md-2 mt-2" style="color:white;"> {{work.end_date}}</div>
+                <div class="col-md-2 mt-2" style="color:white;"> {{dp.end_date}}</div>
                 <div class="col-md-1"></div>
               </div>
             </div>
@@ -121,11 +119,11 @@
 
         <div class="container mt-3 " style="border-top:1px solid grey;">
           <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Task Details</div>
-          <div class="pt-3 " style="margin-left:20px;color:white;">{{work.task}}</div>
-          {% if work.file_attached == ""%}
+          <div class="pt-3 " style="margin-left:20px;color:white;">{{dp.task}}</div>
+          {% if dp.file_attached == ""%}
           <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
           {%else%}
-            <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{work.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+            <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{dp.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
           {%endif%}
         </div>
 
@@ -134,7 +132,7 @@
           <div class="row pt-1">
             
             <div class="col-md-12">
-              <p>{{work.description}}</p>
+              <p>{{dp.description}}</p>
             </div>
             
           </div>
@@ -148,13 +146,13 @@
       </div>
     </div>
   </div>
+{%endfor%}
 
 
-
-
-<form action="{% url 'daily_work_done'  work.id%}" method="post" enctype="multipart/form-data">
+{% for dp in works %}
+<form action="{% url 'daily_work_done'  dp.id%}" method="post" enctype="multipart/form-data">
   {% csrf_token %}
-  <div class="modal fade" id="taskstatus">
+  <div class="modal fade" id="taskstatus{{dp.id}}">
     <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
       <div class="modal-content modal-xl" style="background-color: #191c24;">
         <div class="modal-header">
@@ -183,6 +181,7 @@
             <tbody>
 
               {% for dl in daily %}
+              {% if dl.work_id == dp.id%}
               
               <tr>
                 <td style="color:white;">{{dl.date}}</td>
@@ -197,8 +196,11 @@
                   {% if dl.daily_file == ""%}
                   <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="" download>No File Attached</a></div>
                   {%else%}
-                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{dl.daily_file.url }}" download>
+                  {% for ss in dl.json_testerscreenshot %}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
                       Download</a></div>
+                  {% endfor %}
+                
                   {%endif%}
                   
                 </td>
@@ -208,6 +210,8 @@
                       target="_blank">View</a></div> -->
                 </td>
               </tr>
+              {%else%}
+              {%endif%}
               {%endfor%}
 
              
@@ -215,7 +219,7 @@
               <tr>
                 <td style="color:white;">{{cr_date}}</td>
 
-                <td style="color:white;">{{work.task}}
+                <td style="color:white;">{{dp.task}}
                 </td>
                
 
@@ -237,7 +241,7 @@
     </div>
   </div>
 </form>
-
+{%endfor%}
 
 <script>
   $(document).ready(function () {
