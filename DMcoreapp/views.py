@@ -706,7 +706,7 @@ def ad_work_progress_det(request,id):
  
     pr_work=progress_report.objects.get(id=id)
     try:
-        prv_work=progress_report.objects.filter(work_id=pr_work.id).order_by('-end_date')[0]
+        prv_work=progress_report.objects.filter(work_id=pr_work.work_id).order_by('-end_date')[1]
     except:
         prv_work=None
     context={
