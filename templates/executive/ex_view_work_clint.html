@@ -18,7 +18,7 @@
   {% for i in work%}
   {% for wrk_as in work_as %}
 
-  {% if wrk_as.exe_name != i.id %}
+  {% if wrk_as.work_id == i.id %}
   
   
 
@@ -31,6 +31,16 @@
                 <div class="d-flex d-sm-block d-md-flex align-items-center">
                   
                       <h4 class="mb-0" style="color:white;">{{i.cl_name}}</h4>
+                      {% if i.id == last.work_id%}
+                      <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+                      <lord-icon
+                          src="https://cdn.lordicon.com/psnhyobz.json"
+                          trigger="hover"
+                          colors="primary:#c71f16"
+                          style="width:60px; height: 60px;">
+                      </lord-icon>
+                      {%else%}
+                      {%endif%}
   
                 </div>
               </div>

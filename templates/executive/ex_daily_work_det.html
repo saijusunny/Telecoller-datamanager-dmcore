@@ -34,6 +34,8 @@
           <tbody id="myTable">
 
               {% for l in works%}
+              {% for wras in work_as%}
+              {% if l.id == wras.work_id%}
            
               <tr>
               <td style="color:white;">{{l.task}}</td>
@@ -56,6 +58,9 @@
  
 
             </tr>
+            {%else%}
+            {%endif%}
+            {% endfor %}
             {%endfor%}
         
           </tbody>

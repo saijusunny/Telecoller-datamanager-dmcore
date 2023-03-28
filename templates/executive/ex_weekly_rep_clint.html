@@ -14,9 +14,10 @@
 </div>
 
 <div class="row mt-4">
-  {% for i in work%}
-  {% for clnt in client %}
-  {% if clnt.work_id == i.id %}
+  {%for l in work_as%}
+  {%for i in cl%}
+  {% if l.client_name_id == i.id %}
+
     <div class="col-lg-4 col-md-4 col-sm-12 mt-2">
       <div class="card">
         <a href="{% url 'ex_weekly_rep_clint_det' i.id%}" class="text-decoration-none text-white ">
@@ -25,7 +26,17 @@
               <div class="col-8 col-sm-12 col-xl-8 my-auto">
                 <div class="d-flex d-sm-block d-md-flex align-items-center">
                   
-                      <h4 class="mb-0" style="color:white;">{{i.cl_name}}</h4>
+                      <h4 class="mb-0" style="color:white;">{{i.bs_name}}</h4>
+                      {% if i.id == last.client_name_id%}
+                      <script src="https://cdn.lordicon.com/ritcuqlt.js"></script>
+                      <lord-icon
+                          src="https://cdn.lordicon.com/psnhyobz.json"
+                          trigger="hover"
+                          colors="primary:#c71f16"
+                          style="width:60px; height: 60px;">
+                      </lord-icon>
+                      {%else%}
+                      {%endif%}
   
                 </div>
               </div>

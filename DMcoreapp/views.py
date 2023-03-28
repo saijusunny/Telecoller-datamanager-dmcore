@@ -862,31 +862,36 @@ def ex_dashboard(request):
 def ex_daily_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    work_as=work_asign.objects.filter(exe_name=ids)
-  
+    work_as=work_asign.objects.filter(exe_name=ids).values('client_name_id').distinct()
+    last=work_asign.objects.filter(exe_name=ids).last()
     work=Work.objects.all()
+    cl=client_information.objects.all()
 
    
     context={
         "usr":usr,
         "work_as":work_as,
-        "work":work
+        "work":work,
+        "cl":cl,
+        "last":last
     }
     return render(request, 'executive/ex_daily_work_clint.html',context)
 
 def ex_daily_work_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    work=Work.objects.get(id=id)
-    works=Work.objects.filter(client_name_id=work.client_name_id)
-    daily=daily_work.objects.filter(work_id =id)
+    work_as=work_asign.objects.filter(exe_name=ids)
+    works=Work.objects.filter(client_name_id=id).order_by("-id")
+    daily=daily_work.objects.filter(user=ids)
     cr_date=date.today()
+    
     context={
         "usr":usr,
-        "work":work,
         "cr_date":cr_date,
         "daily":daily,
-        "works":works
+        "work_as":work_as,
+        "works":works,
+        
     }
     return render(request, 'executive/ex_daily_work_det.html',context)
 
@@ -917,35 +922,38 @@ def daily_work_done(request,id):
         daily.user=usr
         daily.cl_name=work.cl_name
         daily.save()
-        return redirect("ex_daily_work_det",id)
-    return redirect("ex_daily_work_det",id)
+        return redirect("ex_daily_work_det",work.client_name_id)
+    return redirect("ex_daily_work_det",work.client_name_id)
 
 def ex_weekly_rep_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-    
-
-    client=work_asign.objects.filter(exe_name=ids)
-    work=Work.objects.all()
+    work_as=work_asign.objects.filter(exe_name=ids).values('client_name_id').distinct()
+    work=Work.objects.filter()
+    last=work_asign.objects.filter(exe_name=ids).last()
+    cl=client_information.objects.all()
     context={
         "usr":usr,
-        "client":client,
-        "work":work
+        "work_as":work_as,
+        "work":work,
+        "cl":cl,
+        "last":last
     }
     return render(request, 'executive/ex_weekly_rep_clint.html',context)
 
 def ex_weekly_rep_clint_det(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
-    work=Work.objects.filter(id=id)
-    works=Work.objects.get(id=id)
-    rep=progress_report.objects.filter(user=ids,work_id=id)
+    work_as=work_asign.objects.filter(exe_name=ids)
+   
+    work_tb=Work.objects.filter(client_name_id=id).order_by("-id")
+    rep=progress_report.objects.filter(user=usr)
     context={
         "usr":usr,
-        "work":work,
+        "work_as":work_as,
+      
         "rep":rep,
-        "works":works
+        "work_tb":work_tb
     }
     return render(request, 'executive/ex_weekly_rep_det.html',context)
 
@@ -965,26 +973,26 @@ def sv_wk_rp(request,id):
         pro.user=usr
         pro.cl_name=work.cl_name
         pro.save()
-        return redirect("ex_weekly_rep_clint_det",id)
-    return redirect("ex_weekly_rep_clint_det",id)
+        return redirect("ex_weekly_rep_clint_det",work.client_name_id)
+    return redirect("ex_weekly_rep_clint_det",work.client_name_id)
 
 def ex_view_work_clint(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     
-    work_as=work_asign.objects.filter(exe_name=ids).distinct('exe_name')
+    work_as=work_asign.objects.filter(exe_name=ids)
     work=Work.objects.all()
     cl=client_information.objects.all()
+    last=work_asign.objects.filter(exe_name=ids).last()
     
-    print(work_as)
-    for i in work_as:
-        print(i.exe_name)
+    
     
     context={
         "usr":usr,
         "work":work,
         "work_as":work_as,
         "cl":cl,
+        "last":last,
     }
     return render(request, 'executive/ex_view_work_clint.html',context)
 
