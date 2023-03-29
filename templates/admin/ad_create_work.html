@@ -232,7 +232,7 @@
   function openDialog() {
   var frm=document.getElementById("forms");
     
-  let customMsg = "Do you want Tea?";
+  let customMsg = "Do you want to submit?";
   
   if (confirm(customMsg)) {
     frm.action=("{% url 'save_create_work'%}")
