@@ -120,6 +120,22 @@
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="seo_file" id="seo_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
+                
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="onpage" name="onpage" onclick=check_onpage() style="display: none;">
+                <label for="" class="mr-2 ml-3 mt-2" style="color:rgb(10, 7, 7) ;display: none;" id="onpg_lb">Onpage</label>
+                <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="offpage" value="offpage" name="offpage" onclick=check_offpage() style="display: none;">
+                <label for="" class="mr-2 ml-3 mt-2" style="color:white;display: none;" id="offpg_lb">Offpage</label>
+
+                <textarea name="off_txt" id="off_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
             </div>
             
 
@@ -244,12 +260,54 @@
   function check_seo(){
     var chk_seo=document.getElementById("seo").checked;
     var textarea = document.getElementById('seo_txt');
-    var files = document.getElementById('seo_file');
+    var files = document.getElementById('seo_file');    
+    var onpage = document.getElementById('onpage');
+    var onpg_lb = document.getElementById('onpg_lb');
+    var offpage = document.getElementById('offpage');
+    var offpg_lb = document.getElementById('offpg_lb');
     if (chk_seo==true){
       textarea.style=('display: block');
       files.style=('display: block');
+      onpage.style=('display: block');
+      onpg_lb.style=('display: block');
+      offpage.style=('display: block');
+      offpg_lb.style=('display: block');
     }else{
   
+      textarea.style=('display: none');
+      files.style=('display: none');
+      onpage.style=('display: none');
+      onpg_lb.style=('display: none');
+      offpage.style=('display: none');
+      offpg_lb.style=('display: none');
+    }
+  }
+   
+  function check_onpage(){
+    var onpage=document.getElementById("onpage").checked;
+    var textarea = document.getElementById('on_txt');
+    var files = document.getElementById('on_file');
+    if (onpage==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_offpage(){
+    var offpage=document.getElementById("offpage").checked;
+    var textarea = document.getElementById('off_txt');
+    var files = document.getElementById('off_file');
+    if (offpage==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
       textarea.style=('display: none');
       files.style=('display: none');
     }

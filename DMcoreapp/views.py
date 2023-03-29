@@ -303,14 +303,6 @@ def ad_dashboard(request):
     }
     return render(request, 'admin/ad_dashboard.html',context)
 
-def ad_create_work(request):
-    ids=request.session['userid']
-    usr = user_registration.objects.get(id=ids)
-    context={
-        "usr":usr,
-    }
-    return render(request, 'admin/ad_create_work.html',context)
-
 def save_create_work(request):
     client = client_information()
     ids=request.session['userid']
@@ -333,6 +325,15 @@ def save_create_work(request):
         client.seo = request.POST.get('seo',None)
         client.seo_txt = request.POST.get('seo_txt',None)
         client.seo_file = request.FILES.get('seo_file',None)
+
+        client.on_pg = request.POST.get('onpage',None)
+        client.on_pg_txt = request.POST.get('on_txt',None)
+        client.on_pg_file = request.FILES.get('on_file',None)
+
+        client.off_pg = request.POST.get('offpage',None)
+        client.off_pg_txt = request.POST.get('off_txt',None)
+        client.off_pg_file = request.FILES.get('off_file',None)
+
         client.smm = request.POST.get('smm',None)
         client.smm_txt = request.POST.get('smm_txt',None)
         client.smm_file = request.FILES.get('smm_file',None)
@@ -404,6 +405,16 @@ def save_create_work(request):
         return redirect("ad_dashboard") 
         
     return redirect("ad_create_work")
+
+
+
+def ad_create_work(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    context={
+        "usr":usr,
+    }
+    return render(request, 'admin/ad_create_work.html',context)
 
 
 def ad_view_work(request):
