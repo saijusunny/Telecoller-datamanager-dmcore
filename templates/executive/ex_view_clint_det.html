@@ -60,6 +60,12 @@
         {%else%}
           <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{client.file_attached.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
         {%endif%}
+
+        {% if client.file_2 == ""%}
+        <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+        {%else%}
+          <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{client.file_2.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+        {%endif%}
       </div>
 
       <div class="container mt-3" style="border-top:1px solid grey;border-bottom:1px solid grey;">
@@ -75,4 +81,4 @@
       </div>
 
 
-  {% endblock %}
+  {% endblock %} 

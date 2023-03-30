@@ -172,6 +172,11 @@ class client_information(models.Model):
     off_pg = models.CharField(max_length=200,default='', null=True, blank=True)
     off_pg_txt = models.TextField(default='', null=True, blank=True)
     off_pg_file = models.ImageField(upload_to='images/requirement/', null=True, blank=True)
+
+    smo = models.CharField(max_length=200,default='', null=True, blank=True)
+    smo_txt = models.TextField(default='', null=True, blank=True)
+    smo_file = models.ImageField(upload_to='images/requirement/', null=True, blank=True)
+
     smm = models.CharField(max_length=200,default='', null=True, blank=True)
     smm_txt = models.TextField(default='', null=True, blank=True)
     smm_file = models.ImageField(upload_to='images/requirement/', null=True, blank=True)
@@ -213,6 +218,7 @@ class Work(models.Model):
     file_attached=models.FileField(upload_to='images/pdf/',default='', null=True, blank=True)
     start_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
+    file_2=models.FileField(upload_to='images/pdf/',default='', null=True, blank=True)
 
 class work_asign(models.Model):
     client_name = models.ForeignKey(client_information, on_delete=models.CASCADE, null=True, blank=True) 
@@ -228,7 +234,43 @@ class daily_work(models.Model):
     workdone=models.TextField(default='', null=True, blank=True)
     json=models.FileField(upload_to = 'images/pdf/', null=True, blank=True,default='')
     json_testerscreenshot = JSONField(blank=True, null=True,default='')
+
+    fb = models.CharField(max_length=200,default='', null=True, blank=True)
+    fb_txt = models.TextField(default='', null=True, blank=True)
+    fb_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    tw = models.CharField(max_length=200,default='', null=True, blank=True)
+    tw_txt = models.TextField(default='', null=True, blank=True)
+    tw_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    pin = models.CharField(max_length=200,default='', null=True, blank=True)
+    pin_txt = models.TextField(default='', null=True, blank=True)
+    pin_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    link = models.CharField(max_length=200,default='', null=True, blank=True)
+    link_txt = models.TextField(default='', null=True, blank=True)
+    link_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    insta = models.CharField(max_length=200,default='', null=True, blank=True)
+    insta_txt = models.TextField(default='', null=True, blank=True)
+    insta_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    tumb = models.CharField(max_length=200,default='', null=True, blank=True)
+    tumb_txt = models.TextField(default='', null=True, blank=True)
+    tumb_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    diry = models.CharField(max_length=200,default='', null=True, blank=True)
+    diry_txt = models.TextField(default='', null=True, blank=True)
+    diry_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    yt = models.CharField(max_length=200,default='', null=True, blank=True)
+    yt_txt = models.TextField(default='', null=True, blank=True)
+    yt_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    qra = models.CharField(max_length=200,default='', null=True, blank=True)
+    qra_txt = models.TextField(default='', null=True, blank=True)
+    qra_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    sbms = models.CharField(max_length=200,default='', null=True, blank=True)
+    sbms_txt = models.TextField(default='', null=True, blank=True)
+    sbms_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
     
+class daily_work_sub(models.Model):
+    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
+    sub = models.CharField(max_length=200,default='', null=True, blank=True)
+    sub_txt = models.TextField(default='', null=True, blank=True)
+    sub_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
 
 class progress_report(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)

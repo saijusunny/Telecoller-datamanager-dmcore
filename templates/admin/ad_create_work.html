@@ -124,6 +124,7 @@
                 
                 <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="onpage" name="onpage" onclick=check_onpage() style="display: none;">
                 <label for="" class="mr-2 ml-3 mt-2" style="color:rgb(10, 7, 7) ;display: none;" id="onpg_lb">Onpage</label>
+
                 <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
@@ -138,6 +139,16 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
             </div>
             
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_smo() name="smo" id="smo" value="SMO">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">SMO</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="smo_txt" id="smo_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;"  ></textarea>
+                <input type="file" name="smo_file" id="smo_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+            </div>
 
             <div class="col-md-4 ">
               <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_smm() name="smm" id="smm" value="SMM">
@@ -318,6 +329,21 @@
     var textarea = document.getElementById('smm_txt');
     var files = document.getElementById('smm_file');
     if (chk_smm==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_smo(){
+    var chk_smo=document.getElementById("smo").checked;
+    var textarea = document.getElementById('smo_txt');
+    var files = document.getElementById('smo_file');
+    if (chk_smo==true){
   
       textarea.style=('display: block');
       files.style=('display: block');

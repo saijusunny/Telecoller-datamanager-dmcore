@@ -303,6 +303,14 @@ def ad_dashboard(request):
     }
     return render(request, 'admin/ad_dashboard.html',context)
 
+def ad_create_work(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    context={
+        "usr":usr,
+    }
+    return render(request, 'admin/ad_create_work.html',context)
+
 def save_create_work(request):
     client = client_information()
     ids=request.session['userid']
@@ -337,6 +345,10 @@ def save_create_work(request):
         client.smm = request.POST.get('smm',None)
         client.smm_txt = request.POST.get('smm_txt',None)
         client.smm_file = request.FILES.get('smm_file',None)
+        client.smo = request.POST.get('smo',None)
+        client.smo_txt = request.POST.get('smo_txt',None)
+        client.smo_file = request.FILES.get('smo_file',None)
+
         client.sem = request.POST.get('sem',None)
         client.sem_txt = request.POST.get('sem_txt',None)
         client.sem_file = request.FILES.get('sem_file',None)
@@ -407,16 +419,6 @@ def save_create_work(request):
     return redirect("ad_create_work")
 
 
-
-def ad_create_work(request):
-    ids=request.session['userid']
-    usr = user_registration.objects.get(id=ids)
-    context={
-        "usr":usr,
-    }
-    return render(request, 'admin/ad_create_work.html',context)
-
-
 def ad_view_work(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
@@ -478,6 +480,23 @@ def update_client(request,id):
         else:
             client.seo_file = request.FILES.get('seo_file',None)
 
+        client.on_pg = request.POST.get('onpage',None)
+        client.on_pg_txt = request.POST.get('on_txt',None)
+        if request.FILES.get('on_file',None) == None:
+            client.on_pg_file=client.on_pg_file
+        else:
+            client.on_pg_file = request.FILES.get('on_file',None)
+
+
+        client.off_pg = request.POST.get('offpage',None)
+        client.off_pg_txt = request.POST.get('off_txt',None)
+        if request.FILES.get('off_file',None) == None:
+            client.off_pg_file=client.off_pg_file
+        else:
+            client.off_pg_file = request.FILES.get('off_file',None)
+   
+
+
         client.smm = request.POST.get('smm',None)
         client.smm_txt = request.POST.get('smm_txt',None)
      
@@ -485,6 +504,14 @@ def update_client(request,id):
             client.smm_file=client.smm_file
         else:
             client.smm_file = request.FILES.get('smm_file',None)
+
+        client.smo = request.POST.get('smo',None)
+        client.smo_txt = request.POST.get('smo_txt',None)
+     
+        if request.FILES.get('smo_file',None) == None:
+            client.smo_file=client.smo_file
+        else:
+            client.smo_file = request.FILES.get('smo_file',None)
 
         client.sem = request.POST.get('sem',None)
         client.sem_txt = request.POST.get('sem_txt',None)
@@ -916,6 +943,37 @@ def daily_work_done(request,id):
         daily.task=work.task
         daily.date=date.today()
         daily.workdone =request.POST.get('workdone',None)
+
+        daily.fb = request.POST.get('fb',None)
+        daily.fb_txt = request.POST.get('fb_txt',None)
+        daily.fb_file = request.FILES.get('fb_file',None)
+        daily.tw = request.POST.get('tw',None)
+        daily.tw_txt = request.POST.get('tw_txt',None)
+        daily.tw_file = request.FILES.get('tw_file',None)
+        daily.pin = request.POST.get('pin',None)
+        daily.pin_txt = request.POST.get('pin_txt',None)
+        daily.pin_file = request.FILES.get('pin_file',None)
+        daily.link = request.POST.get('link',None)
+        daily.link_txt = request.POST.get('link_txt',None)
+        daily.link_file = request.FILES.get('link_file',None)
+        daily.insta = request.POST.get('insta',None)
+        daily.insta_txt = request.POST.get('insta_txt',None)
+        daily.insta_file = request.FILES.get('insta_file',None)
+        daily.tumb = request.POST.get('tumb',None)
+        daily.tumb_txt = request.POST.get('tumb_txt',None)
+        daily.tumb_file = request.FILES.get('tumb_file',None)
+        daily.diry = request.POST.get('diry',None)
+        daily.diry_txt = request.POST.get('diry_txt',None)
+        daily.diry_file = request.FILES.get('diry_file',None)
+        daily.yt = request.POST.get('yt',None)
+        daily.yt_txt = request.POST.get('yt_txt',None)
+        daily.yt_file = request.FILES.get('yt_file',None)
+        daily.qra = request.POST.get('qra',None)
+        daily.qra_txt = request.POST.get('qra_txt',None)
+        daily.qra_file = request.FILES.get('qra_file',None)
+        daily.sbms = request.POST.get('sbms',None)
+        daily.sbms_txt = request.POST.get('sbms_txt',None)
+        daily.sbms_file = request.FILES.get('sbms_file',None)
         
         dct_file = dict(request.FILES)
         lst_screenshot = dct_file['filed']
@@ -932,7 +990,21 @@ def daily_work_done(request,id):
         daily.work=work
         daily.user=usr
         daily.cl_name=work.cl_name
-        daily.save()
+        daily.save() 
+        dl = daily_work.objects.get(id=daily.id)
+        
+        sub_lb =request.POST.getlist('sub_lb[]') 
+        sub_txt =request.POST.getlist('sub_txt[]')
+        sub_file =request.FILES.getlist('sub_file[]')
+        
+        if len(sub_lb)==len(sub_txt)==len(sub_file):
+            mapped2 = zip(sub_lb,sub_txt,sub_file)
+            mapped2=list(mapped2)
+            for ele in mapped2:
+               
+                created = daily_work_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
+                    
+
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)
 
