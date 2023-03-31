@@ -871,6 +871,63 @@ def get_dis(request):
  
     return JsonResponse({"status":" not","rep":rep})
 
+def get_sub(request):
+    ele = request.GET.get('ele')
+    ids = request.GET.get('idss')
+    warn = daily_work.objects.get(id=ids)
+    if ele=="Facebook":
+        hd=ele
+        des=warn.fb_txt
+        fl=warn.fb_file
+
+    elif ele=="Twitter":
+        hd=ele
+        des=warn.tw_txt
+        fl=warn.tw_file
+
+    elif ele=="Pinterest":
+        hd=ele
+        des=warn.pin_txt
+        fl=warn.pin_file
+
+    elif ele=="Linkedin":
+        hd=ele
+        des=warn.link_txt
+        fl=warn.link_file
+
+    elif ele=="Instagram":
+        hd=ele
+        des=warn.insta_txt
+        fl=warn.insta_file
+
+    elif ele=="Tumber":
+        hd=ele
+        des=warn.tumb_txt
+        fl=warn.tumb_file
+
+    elif ele=="Directories":
+        hd=ele
+        des=warn.diry_txt
+        fl=warn.diry_file
+
+    elif ele=="You Tube":
+        hd=ele
+        des=warn.yt_txt
+        fl=warn.yt_file
+
+    elif ele=="Quora":
+        hd=ele
+        des=warn.qra_txt
+        fl=warn.qra_file
+
+
+    else:
+        pass
+    
+    
+ 
+    return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
+
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
@@ -921,6 +978,7 @@ def ex_daily_work_det(request,id):
     work_as=work_asign.objects.filter(exe_name=ids)
     works=Work.objects.filter(client_name_id=id).order_by("-id")
     daily=daily_work.objects.filter(user=ids)
+    dl_sub=daily_work_sub.objects.all()
     cr_date=date.today()
     
     context={
@@ -929,6 +987,7 @@ def ex_daily_work_det(request,id):
         "daily":daily,
         "work_as":work_as,
         "works":works,
+        "dl_sub":dl_sub
         
     }
     return render(request, 'executive/ex_daily_work_det.html',context)
@@ -974,6 +1033,25 @@ def daily_work_done(request,id):
         daily.sbms = request.POST.get('sbms',None)
         daily.sbms_txt = request.POST.get('sbms_txt',None)
         daily.sbms_file = request.FILES.get('sbms_file',None)
+
+        daily.pr = request.POST.get('pr',None)
+        daily.pr_txt = request.POST.get('pr_txt',None)
+        daily.pr_file = request.FILES.get('pr_file',None)
+        daily.art = request.POST.get('art',None)
+        daily.art_txt = request.POST.get('art_txt',None)
+        daily.art_file = request.FILES.get('art_file',None)
+        daily.blg = request.POST.get('blg',None)
+        daily.blg_txt = request.POST.get('blg_txt',None)
+        daily.blg_file = request.FILES.get('blg_file',None)
+        daily.clss = request.POST.get('cls',None)
+        daily.clss_txt = request.POST.get('cls_txt',None)
+        daily.clss_file = request.FILES.get('cls_file',None)
+        daily.gst = request.POST.get('gst',None)
+        daily.gst_txt = request.POST.get('gst_txt',None)
+        daily.gst_file = request.FILES.get('gst_file',None)
+        daily.bk = request.POST.get('bk',None)
+        daily.bk_txt = request.POST.get('bk_txt',None)
+        daily.bk_file = request.FILES.get('bk_file',None)
         
         dct_file = dict(request.FILES)
         lst_screenshot = dct_file['filed']
@@ -1004,6 +1082,16 @@ def daily_work_done(request,id):
                
                 created = daily_work_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
                     
+        off_sub_lb =request.POST.getlist('off_sub_lb[]') 
+        off_sub_txt =request.POST.getlist('off_sub_txt[]')
+        off_sub_file =request.FILES.getlist('off_sub_file[]')
+        
+        if len(off_sub_lb)==len(off_sub_txt)==len(off_sub_file):
+            mapped2 = zip(off_sub_lb,off_sub_txt,off_sub_file)
+            mapped2=list(mapped2)
+            for ele in mapped2:
+               
+                created = daily_work_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
 
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)

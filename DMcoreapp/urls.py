@@ -60,6 +60,7 @@ urlpatterns = [
     path('ex_change_pass', views.ex_change_pass, name='ex_change_pass'),
     path('ex_accountset', views.ex_accountset, name='ex_accountset'),
     path('ex_imagechange/<int:id>', views.ex_imagechange, name='ex_imagechange'),
+    path('get_sub/', views.get_sub, name='get_sub'),
 
        #---------------marketing head
     

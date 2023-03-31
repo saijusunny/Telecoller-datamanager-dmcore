@@ -200,7 +200,51 @@
                 <td style="color:white;">{{dl.task}}
                 </td>
                 
-                <td style="color:white;">{{dl.workdone}}
+                <td style="color:white;">{{dl.workdone}}<br><br>
+                  {% if dl.fb != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{dl.id}}')"><div class="badge badge-outline-primary">Facebook</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.tw != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{dl.id}}')"><div class="badge badge-outline-primary">Twitter</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.pin != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{dl.id}}')"><div class="badge badge-outline-primary">Pinterest</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.link != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{dl.id}}')"><div class="badge badge-outline-primary">Linkedin</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.insta != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{dl.id}}')"><div class="badge badge-outline-primary">Instagram</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.tumb != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{dl.id}}')"><div class="badge badge-outline-primary">Tumber</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.diry != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{dl.id}}')"><div class="badge badge-outline-primary">Directories</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.yt != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{dl.id}}')"><div class="badge badge-outline-primary">You Tube</div></a>
+                  {%else%}
+                  {%endif%}
+                  {% if dl.qra != Null%}
+                  <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{dl.id}}')"><div class="badge badge-outline-primary">Quora</div></a>
+                  {%else%}
+                  {%endif%}
+
+                  {% for n in dl_sub %}
+                  
+                    {% if dl.id == n.daily_id%}
+                    <a href="" data-toggle="modal" data-target="#additional"><div class="badge badge-outline-primary">{{n.sub}}</div></a>
+                    {%else%}
+                    {%endif%}
+                  {%endfor%}
                   
                 </td>
 
@@ -214,6 +258,10 @@
                   {% endfor %}
                 
                   {%endif%}
+
+                  
+                  
+                  
                   
                 </td>
                 
@@ -227,7 +275,7 @@
               {%endfor%}
 
              
-
+ 
               <tr>
                 <td style="color:white;">{{cr_date}}</td>
 
@@ -236,8 +284,79 @@
                
 
                 <td style="color:white;" ><textarea name="workdone" class="form-control-sm bg-transparent text-light"
-                    cols="25" rows="7"></textarea>
+                    cols="25" rows="7"></textarea> 
+                    {% if dp.task == "" %}
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_pr() name="pr" id="pr" value="PR Submission">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">PR Submission</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="pr_txt" id="pr_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="pr_file" id="pr_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_art() name="art" id="art" value="Article Submission">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Article Submission</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="art_txt" id="art_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="art_file" id="art_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_blg() name="blg" id="blg" value="Blog Posting">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Blog Posting</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="blg_txt" id="blg_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="blg_file" id="blg_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_cls() name="cls" id="cls" value="Classified Submission">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Classified Submission</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="cls_txt" id="cls_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="cls_file" id="cls_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_gst() name="gst" id="gst" value="Guest Blogging">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Guest Blogging</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="gst_txt" id="gst_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="gst_file" id="gst_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
+
+                    <div class="col-md-4 ">
+                      <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_bk() name="bk" id="bk" value="Bokkmarking ">
+                      <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Bokkmarking</label>
+                    </div>
+                    <div class="col-md-8 ">
+                      <textarea name="bk_txt" id="bk_txt" class="drop form-control ml-3 mt-2 text-light" 
+                        style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                        <input type="file" name="bk_file" id="bk_file" class="form-control mt-2 "
+                        style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                    </div>
                     
+                    <div id="off_sub">
+
+                    </div>
+                    <div class="btn btn-light mt-2" id="off_sub_btn">+</div>
+                  {%else%}
+                  {%endif%}
+                  
                   <div class="col-md-4 ">
                     <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_fb() name="fb" id="fb" value="Facebook">
                     <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Facebook</label>
@@ -356,9 +475,122 @@
 
       </div>
     </div>
-  </div>
-</form>
+  </div> 
+</form> 
 {%endfor%}
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+    <div class="modal-content modal-m" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <div class="container">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"> </div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+              </div>
+              <div id="files_sub">
+                <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+              </div>
+              
+            </div>
+           
+        </div>
+      </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="rowmt-5 modal fade" id="additional">
+  <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+    <div class="modal-content modal-m" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <div class="container">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">additional</div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="rep_des"></p>
+              </div>
+              
+            </div>
+           
+        </div>
+      </div>
+  </div>
+</div>
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_sub' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = des;
+                  document.getElementById('heads').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
+<script>
+  $(document).ready(function(){
+            
+            $('#off_sub_btn').click(function(){
+            
+                $('#off_sub').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='off_sub_lb[]' id="sub_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='off_sub_txt[]' id="sub_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='off_sub_file[]' id="sub_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
+</script>
+
 <script>
   $(document).ready(function(){
             
@@ -382,6 +614,98 @@
             });
           });
 </script>
+
+<script>     
+function check_pr(){
+    var chk_pr=document.getElementById("pr").checked;
+    var textarea = document.getElementById('pr_txt');
+    var files = document.getElementById('pr_file');
+    if (chk_pr==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_art(){
+    var chk_art=document.getElementById("art").checked;
+    var textarea = document.getElementById('art_txt');
+    var files = document.getElementById('art_file');
+    if (chk_art==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_blg(){
+    var chk_blg=document.getElementById("blg").checked;
+    var textarea = document.getElementById('blg_txt');
+    var files = document.getElementById('blg_file');
+    if (chk_blg==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_cls(){
+    var chk_cls=document.getElementById("cls").checked;
+    var textarea = document.getElementById('cls_txt');
+    var files = document.getElementById('cls_file');
+    if (chk_cls==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+  function check_gst(){
+    var chk_gst=document.getElementById("gst").checked;
+    var textarea = document.getElementById('gst_txt');
+    var files = document.getElementById('gst_file');
+    if (chk_gst==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+
+  function check_bk(){
+    var chk_bk=document.getElementById("bk").checked;
+    var textarea = document.getElementById('bk_txt');
+    var files = document.getElementById('bk_file');
+    if (chk_bk==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+    }
+  }
+</script>
+
 <script>
   function check_fb(){
     var chk_fb=document.getElementById("fb").checked;
