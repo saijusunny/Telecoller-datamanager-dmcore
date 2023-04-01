@@ -291,6 +291,13 @@ class daily_work_sub(models.Model):
     sub_txt = models.TextField(default='', null=True, blank=True)
     sub_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
 
+
+class daily_off_sub(models.Model):
+    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
+    sub = models.CharField(max_length=200,default='', null=True, blank=True)
+    sub_txt = models.TextField(default='', null=True, blank=True)
+    sub_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+
 class progress_report(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)
     user = models.ForeignKey(user_registration, on_delete=models.SET_NULL, null=True, blank=True)

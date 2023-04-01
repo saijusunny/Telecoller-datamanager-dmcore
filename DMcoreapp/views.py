@@ -676,6 +676,10 @@ def ad_daily_work_det(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     dl_work=daily_work.objects.filter(date=date.today())
+
+    dl_sub=daily_work_sub.objects.all() 
+    dl_off=daily_off_sub.objects.all()
+    
     context={
         "usr":usr,
         "dl_work":dl_work
@@ -687,11 +691,15 @@ def ad_daily_work_det(request):
 def ad_work_analiz_det(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
+    dl_sub=daily_work_sub.objects.all() 
+    dl_off=daily_off_sub.objects.all()
 
     dl_work=daily_work.objects.all()
     context={
         "usr":usr,
-        "dl_work":dl_work
+        "dl_work":dl_work,
+        "dl_sub":dl_sub,
+        "dl_off":dl_off
 
     }
     return render(request, 'admin/ad_work_analiz_det.html',context)
@@ -874,7 +882,10 @@ def get_dis(request):
 def get_sub(request):
     ele = request.GET.get('ele')
     ids = request.GET.get('idss')
-    warn = daily_work.objects.get(id=ids)
+    try:
+        warn = daily_work.objects.get(id=ids)
+    except:
+        pass
     if ele=="Facebook":
         hd=ele
         des=warn.fb_txt
@@ -920,12 +931,50 @@ def get_sub(request):
         des=warn.qra_txt
         fl=warn.qra_file
 
+    elif ele=="PR Submission":
+        hd=ele
+        des=warn.pr_txt
+        fl=warn.pr_file 
 
+    elif ele=="Article Submission":
+        hd=ele
+        des=warn.art_txt
+        fl=warn.art_file 
+
+    elif ele=="Blog Posting":
+        hd=ele
+        des=warn.blg_txt
+        fl=warn.blg_file 
+
+    elif ele=="Classified Submission":
+        hd=ele
+        des=warn.clss_txt
+        fl=warn.clss_file
+
+    elif ele=="Guest Blogging":
+        hd=ele
+        des=warn.gst_txt
+        fl=warn.gst_file
+
+    elif ele=="Bokkmarking":
+        hd=ele
+        des=warn.bk_txt
+        fl=warn.bk_file
+
+    elif daily_off_sub.objects.filter(id=ids,sub=ele).exists():
+       
+        off = daily_off_sub.objects.get(id=ids,sub=ele)
+        hd=off.sub
+        des=off.sub_txt
+        fl=off.sub_file
     else:
-        pass
-    
-    
- 
+        
+        sm = daily_work_sub.objects.get(id=ids,sub=ele)
+        hd=sm.sub
+        des=sm.sub_txt
+        fl=sm.sub_file
+        
+
     return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
 
 # -----------------------------------------------------------------------------Executive Section
@@ -978,7 +1027,8 @@ def ex_daily_work_det(request,id):
     work_as=work_asign.objects.filter(exe_name=ids)
     works=Work.objects.filter(client_name_id=id).order_by("-id")
     daily=daily_work.objects.filter(user=ids)
-    dl_sub=daily_work_sub.objects.all()
+    dl_sub=daily_work_sub.objects.all() 
+    dl_off=daily_off_sub.objects.all()
     cr_date=date.today()
     
     context={
@@ -987,7 +1037,8 @@ def ex_daily_work_det(request,id):
         "daily":daily,
         "work_as":work_as,
         "works":works,
-        "dl_sub":dl_sub
+        "dl_sub":dl_sub,
+        "dl_off":dl_off
         
     }
     return render(request, 'executive/ex_daily_work_det.html',context)
@@ -1091,7 +1142,7 @@ def daily_work_done(request,id):
             mapped2=list(mapped2)
             for ele in mapped2:
                
-                created = daily_work_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
+                created = daily_off_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
 
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)
