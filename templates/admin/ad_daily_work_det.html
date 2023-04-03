@@ -155,7 +155,7 @@
                 {%else%}
                 {%endif%}
 
-                {% if work.task == "Offpage" %}
+                
                     {% if work.pr != None%}
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
                     {%else%}
@@ -196,8 +196,7 @@
                       {%endif%}
                       
                     {%endfor%}
-                {%else%}
-                {%endif%}
+                
                   
               </div>
               

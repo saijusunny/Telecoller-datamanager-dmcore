@@ -62,7 +62,7 @@ urlpatterns = [
     path('ex_imagechange/<int:id>', views.ex_imagechange, name='ex_imagechange'),
     path('get_sub/', views.get_sub, name='get_sub'),
 
-       #---------------marketing head
+    #---------------marketing head
     
     path('he_profile', views.he_profile, name='he_profile'),
     path('he_project', views.he_project, name='he_project'),
@@ -79,6 +79,8 @@ urlpatterns = [
     path('he_accountset',views.he_accountset,name='he_accountset'),
     path('he_imagechange/<int:id>',views.he_imagechange,name='he_imagechange'),
     path('he_flt_progress',views.he_flt_progress,name='he_flt_progress'),
+    path('he_view_work_asign_client',views.he_view_work_asign_client,name='he_view_work_asign_client'),
+    path('he_view_work_asign_exe/<int:id>',views.he_view_work_asign_exe,name='he_view_work_asign_exe')
     
     
 ]

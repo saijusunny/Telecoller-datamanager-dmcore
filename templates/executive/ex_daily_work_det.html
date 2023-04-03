@@ -135,7 +135,9 @@
           <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
           {%else%}
           <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{dp.file_2.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
-        {%endif%}
+
+          {%endif%}
+          
         </div>
 
         <div class="container mt-3" style="border-top:1px solid grey;border-bottom:1px solid grey;">
@@ -147,12 +149,39 @@
             </div>
             
           </div>
+          
+          {% if dp.sub_task != ""%}
         
-        </div>
+          <div class="text-info pt-4" style="font-size: 20px;font-weight: 600;">Sub Task Details</div>
             
+            <div class="pt-3 " style="color:white;">{{dp.sub_task}}</div>
+            <div>
+              <p></p>
+            </div>
+            {% if dp.sub_file == ""%}
+            <div class="pt-3 " style="margin-left:20px;color:white;"><button type="submit" name="submit" id="alert2" class="btn-primary Search">No File Attach</button></div>
+            {%else%} 
+              <div class="pt-3 " style="margin-left:20px;color:white;"><a href="{{dp.sub_file.url}}"><button type="submit" name="submit" id="alert2" class="btn-primary Search">Download Attach File</button></a></div>
+            {%endif%}
+              
+            </div>
+              <div class="text-info pt-4 pb-2" style="font-size: 20px;font-weight: 600;"> Sub Task Description</div>
+              <div class="row pt-1">
+                
+                <div class="col-md-12">
+                  <p>{{dp.sub_des}}</p>
+                </div>
+                
+              </div>
+            
+            </div>
+            
+          
           </div>
-        
+          {%else%}
+          {%endif%}
         </div>
+        
         <br><br>
       </div>
     </div>
@@ -198,103 +227,16 @@
                   <td style="color:white;">{{dl.date}}</td>
 
                   <td style="color:white;">{{dl.task}}
+                    {% if dp.sub_task != "" %}
+                  ({{dp.sub_task}})
+                  {%else%}
+                  {%endif%}
                   </td>
                   
-                  <td style="color:white;">{{dl.workdone}}<br><br>
-                  {% if dl.task == "SMO"%}
-                    {% if dl.fb != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{dl.id}}')"><div class="badge badge-outline-primary">Facebook</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.tw != None%}
-                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{dl.id}}')"><div class="badge badge-outline-primary">Twitter</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.pin != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{dl.id}}')"><div class="badge badge-outline-primary">Pinterest</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.link != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{dl.id}}')"><div class="badge badge-outline-primary">Linkedin</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.insta != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{dl.id}}')"><div class="badge badge-outline-primary">Instagram</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.tumb != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{dl.id}}')"><div class="badge badge-outline-primary">Tumber</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.diry != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{dl.id}}')"><div class="badge badge-outline-primary">Directories</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.yt != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{dl.id}}')"><div class="badge badge-outline-primary">You Tube</div></a>
-                    {%else%}
-                    {%endif%}
-                    {% if dl.qra != v%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{dl.id}}')"><div class="badge badge-outline-primary">Quora</div></a>
-                    {%else%}
-                    {%endif%}
-
-                    {% for n in dl_sub %}
-                    
-                      {% if dl.id == n.daily_id%}
-                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary">{{n.sub}}</div></a>
-                      {%else%}
-                      {%endif%}
-                    {%endfor%}
-                  {%else%}
-                  {%endif%}
-
-                  {% if dl.task == "Offpage"%}
-                    {% if dl.pr != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{dl.id}}')"><div class="badge badge-outline-primary">PR Submission</div></a>
-                    {%else%}
-                    {%endif%}
-
-                    {% if dl.art != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{dl.id}}')"><div class="badge badge-outline-primary">Article Submission</div></a>
-                    {%else%}
-                    {%endif%}
-
-                    {% if dl.blg != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{dl.id}}')"><div class="badge badge-outline-primary">Blog Posting</div></a>
-                    {%else%}
-                    {%endif%}
-
-                    {% if dl.clss != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{dl.id}}')"><div class="badge badge-outline-primary">Classified Submission</div></a>
-                    {%else%}
-                    {%endif%}
-
-                    {% if dl.gst != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{dl.id}}')"><div class="badge badge-outline-primary">Guest Blogging</div></a>
-                    {%else%}
-                    {%endif%}
-
-                    {% if dl.gst != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{dl.id}}')"><div class="badge badge-outline-primary">Bokkmarking</div></a>
-                    {%else%}
-                    {%endif%}
-                    
-
-                    {% for n in dl_off %}
-                    
-                      {% if dl.id == n.daily_id%}
-                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary">{{n.sub}}</div></a>
-                      
-                      {%else%}
-                      {%endif%}
-                      
-                    {%endfor%}
-                  {%else%}
-                  {%endif%}
                   
 
-                    
+                  <td style="color:white;">
+                    <a href="" data-toggle="modal" data-target="#dis{{dl.id}}"><div class="badge badge-outline-info" >View Description</div></a>
                   </td>
 
                   <td style="color:white;">
@@ -326,12 +268,16 @@
                 <td style="color:white;">{{cr_date}}</td>
 
                 <td style="color:white;">{{dp.task}}
+                  {% if dp.sub_task != "" %}
+                  ({{dp.sub_task}})
+                  {%else%}
+                  {%endif%}
                 </td>
                
 
                 <td style="color:white;" ><textarea name="workdone" class="form-control-sm bg-transparent text-light"
                     cols="25" rows="7"></textarea> 
-                  {% if dp.task == "Offpage" %}
+                  {% if dp.sub_task == "Off page" %}
                     <div class="col-md-4 ">
                       <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_pr() name="pr" id="pr" value="PR Submission">
                       <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">PR Submission</label>
@@ -404,7 +350,7 @@
                   {%else%}
                   {%endif%}
                   
-                  
+                {% if dp.task == "SMO" %}
                   
                   <div class="col-md-4 ">
                     <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_fb() name="fb" id="fb" value="Facebook">
@@ -509,8 +455,9 @@
 
                   </div>
                   <div class="btn btn-light mt-2" id="add_sub">+</div>
-                  
-                  </td>
+                {%else%}
+                {%endif%}
+                </td>
 
                 <td class="text-info"><input type="file" name="filed" multiple></td>
               
@@ -530,6 +477,129 @@
   
   </div>
 </form> 
+{%endfor%}
+
+{% for work in daily %}
+  <div class="rowmt-5 modal fade" id="dis{{work.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Description</div>
+  
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="des_rp">{{work.workdone}}</p>
+              </div>
+
+              <div>
+                {% if work.task == "SMO" %}
+                    {% if work.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{work.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if work.qra != v%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% for n in dl_sub %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+                
+                {%else%}
+                {%endif%}
+
+                
+                    {% if work.pr != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.art != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Article Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.blg != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Blog Posting</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.clss != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Classified Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Guest Blogging</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if work.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Bokkmarking</div></a>
+                    {%else%}
+                    {%endif%}
+                    
+
+                    {% for n in dl_off %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                
+                  
+              </div>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{%endfor%}
+
 
 <div class="rowmt-5 modal fade" id="descr">
   <div class="modal-dialog modal-m modal-dialog-centered" role="document">
@@ -557,7 +627,8 @@
       </div>
   </div>
 </div>
-{%endfor%}
+
+
 
 
 

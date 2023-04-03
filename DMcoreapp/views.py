@@ -1395,6 +1395,21 @@ def he_work_asign(request,pk):
     exe=user_registration.objects.filter(department='Digital Marketing Executive')
     return render(request,'head/he_work_asign.html',{'client':client,'exe':exe,"usr":usr,})
 
+def he_view_work_asign_client(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    client=client_information.objects.all()
+    return render(request,'head/he_view_work_asign_client.html',{'client':client,"usr":usr,})
+
+def he_view_work_asign_exe(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    client=client_information.objects.get(id=id)
+    work=work_asign.objects.filter(client_name=client.id)
+    return render(request,'head/he_view_work_asign_exe.html',{"usr":usr,"w":work})
+
+
+
 def he_daily_task(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
@@ -1412,7 +1427,11 @@ def he_progress_report(request,pk):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     work=progress_report.objects.get(id=pk)
-    return render(request,'head/he_progress_report.html',{'work':work,"usr":usr,})
+    try:
+        prv_work=progress_report.objects.filter(work_id=work.id).order_by('-end_date')[0]
+    except:
+        prv_work=None
+    return render(request,'head/he_progress_report.html',{'work':work,"usr":usr,"prv_work":prv_work})
 
 
 def he_feedback(request):
@@ -1420,6 +1439,7 @@ def he_feedback(request):
     usr = user_registration.objects.get(id=ids)
     exe=user_registration.objects.filter(department="Digital Marketing Executive")
     return render(request,'head/he_feedback.html',{'exe':exe,"usr":usr,})
+
 
 def he_feedbacke1(request,pk):
     ids=request.session['userid']
@@ -1448,20 +1468,59 @@ def he_work_add(request,id):
         sdate=request.POST.get('sdate')
         edate=request.POST.get('edate')
         file=request.FILES.get('file')
+        sub_tsk = request.POST.get('sub_tsk')
         client=client_information.objects.get(id=id)
         json_data = request.POST.get('array', '')
         array = json.loads(json_data)
-
         w=Work(task=task,description=des,start_date=sdate,end_date=edate,file_attached=file,cl_name=client.bs_name,client_name=client)
         w.save()
+
+        if w.task=="SEO":
+            w.file_2=client.seo_file
+            w.save()
+            if sub_tsk=="On page":
+                w.sub_task="On page"
+                w.sub_des=client.on_pg_txt
+                w.sub_file=client.on_pg_file
+                w.save()
+            if sub_tsk=="Off page":
+                w.sub_task="Off page"
+                w.sub_des=client.off_pg_txt
+                w.sub_file=client.off_pg_file
+                w.save()
+
+        if w.task=="SMM":
+            w.file_2=client.smm_file
+            w.save()
+        if w.task=="SEM/PPC":
+            w.file_2=client.sem_file
+            w.save()
+        if w.task=="Email Marketing":
+            w.file_2=client.em_file
+            w.save()   
+        if w.task=="Content Marketing":
+            w.file_2=client.cm_file
+            w.save() 
+        if w.task=="Affiliate Marketing":
+            w.file_2=client.am_file
+            w.save()   
+        if w.task=="Mobile marketing":
+            w.file_2=client.mm_file
+            w.save()  
+        if w.task=="Video Marketing":
+            w.file_2=client.vm_file
+            w.save() 
+        if w.task=="SMO":
+            w.file_2=client.smo_file
+            w.save()     
         w=Work.objects.latest('id')
         for i in array:
             b=user_registration.objects.get(department="Digital Marketing Executive",fullname=i)
-            c=work_asign(work_id=w.id,exe_name_id=b.id)
+            c=work_asign(work_id=w.id,exe_name_id=b.id,client_name_id=client.id)
             c.save()
-    
         return HttpResponse({"message": "success"})
-        
+
+            
     
 def he_change_pass(request):
     ids=request.session['userid']
@@ -1495,6 +1554,7 @@ def he_change_pass(request):
             return render(request, 'head/he_ch_pass.html', {'dev': dev,"usr":usr})
     return render(request, 'head/he_ch_pass.html', {'dev': dev,"usr":usr})
 
+
 def he_accountset(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
@@ -1527,13 +1587,16 @@ def he_flt_progress(request):
     st_dt=request.POST.get('str_dt')
     en_dt=request.POST.get('end_dt')
     print(en_dt)
-    pr_work=progress_report.objects.filter(start_date_gte=st_dt,start_date_lte=en_dt)
+    pr_work=progress_report.objects.filter(start_date__gte=st_dt,start_date__lte=en_dt)
     context={
         "usr":usr,
-        "pr_work":pr_work
+        "prgs":pr_work
 
     }
     return render(request, 'head/he_workprogress_executive.html',context)
+
+
+
 
 
 
