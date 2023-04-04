@@ -80,7 +80,15 @@ urlpatterns = [
     path('he_imagechange/<int:id>',views.he_imagechange,name='he_imagechange'),
     path('he_flt_progress',views.he_flt_progress,name='he_flt_progress'),
     path('he_view_work_asign_client',views.he_view_work_asign_client,name='he_view_work_asign_client'),
-    path('he_view_work_asign_exe/<int:id>',views.he_view_work_asign_exe,name='he_view_work_asign_exe')
+    path('he_view_work_asign_exe/<int:id>',views.he_view_work_asign_exe,name='he_view_work_asign_exe'),
+
+    #--------------------------------------------------------------Smo Submission
+    
+    path('smo_login',views.smo_login,name='smo_login'),
+    path('smo_dash',views.smo_dash,name='smo_dash'),
+    path('smo_signup',views.smo_signup,name='smo_signup'),
+    path('smo_reg',views.smo_reg,name='smo_reg'),
+    path('smo_signin',views.smo_signin,name='smo_signin'),
     
     
 ]

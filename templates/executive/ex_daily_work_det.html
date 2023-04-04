@@ -28,7 +28,7 @@
               <th scope="col" style="color:#6C7293;">AssignedTo</th>
               <th scope="col" style="color:#6C7293;">Task Status</th>
               <th scope="col" style="color:#6C7293;">Project Details</th>
-
+              <th scope="col" style="color:#6C7293;">Action</th>
             </tr>
           </thead>
           <tbody id="myTable">
@@ -55,6 +55,16 @@
 
                 </div>
               </td>
+              
+              {% if l.task == "SMO" %}
+              <td>
+                
+                  <a href="{% url 'smo_login' %}"><div class="badge badge-outline-info">Start </div></a>
+                  
+              </td>
+              {% else %}
+              <td></td>
+              {% endif %}
  
 
             </tr>

@@ -318,3 +318,10 @@ class Warning(models.Model):
     type=models.CharField(max_length=255)
     date=models.DateField(auto_now_add=True, null=False)
     reply=models.TextField(null=True)
+
+#------------------------------------------------------------------------smo Registration
+class smo_registration(models.Model):
+    fullname = models.CharField(max_length=240, null=True)
+    email = models.CharField(max_length=240, null=True)
+    password = models.CharField(max_length=240, null=True)
+    photo = models.FileField(upload_to='images/', null=True, blank=True)

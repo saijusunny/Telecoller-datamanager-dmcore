@@ -1595,8 +1595,66 @@ def he_flt_progress(request):
     }
     return render(request, 'head/he_workprogress_executive.html',context)
 
+#-------------------------------------------------------------------------------Smo Submission
+def smo_base(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+        "usr":usr,
+    }
+    return render(request, 'smo/publishing/smo_base.html',context)
+
+def smo_login(request):
+    return render(request, 'smo/index/smo_login.html')
+
+def smo_signup(request):
+    return render(request, 'smo/index/smo_signup.html')
 
 
+def smo_dash(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+            "usr":usr,
+        }
+    return render(request, 'smo/publishing/smo_dashboard.html',context)
 
 
+def smo_reg(request):
 
+ 
+    a = smo_registration()
+
+
+    if request.method == 'POST':
+        if  smo_registration.objects.filter(email=request.POST['email']).exists():
+            
+            msg_error = "Mail id already exist"
+            return render(request, 'smo/index/smo_signup.html',{'msg_error': msg_error})
+        else:
+            if request.POST['password'] == request.POST['re_password']:
+                a.fullname = request.POST['fname']
+                a.email = request.POST['email']
+                a.password = request.POST['password']
+                a.photo = request.FILES['photo']
+                a.save()
+                return redirect('smo_login')
+            else:
+                msg_error = "Mail id already exist"
+                return render(request, 'smo/index/smo_signup.html',{'msg_error': msg_error})
+
+def smo_signin(request):  
+    if request.method == 'POST':
+        email  = request.POST['email']
+        password = request.POST['password']
+        
+        if smo_registration.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
+            smo_ex = smo_registration.objects.get(email=request.POST['email'],password=request.POST['password'])
+            ids=request.session['userid']
+            usr = user_registration.objects.get(id=ids)
+
+            request.session['userid'] = usr.id
+            request.session['smo_userid'] = smo_ex.id
+            
+            return redirect('smo_dash')
+    return redirect('smo_login')
