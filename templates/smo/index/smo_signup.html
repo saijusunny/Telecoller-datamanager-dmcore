@@ -149,7 +149,7 @@
         <h2 style="color: white;text-align: center;">Registration Form</h2>
         <br>
         <br>
-        <form method="post" action="{% url 'smo_reg'%}" autocomplete="off" enctype="multipart/form-data">
+        <form method="post" action="{% url 'smo_reg' id%}" autocomplete="off" enctype="multipart/form-data">
             {% csrf_token %}
             <div id="form1" class="form-group">
                 <!--<label id="label">Basic Info</label><br><br>-->

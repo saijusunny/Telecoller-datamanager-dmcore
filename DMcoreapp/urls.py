@@ -84,11 +84,14 @@ urlpatterns = [
 
     #--------------------------------------------------------------Smo Submission
     
-    path('smo_login',views.smo_login,name='smo_login'),
+    path('smo_login/<int:id>',views.smo_login,name='smo_login'),
     path('smo_dash',views.smo_dash,name='smo_dash'),
-    path('smo_signup',views.smo_signup,name='smo_signup'),
-    path('smo_reg',views.smo_reg,name='smo_reg'),
-    path('smo_signin',views.smo_signin,name='smo_signin'),
+    path('smo_signup/<int:id>',views.smo_signup,name='smo_signup'),
+    path('smo_reg/<int:id>',views.smo_reg,name='smo_reg'),
+    path('smo_signin/<int:id>',views.smo_signin,name='smo_signin'),
+    path('smo_cnt_chnl',views.smo_cnt_chnl,name='smo_cnt_chnl'),
+    path('create_post',views.create_post,name='create_post'),
+    path('published_post',views.published_post,name='published_post'),
     
     
 ]

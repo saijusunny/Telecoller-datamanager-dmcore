@@ -1599,33 +1599,32 @@ def he_flt_progress(request):
 def smo_base(request):
     ids=request.session['smo_userid']
     usr = smo_registration.objects.get(id=ids)
+   
+    
+
     context={
         "usr":usr,
+      
     }
     return render(request, 'smo/publishing/smo_base.html',context)
 
-def smo_login(request):
-    return render(request, 'smo/index/smo_login.html')
+def smo_login(request,id):
+    work=Work.objects.get(id=id)
+    return render(request, 'smo/index/smo_login.html', {'id':work.client_name_id})
 
-def smo_signup(request):
-    return render(request, 'smo/index/smo_signup.html')
-
-
-def smo_dash(request):
-    ids=request.session['smo_userid']
-    usr = smo_registration.objects.get(id=ids)
-    context={
-            "usr":usr,
-        }
-    return render(request, 'smo/publishing/smo_dashboard.html',context)
+def smo_signup(request,id):
+    return render(request, 'smo/index/smo_signup.html', {'id':id})
 
 
-def smo_reg(request):
+
+def smo_reg(request,id):
 
  
     a = smo_registration()
-
-
+    
+    
+    
+    client=client_information.objects.get(id=id)
     if request.method == 'POST':
         if  smo_registration.objects.filter(email=request.POST['email']).exists():
             
@@ -1637,24 +1636,59 @@ def smo_reg(request):
                 a.email = request.POST['email']
                 a.password = request.POST['password']
                 a.photo = request.FILES['photo']
+                a.client=client
                 a.save()
-                return redirect('smo_login')
+                return redirect('smo_login',id)
             else:
                 msg_error = "Mail id already exist"
-                return render(request, 'smo/index/smo_signup.html',{'msg_error': msg_error})
+                return render(request, 'smo/index/smo_signup.html',{'msg_error': msg_error, "id": id})
 
-def smo_signin(request):  
+def smo_signin(request,id):  
     if request.method == 'POST':
         email  = request.POST['email']
         password = request.POST['password']
         
         if smo_registration.objects.filter(email=request.POST['email'], password=request.POST['password']).exists():
             smo_ex = smo_registration.objects.get(email=request.POST['email'],password=request.POST['password'])
+
+            #---------------------- executive session id
             ids=request.session['userid']
             usr = user_registration.objects.get(id=ids)
-
             request.session['userid'] = usr.id
+            #---------------------- smo submission login session id
             request.session['smo_userid'] = smo_ex.id
             
             return redirect('smo_dash')
-    return redirect('smo_login')
+    return redirect('smo_login',id) 
+
+def smo_dash(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+            "usr":usr,
+        }
+    return render(request, 'smo/publishing/smo_dashboard.html',context)
+
+def smo_cnt_chnl(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+            "usr":usr,
+        }
+    return render(request, 'smo/publishing/connect_channel.html',context) 
+
+def create_post(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+            "usr":usr,
+        }
+    return render(request, 'smo/publishing/create_post.html',context)
+
+def published_post(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+            "usr":usr,
+        }
+    return render(request, 'smo/publishing/published_post.html',context)

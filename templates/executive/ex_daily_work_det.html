@@ -59,7 +59,7 @@
               {% if l.task == "SMO" %}
               <td>
                 
-                  <a href="{% url 'smo_login' %}"><div class="badge badge-outline-info">Start </div></a>
+                  <a href="{% url 'smo_login' l.id %}"><div class="badge badge-outline-info">Start </div></a>
                   
               </td>
               {% else %}

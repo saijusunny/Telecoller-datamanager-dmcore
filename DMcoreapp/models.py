@@ -321,7 +321,9 @@ class Warning(models.Model):
 
 #------------------------------------------------------------------------smo Registration
 class smo_registration(models.Model):
+    
     fullname = models.CharField(max_length=240, null=True)
     email = models.CharField(max_length=240, null=True)
     password = models.CharField(max_length=240, null=True)
     photo = models.FileField(upload_to='images/', null=True, blank=True)
+    client = models.ForeignKey(client_information, on_delete=models.SET_NULL, null=True, blank=True)
