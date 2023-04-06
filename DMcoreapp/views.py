@@ -1677,13 +1677,6 @@ def smo_cnt_chnl(request):
         }
     return render(request, 'smo/publishing/connect_channel.html',context) 
 
-def create_post(request):
-    ids=request.session['smo_userid']
-    usr = smo_registration.objects.get(id=ids)
-    context={
-            "usr":usr,
-        }
-    return render(request, 'smo/publishing/create_post.html',context)
 
 def published_post(request):
     ids=request.session['smo_userid']
@@ -1692,3 +1685,62 @@ def published_post(request):
             "usr":usr,
         }
     return render(request, 'smo/publishing/published_post.html',context)
+
+
+def create_post(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    context={
+            "usr":usr,
+        }
+    return render(request, 'smo/publishing/create_post.html',context)
+
+def save_post_drft(request):
+    if request.method == 'POST':
+
+        ids=request.session['smo_userid']
+        usr = smo_registration.objects.get(id=ids)
+        b=smo_post()
+        b.description = request.POST['description']
+        dct_file = dict(request.FILES)
+        lst_screenshot = dct_file['filed']
+        lst_file = []
+        for ins_screenshot in lst_screenshot:
+            str_img_path = ""
+            if ins_screenshot:
+                img_emp = ins_screenshot
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                b.json_testerscreenshot = lst_file
+        b.smo=usr
+        b.status="draft"
+        b.save()
+        return redirect('create_post')
+    return redirect('create_post')
+
+def save_post(request):
+    if request.method == 'POST':
+        ids=request.session['smo_userid']
+        usr = smo_registration.objects.get(id=ids)
+        b=smo_post()
+        b.description = request.POST['description']
+        dct_file = dict(request.FILES)
+        lst_screenshot = dct_file['filed']
+        lst_file = []
+        for ins_screenshot in lst_screenshot:
+            str_img_path = ""
+            if ins_screenshot:
+                img_emp = ins_screenshot
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                b.json_testerscreenshot = lst_file
+        b.smo=usr
+        b.status="save"
+        b.save()
+        return redirect('create_post')
+
+    return redirect('create_post')

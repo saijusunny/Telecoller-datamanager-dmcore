@@ -327,3 +327,9 @@ class smo_registration(models.Model):
     password = models.CharField(max_length=240, null=True)
     photo = models.FileField(upload_to='images/', null=True, blank=True)
     client = models.ForeignKey(client_information, on_delete=models.SET_NULL, null=True, blank=True)
+class smo_post(models.Model):
+    description = models.TextField(null=True)
+    status = models.CharField(max_length=240,null=True)
+    json=models.FileField(upload_to = 'images/smo_post/', null=True, blank=True,default='')
+    json_testerscreenshot = JSONField(blank=True, null=True,default='')
+    smo = models.ForeignKey(smo_registration, on_delete=models.SET_NULL, null=True, blank=True)

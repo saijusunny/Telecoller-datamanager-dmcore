@@ -92,6 +92,8 @@ urlpatterns = [
     path('smo_cnt_chnl',views.smo_cnt_chnl,name='smo_cnt_chnl'),
     path('create_post',views.create_post,name='create_post'),
     path('published_post',views.published_post,name='published_post'),
+    path('save_post_drft',views.save_post_drft,name='save_post_drft'),
+    path('save_post',views.save_post,name='save_post'),
     
     
 ]

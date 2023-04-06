@@ -20,11 +20,12 @@
                 <div class="card">
                     
                     <div class="card-body">
-                        <form action="" class="form">
+                        <form action="{% url 'save_post_drft'%}" class="form" method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
                             <div class="row" >
                                 <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
                                     
-                                    <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..."></textarea>
+                                    <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="description"></textarea>
                                 </div>
                             </div>
 
@@ -33,8 +34,8 @@
                                     <div class="d-flex d-sm-block d-md-flex align-items-center">
                                     
                                         
-                                        <div class="fallback">
-                                              <input name="file" type="file" multiple />
+                                        <div>
+                                            <input type="file" name="filed" multiple>
                                         </div>
                                     
                         
@@ -45,16 +46,21 @@
                             <div class="row mt-3" >
                                 <div class="col-sm-12" style="text-align: right;">
                                     <div>
-                                        <button type="submit" class="btn btn-outline-primary mt-4" >Save As Draft</button>
+                                        
+
+                                        <button type="submit" class="btn btn-outline-primary mt-4 ml-4" >Save As Draft</button>
+                                    </form>
                                     
-                                        <button type="submit" class="btn btn-outline-primary mt-4 ml-4" >Create Post</button>
+                                    <a href="{% url 'published_post' %}"><div class="btn btn-outline-primary mt-4 " >Create Post</div></a>
                                     </div>
                                 </div>
                                 
                         
                                   
                             </div>
-                        </form>
+                       
+                        
+
                 
                     </div>
                    
