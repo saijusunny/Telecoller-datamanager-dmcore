@@ -1689,13 +1689,16 @@ def published_post(request):
 
 def create_post(request):
     ids=request.session['smo_userid']
-    usr = smo_registration.objects.get(id=ids)
+    usr = smo_registration.objects.get(id=ids) 
+    post = smo_post.objects.filter(smo=usr)
     context={
             "usr":usr,
+            "post":post
         }
     return render(request, 'smo/publishing/create_post.html',context)
 
 def save_post_drft(request):
+    print("sffdfsfds")
     if request.method == 'POST':
 
         ids=request.session['smo_userid']
@@ -1703,28 +1706,30 @@ def save_post_drft(request):
         b=smo_post()
         b.description = request.POST['description']
         dct_file = dict(request.FILES)
-        lst_screenshot = dct_file['filed']
-        lst_file = []
-        for ins_screenshot in lst_screenshot:
-            str_img_path = ""
-            if ins_screenshot:
-                img_emp = ins_screenshot
-                fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
-                str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
-                str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
-                lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
-                b.json_testerscreenshot = lst_file
+        if dct_file['filed'] == None:
+            lst_screenshot = dct_file['filed']
+            lst_file = []
+            for ins_screenshot in lst_screenshot:
+                str_img_path = ""
+                if ins_screenshot:
+                    img_emp = ins_screenshot
+                    fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                    str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                    str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                    lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                    b.json_testerscreenshot = lst_file
+        b.json_testerscreenshot=b.json_testerscreenshot
         b.smo=usr
         b.status="draft"
         b.save()
         return redirect('create_post')
     return redirect('create_post')
 
-def save_post(request):
+def edit_post_drft(request,id):
     if request.method == 'POST':
         ids=request.session['smo_userid']
         usr = smo_registration.objects.get(id=ids)
-        b=smo_post()
+        b=smo_post.objects.get(id=id)
         b.description = request.POST['description']
         dct_file = dict(request.FILES)
         lst_screenshot = dct_file['filed']
