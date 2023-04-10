@@ -93,7 +93,7 @@ urlpatterns = [
     path('create_post',views.create_post,name='create_post'),
     path('published_post',views.published_post,name='published_post'),
     path('save_post_drft',views.save_post_drft,name='save_post_drft'),
-    
+    path('content',views.content,name='content'),
     path('edit_post_drft/<int:id>',views.edit_post_drft,name='edit_post_drft'),    
     
 ]
