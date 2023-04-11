@@ -95,5 +95,6 @@ urlpatterns = [
     path('save_post_drft',views.save_post_drft,name='save_post_drft'),
     path('content',views.content,name='content'),
     path('edit_post_drft/<int:id>',views.edit_post_drft,name='edit_post_drft'),    
-    
+    path('preview',views.preview,name='preview'),
+    path('post_to_linkedin',views.post_to_linkedin,name='post_to_linkedin'),
 ]

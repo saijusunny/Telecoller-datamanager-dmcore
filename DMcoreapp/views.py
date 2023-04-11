@@ -31,6 +31,13 @@ from django.template.loader import get_template
 from xhtml2pdf import pisa
 
 
+from django.views.decorators.http import require_GET
+
+import requests
+
+from django.http import HttpResponse
+from django.views.decorators.csrf import csrf_exempt
+from django.http import HttpResponseRedirect
 # Create your views here.
 
 #----------------------------------------------------------Login, Sign Up, Reset, Internshipform 
@@ -1764,3 +1771,145 @@ def content(request):
             "post":post
         }
     return render(request, 'smo/publishing/content.html',context)
+
+
+
+@require_GET
+def preview(request):
+    print("sdffddf")
+    content = request.GET.get("content", "")
+    preview = generate_linkedin_preview(content) # Replace this with your own function that generates the LinkedIn post preview
+    return JsonResponse({"content": preview})
+
+
+import requests
+import json
+
+def generate_linkedin_preview(content):
+    # Get the access token for the authenticated user
+    access_token = get_linkedin_access_token(content)
+
+    # Create a draft post with the given content
+    post_data = {
+        "author": "urn:li:person:{user_id}",
+        "lifecycleState": "DRAFT",
+        "specificContent": {
+            "com.linkedin.ugc.ShareContent": {
+                "shareCommentary": {
+                    "text": content
+                }
+            }
+        },
+        "visibility": {
+            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
+        }
+    }
+    headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    create_post_response = requests.post(
+        "https://api.linkedin.com/v2/ugcPosts",
+        headers=headers,
+        data=json.dumps(post_data)
+    )
+    create_post_response_data = create_post_response.json()
+    post_urn = create_post_response_data.get("id")
+
+    # Generate a preview of the post
+    preview_data = {
+        "content": {
+            "contentEntities": [
+                {
+                    "entityLocation": f"urn:li:ugcPost:{post_urn}",
+                    "thumbnails": [
+                        {
+                            "resolvedUrl": settings.STATIC_URL + "images/linkedin-preview.png"
+                        }
+                    ]
+                }
+            ],
+            "title": {
+                "text": "LinkedIn Post Preview"
+            }
+        },
+        "registerUploadRequest": {
+            "recipes": [
+                "urn:li:digitalmediaRecipe:feedshare-image"
+            ],
+            "supportedMimeTypes": [
+                "image/jpeg",
+                "image/png"
+            ],
+            "lifetime": {
+                "durationInSeconds": 86400
+            },
+            "mediaType": "STILLIMAGE"
+        },
+        "shareMediaCategory": "NONE"
+    }
+    preview_headers = {
+        "Authorization": f"Bearer {access_token}",
+        "Content-Type": "application/json"
+    }
+    generate_preview_response = requests.post(
+        f"https://api.linkedin.com/v2/ugcPosts/{post_urn}/preview",
+        headers=preview_headers,
+        data=json.dumps(preview_data)
+    )
+    generate_preview_response_data = generate_preview_response.json()
+    preview_html = generate_preview_response_data.get("data", {}).get("com.linkedin.common.VectorImage", {}).get("html")
+    return preview_html
+
+
+def get_linkedin_access_token(request):
+ 
+    if isinstance(request, str):
+        # If a string is passed, assume it's the redirect URI and return the authorization URL
+        redirect_uri = request
+        authorization_url = f"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={settings.LINKEDIN_CLIENT_ID}&redirect_uri={redirect_uri}&state=xyz&scope=r_liteprofile%20w_member_social%20r_emailaddress%20w_organization_social"
+        return HttpResponseRedirect(authorization_url)
+
+    # Check if the access token is already stored in the user's session
+    access_token = request.session.get('linkedin_access_token')
+    if access_token:
+        return access_token
+
+    # If the access token is not in the session, redirect the user to the LinkedIn OAuth 2.0 authorization page
+    redirect_uri = f"{settings.BASE_URL}/linkedin/callback"
+    authorization_url = f"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={settings.LINKEDIN_CLIENT_ID}&redirect_uri={redirect_uri}&state=xyz&scope=r_liteprofile%20w_member_social%20r_emailaddress%20w_organization_social"
+    return HttpResponseRedirect(authorization_url)
+
+
+from django.shortcuts import render, redirect
+import requests
+
+def post_to_linkedin(request):
+    # Get the user's access token from the session
+    access_token = request.session.get('linkedin_access_token')
+
+    # Set the parameters for the post request
+
+    print(access_token)
+    headers = {'Authorization': f'Bearer {access_token}',
+               'Content-Type': 'application/json'}
+    data = {'author': f"urn:li:person:{request.user.linkedin_id}",
+            'lifecycleState': 'PUBLISHED',
+            'specificContent': {
+                'com.linkedin.ugc.ShareContent': {
+                    'shareCommentary': {
+                        'text': 'Hello, world!'
+                    },
+                    'shareMediaCategory': 'NONE'
+                }
+            },
+            'visibility': {
+                'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC'
+            }
+           }
+
+    # Send the post request to the LinkedIn API
+    response = requests.post('https://api.linkedin.com/v2/ugcPosts', headers=headers, json=data)
+
+    # Redirect the user back to the homepage
+    return redirect('published_post')
