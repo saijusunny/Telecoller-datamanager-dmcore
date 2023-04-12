@@ -20,12 +20,12 @@
                 <div class="card">
                     
                     <div class="card-body">
-                        <form method="POST" action="{% url 'post_to_linkedin' %}" class="form">
+                        <form method="POST" action="{% url 'login_with_facebook' %}" class="form">
                             {% csrf_token %}
                             <div class="row" >
                                 <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
                                     
-                                    <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="post_content" id="post_content"></textarea>
+                                    <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="message" id="message"></textarea>
                                 </div>
                             </div>
 

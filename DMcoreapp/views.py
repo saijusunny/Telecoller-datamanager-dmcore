@@ -1762,17 +1762,57 @@ def save_post_drft(request):
         return redirect('create_post')
     return redirect('create_post')
 
-def content(request):
-    ids=request.session['smo_userid']
-    usr = smo_registration.objects.get(id=ids) 
-    post = smo_post.objects.filter(smo=usr)
-    context={
-            "usr":usr,
-            "post":post
-        }
-    return render(request, 'smo/publishing/content.html',context)
+
+#dfjhsggggggggggggggggggggggggggggggggggggggggggggggggggggggg
+import facebook
+
+def login_with_facebook(request):
+    # Redirect the user to the Facebook login page
+    redirect_uri = request.build_absolute_uri(reverse('facebook_login_callback'))
+    login_url = 'https://www.facebook.com/v12.0/dialog/oauth?client_id={}&redirect_uri={}&scope={}'.format(
+        settings.FACEBOOK_APP_ID,
+        redirect_uri,
+        ','.join(settings.FACEBOOK_PERMISSIONS),
+    )
+    return redirect(login_url)
+
+def facebook_login_callback(request):
+    # Exchange the authorization code for an access token
+    code = request.GET.get('code')
+    redirect_uri = request.build_absolute_uri(reverse('facebook_login_callback'))
+    access_token_url = 'https://graph.facebook.com/v12.0/oauth/access_token?client_id={}&redirect_uri={}&client_secret={}&code={}'.format(
+        settings.FACEBOOK_APP_ID,
+        redirect_uri,
+        settings.FACEBOOK_APP_SECRET,
+        code,
+    )
+    response = requests.get(access_token_url)
+    data = response.json()
+    access_token = data.get('access_token')
+    
+    # Store the access token in the user's session
+    request.session['access_token'] = access_token
+    
+    # Redirect the user to the home page or a success page
+    return redirect('post_on_facebook')
 
 
+def post_on_facebook(request):
+    if request.method == 'POST':
+        # Get the post message from the form
+        message = request.POST.get('message')
+        
+        # Initialize the Facebook Graph API with the user's access token
+        graph = facebook.GraphAPI(access_token=request.session['access_token'])
+        
+        # Publish the post on the user's Facebook account
+        graph.put_object(parent_object='me', connection_name='feed', message=message)
+        
+        # Redirect to the home page or a success page
+        return redirect('home')
+    
+    # If the request is not POST, render the form
+    return render(request, 'post_form.html')
 
 @require_GET
 def preview(request):
@@ -1913,3 +1953,17 @@ def post_to_linkedin(request):
 
     # Redirect the user back to the homepage
     return redirect('published_post')
+
+    
+def content(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids) 
+    post = smo_post.objects.filter(smo=usr)
+    context={
+            "usr":usr,
+            "post":post
+        }
+    return render(request, 'smo/publishing/content.html',context)
+
+
+
