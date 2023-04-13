@@ -1763,6 +1763,18 @@ def save_post_drft(request):
     return redirect('create_post')
 
 
+
+    
+def content(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids) 
+    post = smo_post.objects.filter(smo=usr)
+    context={
+            "usr":usr,
+            "post":post
+        }
+    return render(request, 'smo/publishing/content.html',context)
+
 #dfjhsggggggggggggggggggggggggggggggggggggggggggggggggggggggg
 import facebook
 
@@ -1954,16 +1966,6 @@ def post_to_linkedin(request):
     # Redirect the user back to the homepage
     return redirect('published_post')
 
-    
-def content(request):
-    ids=request.session['smo_userid']
-    usr = smo_registration.objects.get(id=ids) 
-    post = smo_post.objects.filter(smo=usr)
-    context={
-            "usr":usr,
-            "post":post
-        }
-    return render(request, 'smo/publishing/content.html',context)
 
 
 
