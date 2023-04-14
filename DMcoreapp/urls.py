@@ -99,4 +99,5 @@ urlpatterns = [
     path('post_on_facebook',views.post_on_facebook,name='post_on_facebook'),
     path('login_with_facebook',views.login_with_facebook,name='login_with_facebook'),
     path('facebook_login_callback',views.facebook_login_callback,name='facebook_login_callback'),
+ 
 ]
