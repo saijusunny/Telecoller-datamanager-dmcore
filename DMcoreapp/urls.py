@@ -95,9 +95,12 @@ urlpatterns = [
     path('save_post_drft',views.save_post_drft,name='save_post_drft'),
     path('content',views.content,name='content'),
     path('edit_post_drft/<int:id>',views.edit_post_drft,name='edit_post_drft'),    
-    path('preview',views.preview,name='preview'),
-    path('post_on_facebook',views.post_on_facebook,name='post_on_facebook'),
-    path('login_with_facebook',views.login_with_facebook,name='login_with_facebook'),
-    path('facebook_login_callback',views.facebook_login_callback,name='facebook_login_callback'),
+    path('logout_smo',views.logout_smo,name='logout_smo'),
+    path('smo_change_pass',views.smo_change_pass,name='smo_change_pass'),
+    path('sm_calendar',views.sm_calendar,name='sm_calendar'),
+    path('all_events', views.all_events, name='all_events'), 
+    path('add_event', views.add_event, name='add_event'), 
+    path('update', views.update, name='update'),
+    path('remove', views.remove, name='remove'),
  
 ]

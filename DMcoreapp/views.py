@@ -45,7 +45,7 @@ def login(request):
     return render(request, 'home/login.html')
 
 def signin(request):
-    print("function true")
+    
     if request.method == 'POST':
         email  = request.POST['email']
         password = request.POST['password']
@@ -53,11 +53,6 @@ def signin(request):
         if user is not None:
             return redirect('login')
         
-
-        
-        if user_registration.objects.filter(email=request.POST['email'], password=request.POST['password'],department="Admin",status="active").exists():
-            print("function sucsess")
-
         if user_registration.objects.filter(email=request.POST['email'], password=request.POST['password'],department="Admin",status="active").exists():
 
             member = user_registration.objects.get(email=request.POST['email'],password=request.POST['password'])
@@ -78,7 +73,7 @@ def signin(request):
 
             return redirect('ex_profile')
         else:
-            print("function false")
+           
             return redirect('login')
 
 
@@ -228,10 +223,10 @@ def reset_password(request):
 
             _user.save()
             msg_success = "Password Reset successfully check your mail new password"
-            return render(request, 'Reset_password.html', {'msg_success': msg_success})
+            return render(request, 'home/Reset_password.html', {'msg_success': msg_success})
         else:
             msg_error = "This email does not exist iNFOX Technologies "
-            return render(request, 'Reset_password.html', {'msg_error': msg_error})
+            return render(request, 'home/Reset_password.html', {'msg_error': msg_error})
 
     return render(request,'home/Reset_password.html')
 
@@ -646,7 +641,7 @@ def update_client(request,id):
         if len(label_req)==len(dis_req):
             mapped2 = zip(label_req,dis_req,files_req)
             mapped2=list(mapped2)
-            print(mapped2)
+           
        
         
             for ele in mapped2:
@@ -662,7 +657,7 @@ def update_client(request,id):
                         
                        
                     elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
-                        print("sdfsdsfd")
+                       
                         created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
                     else:
                         pass
@@ -742,7 +737,7 @@ def flt_progress(request):
     usr = user_registration.objects.get(id=ids)
     st_dt=request.POST.get('str_dt')
     en_dt=request.POST.get('end_dt')
-    print(en_dt)
+    
     pr_work=progress_report.objects.filter(start_date__gte=st_dt,start_date__lte=en_dt)
     context={
         "usr":usr,
@@ -1593,7 +1588,7 @@ def he_flt_progress(request):
     usr = user_registration.objects.get(id=ids)
     st_dt=request.POST.get('str_dt')
     en_dt=request.POST.get('end_dt')
-    print(en_dt)
+  
     pr_work=progress_report.objects.filter(start_date__gte=st_dt,start_date__lte=en_dt)
     context={
         "usr":usr,
@@ -1735,7 +1730,7 @@ def edit_post_drft(request,id):
 
 
 def save_post_drft(request):
-    print("sffdfsfds")
+
     if request.method == 'POST':
 
         ids=request.session['smo_userid']
@@ -1763,8 +1758,6 @@ def save_post_drft(request):
     return redirect('create_post')
 
 
-
-    
 def content(request):
     ids=request.session['smo_userid']
     usr = smo_registration.objects.get(id=ids) 
@@ -1775,196 +1768,97 @@ def content(request):
         }
     return render(request, 'smo/publishing/content.html',context)
 
-#dfjhsggggggggggggggggggggggggggggggggggggggggggggggggggggggg
-import facebook
 
-def login_with_facebook(request):
-    # Redirect the user to the Facebook login page
-    redirect_uri = request.build_absolute_uri(reverse('facebook_login_callback'))
-    login_url = 'https://www.facebook.com/v12.0/dialog/oauth?client_id={}&redirect_uri={}&scope={}'.format(
-        settings.FACEBOOK_APP_ID,
-        redirect_uri,
-        ','.join(settings.FACEBOOK_PERMISSIONS),
-    )
-    return redirect(login_url)
+def logout_smo(request):
+    if 'smo_userid' in request.session:  
+        request.session.flush()
+        return redirect('/')
+    else:
+        return redirect('/') 
 
-def facebook_login_callback(request):
-    # Exchange the authorization code for an access token
-    code = request.GET.get('code')
-    redirect_uri = request.build_absolute_uri(reverse('facebook_login_callback'))
-    access_token_url = 'https://graph.facebook.com/v12.0/oauth/access_token?client_id={}&redirect_uri={}&client_secret={}&code={}'.format(
-        settings.FACEBOOK_APP_ID,
-        redirect_uri,
-        settings.FACEBOOK_APP_SECRET,
-        code,
-    )
-    response = requests.get(access_token_url)
-    data = response.json()
-    access_token = data.get('access_token')
-    
-    # Store the access token in the user's session
-    request.session['access_token'] = access_token
-    
-    # Redirect the user to the home page or a success page
-    return redirect('post_on_facebook')
+def smo_change_pass(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    if request.session.has_key('smo_userid'):
+        devid = request.session['smo_userid']
+    else:
+        return redirect('/')
+    dev = smo_registration.objects.filter(id=devid)
 
-
-def post_on_facebook(request):
     if request.method == 'POST':
-        # Get the post message from the form
-        message = request.POST.get('message')
-        
-        # Initialize the Facebook Graph API with the user's access token
-        graph = facebook.GraphAPI(access_token=request.session['access_token'])
-        
-        # Publish the post on the user's Facebook account
-        graph.put_object(parent_object='me', connection_name='feed', message=message)
-        
-        # Redirect to the home page or a success page
-        return redirect('home')
-    
-    # If the request is not POST, render the form
-    return render(request, 'post_form.html')
+        abc = smo_registration.objects.get(id=devid)
+        cur = abc.password
+        oldps = request.POST["currentPassword"]
+        newps = request.POST["newPassword"]
+        cmps = request.POST["confirmPassword"]
+        if oldps == cur:
+            if oldps != newps:
+                if newps == cmps:
+                    abc.password = request.POST.get('confirmPassword')
+                    abc.save()
+                    return render(request, 'smo/index/smo_change_password.html', {'dev': dev,"usr":usr})
+            elif oldps == newps:
+                messages.add_message(request, messages.INFO, 'Current and New password same')
+            else:
+                messages.info(request, 'Incorrect password same')
 
-@require_GET
-def preview(request):
-    print("sdffddf")
-    content = request.GET.get("content", "")
-    preview = generate_linkedin_preview(content) # Replace this with your own function that generates the LinkedIn post preview
-    return JsonResponse({"content": preview})
+            return render(request, 'smo/index/smo_change_password.html', {'dev': dev,"usr":usr})
+        else:
+            messages.add_message(request, messages.INFO, 'old password wrong')
+            return render(request, 'smo/index/smo_change_password.html', {'dev': dev,"usr":usr})
+    return render(request, 'smo/index/smo_change_password.html', {'dev': dev,"usr":usr})
 
 
-import requests
-import json
-
-def generate_linkedin_preview(content):
-    # Get the access token for the authenticated user
-    access_token = get_linkedin_access_token(content)
-
-    # Create a draft post with the given content
-    post_data = {
-        "author": "urn:li:person:{user_id}",
-        "lifecycleState": "DRAFT",
-        "specificContent": {
-            "com.linkedin.ugc.ShareContent": {
-                "shareCommentary": {
-                    "text": content
-                }
-            }
-        },
-        "visibility": {
-            "com.linkedin.ugc.MemberNetworkVisibility": "PUBLIC"
-        }
+def sm_calendar(request):
+    ids=request.session['smo_userid']
+    usr = smo_registration.objects.get(id=ids)
+    all_events = Events.objects.all()
+    context = {
+        "events":all_events,
+        "usr":usr,
     }
-    headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json"
-    }
-    create_post_response = requests.post(
-        "https://api.linkedin.com/v2/ugcPosts",
-        headers=headers,
-        data=json.dumps(post_data)
-    )
-    create_post_response_data = create_post_response.json()
-    post_urn = create_post_response_data.get("id")
-
-    # Generate a preview of the post
-    preview_data = {
-        "content": {
-            "contentEntities": [
-                {
-                    "entityLocation": f"urn:li:ugcPost:{post_urn}",
-                    "thumbnails": [
-                        {
-                            "resolvedUrl": settings.STATIC_URL + "images/linkedin-preview.png"
-                        }
-                    ]
-                }
-            ],
-            "title": {
-                "text": "LinkedIn Post Preview"
-            }
-        },
-        "registerUploadRequest": {
-            "recipes": [
-                "urn:li:digitalmediaRecipe:feedshare-image"
-            ],
-            "supportedMimeTypes": [
-                "image/jpeg",
-                "image/png"
-            ],
-            "lifetime": {
-                "durationInSeconds": 86400
-            },
-            "mediaType": "STILLIMAGE"
-        },
-        "shareMediaCategory": "NONE"
-    }
-    preview_headers = {
-        "Authorization": f"Bearer {access_token}",
-        "Content-Type": "application/json"
-    }
-    generate_preview_response = requests.post(
-        f"https://api.linkedin.com/v2/ugcPosts/{post_urn}/preview",
-        headers=preview_headers,
-        data=json.dumps(preview_data)
-    )
-    generate_preview_response_data = generate_preview_response.json()
-    preview_html = generate_preview_response_data.get("data", {}).get("com.linkedin.common.VectorImage", {}).get("html")
-    return preview_html
+    return render(request, 'smo/publishing/calendar.html',context)
 
 
-def get_linkedin_access_token(request):
+   
+def all_events(request):
+    all_events = Events.objects.all()
+    out=[]
+    for event in all_events:
+        out.append({
+            "title":event.name,
+            "id":event.id,
+            "start":event.start.strftime("%m/%d/%Y, %H:%M:%S"),
+            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"), 
+        })
+    return JsonResponse(out, safe=False) 
  
-    if isinstance(request, str):
-        # If a string is passed, assume it's the redirect URI and return the authorization URL
-        redirect_uri = request
-        authorization_url = f"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={settings.LINKEDIN_CLIENT_ID}&redirect_uri={redirect_uri}&state=xyz&scope=r_liteprofile%20w_member_social%20r_emailaddress%20w_organization_social"
-        return HttpResponseRedirect(authorization_url)
-
-    # Check if the access token is already stored in the user's session
-    access_token = request.session.get('linkedin_access_token')
-    if access_token:
-        return access_token
-
-    # If the access token is not in the session, redirect the user to the LinkedIn OAuth 2.0 authorization page
-    redirect_uri = f"{settings.BASE_URL}/linkedin/callback"
-    authorization_url = f"https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id={settings.LINKEDIN_CLIENT_ID}&redirect_uri={redirect_uri}&state=xyz&scope=r_liteprofile%20w_member_social%20r_emailaddress%20w_organization_social"
-    return HttpResponseRedirect(authorization_url)
-
-
-from django.shortcuts import render, redirect
-import requests
-
-def post_to_linkedin(request):
-    # Get the user's access token from the session
-    access_token = request.session.get('linkedin_access_token')
-
-    # Set the parameters for the post request
-
-    print(access_token)
-    headers = {'Authorization': f'Bearer {access_token}',
-               'Content-Type': 'application/json'}
-    data = {'author': f"urn:li:person:{request.user.linkedin_id}",
-            'lifecycleState': 'PUBLISHED',
-            'specificContent': {
-                'com.linkedin.ugc.ShareContent': {
-                    'shareCommentary': {
-                        'text': 'Hello, world!'
-                    },
-                    'shareMediaCategory': 'NONE'
-                }
-            },
-            'visibility': {
-                'com.linkedin.ugc.MemberNetworkVisibility': 'PUBLIC'
-            }
-           }
-
-    # Send the post request to the LinkedIn API
-    response = requests.post('https://api.linkedin.com/v2/ugcPosts', headers=headers, json=data)
-
-    # Redirect the user back to the homepage
-    return redirect('published_post')
-
-
-
+ 
+def add_event(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    event = Events(name=str(title), start=start, end=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def remove(request):
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)

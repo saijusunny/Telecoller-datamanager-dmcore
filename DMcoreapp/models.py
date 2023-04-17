@@ -333,3 +333,9 @@ class smo_post(models.Model):
     json=models.FileField(upload_to = 'images/smo_post/', null=True, blank=True,default='')
     json_testerscreenshot = JSONField(blank=True, null=True,default='')
     smo = models.ForeignKey(smo_registration, on_delete=models.SET_NULL, null=True, blank=True)
+
+class Events(models.Model):
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255,null=True,blank=True)
+    start = models.DateTimeField(null=True,blank=True)
+    end = models.DateTimeField(null=True,blank=True)

@@ -71,7 +71,7 @@
                                 class="mdi mdi-dots-vertical"></i></a>
                         <div class="dropdown-menu dropdown-menu-right sidebar-dropdown preview-list"
                             aria-labelledby="profile-dropdown">
-                            <a href="{% url 'ex_accountset'%}" class="dropdown-item preview-item">
+                            <!-- <a href="{% url 'ex_accountset'%}" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
                                         <i class="mdi mdi-settings text-primary"></i>
@@ -80,9 +80,9 @@
                                 <div class="preview-item-content">
                                     <p class="preview-subject ellipsis mb-1 text-small">Account settings</p>
                                 </div>
-                            </a>
+                            </a> -->
                             <div class="dropdown-divider"></div>
-                            <a href="{% url 'ex_change_pass'%}" class="dropdown-item preview-item">
+                            <a href="{% url 'smo_change_pass'%}" class="dropdown-item preview-item">
                                 <div class="preview-thumbnail">
                                     <div class="preview-icon bg-dark rounded-circle">
                                         <i class="mdi mdi-onepassword  text-info"></i>
@@ -138,7 +138,7 @@
             <!-- partial:partials/_navbar.html -->
             <nav class="navbar p-0 fixed-top d-flex flex-row">
                 <div class="navbar-brand-wrapper d-flex d-lg-none align-items-center justify-content-center">
-                    <a class="sidebar-brand brand-logo-mini text-light text-decoration-none" href="index.html">
+                    <a class="sidebar-brand brand-logo-mini text-light text-decoration-none" href="#">
                         <p style="color: white; opacity: 1; font-size: 35px;margin-top: 3vh;padding-left: 100px;">ALTOS
                         </p>
                     </a>
@@ -164,7 +164,7 @@
                                 <h6 class="p-3 mb-0">Profile</h6>
                                 <div class="dropdown-divider"></div>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item preview-item" href="{% url 'logout' %}">
+                                <a class="dropdown-item preview-item" href="{% url 'logout_smo' %}">
                                     <div class="preview-thumbnail">
                                         <div class="preview-icon bg-dark rounded-circle">
                                             <i class="mdi mdi-logout text-danger"></i>
@@ -232,6 +232,107 @@
             <!-- inject:js -->
             <script src="{% static 'assets/js/chart.js'%}"></script>
             <script src="{% static '/assets/js/file-upload.js' %}"></script>
+
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+            <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.css" />
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/fullcalendar/3.9.0/fullcalendar.js"></script>
+            <script>
+                $(document).ready(function () {
+                    var calendar = $('#calendar').fullCalendar({
+                        header: {
+                            left: 'prev,next today',
+                            center: 'title',
+                            right: 'month,agendaWeek,agendaDay,'
+                        },
+                        events: '/all_events',
+                        selectable: true,
+                        selectHelper: true,
+                        editable: true,
+                        eventLimit: true,
+                        select: function (start, end, allDay) {
+                            var title = prompt("Enter Event Title");
+                            if (title) {
+                                var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                                var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
+                                $.ajax({
+                                    type: "GET",
+                                    url: '/add_event',
+                                    data: {'title': title, 'start': start, 'end': end},
+                                    dataType: "json",
+                                    success: function (data) {
+                                        calendar.fullCalendar('refetchEvents');
+                                        alert("Added Successfully");
+                                    },
+                                    error: function (data) {
+                                        alert('There is a problem!!!');
+                                    }
+                                });
+                            }
+                        },
+                        eventResize: function (event) {
+                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                            var title = event.title;
+                            var id = event.id;
+                            $.ajax({
+                                type: "GET",
+                                url: '/update',
+                                data: {'title': title, 'start': start, 'end': end, 'id': id},
+                                dataType: "json",
+                                success: function (data) {
+                                    calendar.fullCalendar('refetchEvents');
+                                    alert('Event Update');
+                                },
+                                error: function (data) {
+                                    alert('There is a problem!!!');
+                                }
+                            });
+                        },
+              
+                        eventDrop: function (event) {
+                            var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
+                            var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
+                            var title = event.title;
+                            var id = event.id;
+                            $.ajax({
+                                type: "GET",
+                                url: '/update',
+                                data: {'title': title, 'start': start, 'end': end, 'id': id},
+                                dataType: "json",
+                                success: function (data) {
+                                    calendar.fullCalendar('refetchEvents');
+                                    alert('Event Update');
+                                },
+                                error: function (data) {
+                                    alert('There is a problem!!!');
+                                }
+                            });
+                        },
+              
+                        eventClick: function (event) {
+                            if (confirm("Are you sure you want to remove it?")) {
+                                var id = event.id;
+                                $.ajax({
+                                    type: "GET",
+                                    url: '/remove',
+                                    data: {'id': id},
+                                    dataType: "json",
+                                    success: function (data) {
+                                        calendar.fullCalendar('refetchEvents');
+                                        alert('Event Removed');
+                                    },
+                                    error: function (data) {
+                                        alert('There is a problem!!!');
+                                    }
+                                });
+                            }
+                        },
+              
+                    });
+                });
+              
+             </script>   
 </body>
 
 </html>
