@@ -1,6 +1,6 @@
 from django.db import models
 from email.policy import default
-from turtle import delay
+
 from unittest.util import _MAX_LENGTH
 from xmlrpc.client import boolean
 from django.contrib.auth.models import User
