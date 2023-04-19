@@ -335,40 +335,52 @@ def save_create_work(request):
         client.seo = request.POST.get('seo',None)
         client.seo_txt = request.POST.get('seo_txt',None)
         client.seo_file = request.FILES.get('seo_file',None)
+        client.seo_target = request.POST.get('seo_target',None)
 
         client.on_pg = request.POST.get('onpage',None)
         client.on_pg_txt = request.POST.get('on_txt',None)
         client.on_pg_file = request.FILES.get('on_file',None)
+        client.on_pg_target = request.POST.get('on_target',None)
 
         client.off_pg = request.POST.get('offpage',None)
         client.off_pg_txt = request.POST.get('off_txt',None)
         client.off_pg_file = request.FILES.get('off_file',None)
+        client.off_pg_target = request.POST.get('off_target',None)
 
         client.smm = request.POST.get('smm',None)
         client.smm_txt = request.POST.get('smm_txt',None)
         client.smm_file = request.FILES.get('smm_file',None)
+        client.smm_target = request.POST.get('smm_target',None)
         client.smo = request.POST.get('smo',None)
         client.smo_txt = request.POST.get('smo_txt',None)
         client.smo_file = request.FILES.get('smo_file',None)
+        client.smo_target = request.POST.get('smo_target',None)
 
         client.sem = request.POST.get('sem',None)
         client.sem_txt = request.POST.get('sem_txt',None)
         client.sem_file = request.FILES.get('sem_file',None)
+        client.sem_target = request.POST.get('sem_target',None)
         client.em = request.POST.get('em',None)
         client.em_txt = request.POST.get('em_txt',None)
         client.em_file = request.FILES.get('em_file',None)
+        client.em_target = request.POST.get('em_target',None)
         client.cm = request.POST.get('cm',None)
         client.cm_txt = request.POST.get('cm_txt',None)
         client.cm_file = request.FILES.get('cm_file',None)
+        client.cm_target = request.POST.get('cm_target',None)
         client.am = request.POST.get('am',None)
         client.am_txt = request.POST.get('am_txt',None)
         client.am_file = request.FILES.get('am_file',None)
+        client.am_target = request.POST.get('am_target',None)
         client.mm = request.POST.get('mm',None)
         client.mm_txt = request.POST.get('mm_txt',None)
         client.mm_file = request.FILES.get('mm_file',None)
+        client.mm_target = request.POST.get('mm_target',None)
         client.vm = request.POST.get('vm',None)
         client.vm_txt = request.POST.get('vm_txt',None)
         client.vm_file = request.FILES.get('vm_file',None)
+        client.vm_target = request.POST.get('vm_target',None)
+
         client.user=usr
         client.save()
         
@@ -401,15 +413,16 @@ def save_create_work(request):
         
         files_req =request.FILES.getlist('file_add[]') 
         label_req =request.POST.getlist('label_req[]')
-        dis_req =request.POST.getlist('dis_req[]')
+        dis_req =request.POST.getlist('dis_req[]') 
+        target =request.POST.getlist('target[]')
 
         
-        if len(files_req)==len(label_req)==len(dis_req):
-            mapped2 = zip(label_req,dis_req,files_req)
+        if len(files_req)==len(label_req)==len(dis_req)==len(target):
+            mapped2 = zip(label_req,dis_req,files_req,target)
             mapped2=list(mapped2)
          
             for ele in mapped2:
-                created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='requirments')
+                created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],target=ele[3],user=usr,client=client,section='requirments')
 
         msg_success = "Save Successfully"
         context={
@@ -1298,9 +1311,11 @@ def get_requ(request):
     warns =warn.discription
     rep =warn.file
     nm =warn.labels
+    target =warn.target
+    print()
     vk=str(rep)
     
-    return JsonResponse({"status":" not","warns":warns,"rep":vk,"nm":nm})
+    return JsonResponse({"status":" not","warns":warns,"rep":vk,"nm":nm,"target":target})
 
 
 def logout(request):
