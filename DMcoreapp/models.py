@@ -234,6 +234,7 @@ class Work(models.Model):
     start_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     file_2=models.FileField(upload_to='images/pdf/',default='', null=True, blank=True)
+    target=models.CharField(max_length=255,null=True,blank=True)
 
 class work_asign(models.Model):
     client_name = models.ForeignKey(client_information, on_delete=models.CASCADE, null=True, blank=True) 

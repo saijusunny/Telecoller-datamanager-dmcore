@@ -497,6 +497,7 @@ def update_client(request,id):
 
         client.on_pg = request.POST.get('onpage',None)
         client.on_pg_txt = request.POST.get('on_txt',None)
+        client.on_pg_target = request.POST.get('on_target',None)
         if request.FILES.get('on_file',None) == None:
             client.on_pg_file=client.on_pg_file
         else:
@@ -505,15 +506,18 @@ def update_client(request,id):
 
         client.off_pg = request.POST.get('offpage',None)
         client.off_pg_txt = request.POST.get('off_txt',None)
+        client.off_pg_target = request.POST.get('off_target',None)
         if request.FILES.get('off_file',None) == None:
             client.off_pg_file=client.off_pg_file
         else:
             client.off_pg_file = request.FILES.get('off_file',None)
+
    
 
 
         client.smm = request.POST.get('smm',None)
         client.smm_txt = request.POST.get('smm_txt',None)
+        client.smm_target = request.POST.get('smm_target',None)
      
         if request.FILES.get('smm_file',None) == None:
             client.smm_file=client.smm_file
@@ -522,6 +526,7 @@ def update_client(request,id):
 
         client.smo = request.POST.get('smo',None)
         client.smo_txt = request.POST.get('smo_txt',None)
+        client.smo_target = request.POST.get('smo_target',None)
      
         if request.FILES.get('smo_file',None) == None:
             client.smo_file=client.smo_file
@@ -530,6 +535,7 @@ def update_client(request,id):
 
         client.sem = request.POST.get('sem',None)
         client.sem_txt = request.POST.get('sem_txt',None)
+        client.sem_target = request.POST.get('sem_target',None)
     
 
         if request.FILES.get('sem_file',None) == None:
@@ -540,7 +546,7 @@ def update_client(request,id):
 
         client.em = request.POST.get('em',None)
         client.em_txt = request.POST.get('em_txt',None)
-
+        client.em_target = request.POST.get('em_target',None)
         if request.FILES.get('em_file',None) == None:
             client.em_file=client.em_file
         else:
@@ -549,6 +555,7 @@ def update_client(request,id):
 
         client.cm = request.POST.get('cm',None)
         client.cm_txt = request.POST.get('cm_txt',None)
+        client.cm_target = request.POST.get('cm_target',None)
 
         if request.FILES.get('cm_file',None) == None:
             client.cm_file=client.cm_file
@@ -558,7 +565,7 @@ def update_client(request,id):
 
         client.am = request.POST.get('am',None)
         client.am_txt = request.POST.get('am_txt',None)
-
+        client.am_target = request.POST.get('am_target',None)
         if request.FILES.get('am_file',None) == None:
             client.am_file=client.am_file
         else:
@@ -567,7 +574,7 @@ def update_client(request,id):
 
         client.mm = request.POST.get('mm',None)
         client.mm_txt = request.POST.get('mm_txt',None)
-
+        client.mm_target = request.POST.get('mm_target',None)
         if request.FILES.get('mm_file',None) == None:
             client.mm_file=client.mm_file
         else:
@@ -576,7 +583,7 @@ def update_client(request,id):
 
         client.vm = request.POST.get('vm',None)
         client.vm_txt = request.POST.get('vm_txt',None)
-
+        client.vm_target = request.POST.get('vm_target',None)
         if request.FILES.get('vm_file',None) == None:
             client.vm_file=client.vm_file
         else:
@@ -650,9 +657,9 @@ def update_client(request,id):
         files_req =request.FILES.getlist('file_add[]') 
         label_req =request.POST.getlist('label_req[]')
         dis_req =request.POST.getlist('dis_req[]')
-        
-        if len(label_req)==len(dis_req):
-            mapped2 = zip(label_req,dis_req,files_req)
+        target =request.POST.getlist('target[]')
+        if len(label_req)==len(dis_req)==len(target):
+            mapped2 = zip(label_req,dis_req,files_req,target)
             mapped2=list(mapped2)
            
        
@@ -666,16 +673,17 @@ def update_client(request,id):
                         crt.labels=ele[0]
                         crt.discription=ele[1]
                         crt.file=ele[2]
+                        crt.target=ele[3]
                         crt.save()
                         
                        
                     elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
                        
-                        created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
+                        created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],target=ele[3],user=usr,client=client,section='Requirments')
                     else:
                         pass
                 except:
-                    created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],user=usr,client=client,section='Requirments')
+                    created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],target=ele[3],user=usr,client=client,section='Requirments')
                 
         else:
             pass

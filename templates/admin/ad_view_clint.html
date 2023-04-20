@@ -4,6 +4,7 @@
 
 
 <style>
+ 
   .Search {
     margin-top: 4%;
     float: right;
@@ -310,8 +311,7 @@
 </div>
 
 <div class="rowmt-5 modal fade" id="view_seo">
-  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered modal-dialog-scrollable" role="document" tabindex="-1" role="dialog"
-    aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document">
     <div class="modal-content modal-xl" style="background-color: #191c24;">
       <div class="card ">
         <div class="card-body">
@@ -321,66 +321,95 @@
           </button>
           <div class="text-info" style="font-size: 20px;font-weight: 600;">{{client.seo}}</div>
 
-            <div class="row mt-5">
+            <div class="row mt-1">
               
               <div class="col-md-12 ">
-                <p  class="" style="font-size: 18px;">{{client.seo_txt}}</p>
-                <p  class="" style="font-size: 18px;">{{client.smo_target}}</p>
-                {% if client.seo_file != ""%}
-                <a href="{{client.seo_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
-                {%else%}
-                
-                  <div class="btn-primary Search" >No Attach File</div>
+                <div class="row p-3" style="background-color: #20242e;">
+                  <div class="col-sm-12">
+                    <div style="text-align: center;">
+                      
+                      Description
+                    </div>
+                    <hr>
+                    <p  class="" style="font-size: 18px;">{{client.seo_txt}}</p>
                
-                {%endif%}
-
-                <div class="mt-5 pt-5">
-                {% if client.on_pg != NULL%}
-                
-            
-                <div class="text-info" style="font-size: 20px;font-weight: 600;">Onpage</div>
-                
-                <p  class="" style="font-size: 18px;">{{client.on_pg_txt}}</p>
-                <p  class="" style="font-size: 18px;">{{client.on_pg_target}}</p>
-                {% if client.on_pg_file != ""%}
-                <a href="{{client.on_pg_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
-                {%else%}
-                <div class="btn-primary Search" >No Attach File</div>
-                {%endif%}
-
-                {%else%}
-                {%endif%}
-                </div>
-                
-                <div class="mt-5 pt-5">
-                {% if client.off_pg != NULL%}
-                <div class="text-info" style="font-size: 20px;font-weight: 600;">Offpage</div>
-
-
-                <p  class="" style="font-size: 18px;">{{client.off_pg_txt}}</p>
-                
-               
-                <div class="row" style="border-width: 3px; border-color: red;">
-                  <div class="col-sm-4">
-                    <p  class="" style="font-size: 18px;">Target</p>
-                  </div>
-                  <div class="col-sm-8">
-                    <p  class="" style="font-size: 18px;">{{client.on_pg_target}}</p>
+                    {% if client.seo_file != ""%}
+                    <a href="{{client.seo_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
+                    {%else%}
+                    
+                      <div class="btn-primary Search" >No Attach File</div>
+                   
+                    {%endif%}
                   </div>
                 </div>
-                
-                
-                
-                {% if client.off_pg_file != ""%}
-                <a href="{{client.off_pg_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
-                
-                {%else%}
-                <div class="btn-primary Search" >No Attach File</div>
-                {%endif%}
-                
-                {%else%}
-                {%endif%}
+
+                <div class="row mt-3" style="background-color:#20242e;">
+                  <div class="col-sm-12">
+                    <div class="">
+                      {% if client.on_pg != NULL%}
+                      
+                  
+                      <div class="text-info" style="font-size: 20px;font-weight: 600;">Onpage</div>
+                      <div style="text-align: center;">
+                        Description
+                      </div>
+                      <hr>
+                      <p  class="" style="font-size: 18px;">{{client.on_pg_txt}}</p>
+                      <div style="text-align: center;">
+                        Target
+                      </div>
+                      <hr>
+                      <p  class="" style="font-size: 18px;">{{client.on_pg_target}}</p>
+                      {% if client.on_pg_file != ""%}
+                      <a href="{{client.on_pg_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
+                      {%else%}
+                      <div class="btn-primary Search" >No Attach File</div>
+                      {%endif%}
+    
+                      {%else%}
+                      {%endif%}
+                    </div>
+                  </div>
                 </div>
+                  
+               <div class="row mt-3">
+                <div class="col-sm-12">
+                  <div class="">
+                    {% if client.off_pg != NULL%}
+                    <div class="text-info" style="font-size: 20px;font-weight: 600;">Offpage</div>
+                    <div style="text-align: center;">
+                      Description
+                    </div>
+                    <hr>
+  
+                    <p  class="" style="font-size: 18px;">{{client.off_pg_txt}}</p>
+                    
+                  
+                    <div class="row" style="border-width: 3px; border-color: #20242e;">
+                      <div style="text-align: center;">
+                        Target
+                      </div>
+                      <hr>
+                      <div class="col-sm-8">
+                        <p  class="" style="font-size: 18px;">{{client.on_pg_target}}</p>
+                      </div>
+                    </div>
+                    
+                    
+                    
+                    {% if client.off_pg_file != ""%}
+                    <a href="{{client.off_pg_file.url}}"><div  class="btn-primary Search" >Download Attach File</div></a>
+                    
+                    {%else%}
+                    <div class="btn-primary Search" >No Attach File</div>
+                    {%endif%}
+                    
+                    {%else%}
+                    {%endif%}
+                  </div>
+                </div>
+               </div>
+                
     
               </div>
             </div>
@@ -847,11 +876,15 @@
                
                 {%endif%}
                 {% if client.on_pg != ""%}
-                <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="onpage" name="Onpage" onclick=check_onpage()  checked>
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="Onpage" name="onpage" onclick=check_onpage()  checked>
                 <label for="" class="mr-2 ml-3 mt-2" style="color:rgb(255, 255, 255) ;" id="onpg_lb">Onpage</label>
                 
                 <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; " >{{client.on_pg_txt}}</textarea>
+
+                <textarea name="on_target" id="on_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="Target">{{client.on_pg_target}}</textarea>
+
                 {% if client.on_pg_file != ""%}
                 <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" value="{{client.on_pg_file.url}}">
@@ -866,17 +899,22 @@
                 
                 <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                <textarea name="on_target" id="on_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Target"></textarea>
+
                 <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
 
                 {%endif%}
                 
                 {% if client.off_pg != ""%}
-                <input type="checkbox" class="ml-3 mt-2 text-light" id="offpage" value="offpage" name="Offpage" onclick=check_offpage() checked>
+                <input type="checkbox" class="ml-3 mt-2 text-light" id="offpage" value="Offpage" name="offpage" onclick=check_offpage() checked>
                 <label for="" class="mr-2 ml-3 mt-2" style="color:white;" id="offpg_lb">Offpage</label>
 
                 <textarea name="off_txt" id="off_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; " >{{client.off_pg_txt}}</textarea>
+
+                <textarea name="off_target" id="off_target" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" placeholder="Target">{{client.off_pg_target}}</textarea>
                 {% if client.off_pg_file != ""%}
                 <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" value="{{client.off_pg_file.url}}">
@@ -891,6 +929,7 @@
 
                 <textarea name="off_txt" id="off_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
+                <textarea name="off_target" id="off_target" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Target"></textarea>
                 <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
                 {%endif%}
@@ -926,6 +965,7 @@
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
 
 
             </div>
@@ -950,6 +990,8 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+                <textarea name="smo_target" id="smo_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.smo_target}}</textarea>
 
                 
             </div>
@@ -964,7 +1006,10 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;"  ></textarea>
                 <input type="file" name="smo_file" id="smo_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="smo_target" id="smo_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
+
 
             {%endif%}
 
@@ -988,6 +1033,8 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+                <textarea name="smm_target" id="smm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.smm_target}}</textarea>
 
                 
             </div>
@@ -1002,6 +1049,8 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;"  ></textarea>
                 <input type="file" name="smm_file" id="smm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="smm_target" id="smm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
 
             {%endif%}
@@ -1022,6 +1071,8 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+
+                <textarea name="sem_target" id="sem_target" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px; " placeholder="target">{{client.sem_target}}</textarea>
                 
             </div>
             {%else%}
@@ -1034,6 +1085,8 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="sem_file" id="sem_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="sem_target" id="sem_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
             {%endif%}
             {% if client.em != None%}
@@ -1053,6 +1106,9 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+
+                <textarea name="em_target" id="em_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.em_target}}</textarea>
                 
             </div>
             {%else%}
@@ -1065,6 +1121,8 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="em_file" id="em_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="em_target" id="em_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
             {%endif%}
 
@@ -1084,6 +1142,9 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+
+                <textarea name="cm_target" id="cm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; " placeholder="target">{{client.cm_target}}</textarea>
                 
             </div>
             {%else%}
@@ -1096,6 +1157,8 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="cm_file" id="cm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="cm_target" id="cm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
             {%endif%}
 
@@ -1115,6 +1178,9 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+
+                <textarea name="am_target" id="am_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.am_target}}</textarea>
                 
             </div>
             {%else%}
@@ -1127,6 +1193,8 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="am_file" id="am_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="am_target" id="am_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
             {%endif%}
             {% if client.mm != None%}
@@ -1146,6 +1214,9 @@
                
                 {%endif%}
 
+                <textarea name="mm_target" id="mm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.mm_target}}</textarea>
+
                 
             </div>
             {%else%}
@@ -1158,6 +1229,8 @@
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="mm_file" id="mm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <textarea name="mm_target" id="mm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
             {%endif%}
             {% if client.vm != None%}
@@ -1176,6 +1249,9 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
+
+                <textarea name="vm_target" id="vm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.vm_target}}</textarea>
                 
             </div>
             {%else%}
@@ -1188,6 +1264,8 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="vm_file" id="vm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;" >
+                <textarea name="vm_target" id="vm_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
             {%endif%}
             {% for j in addirq %}
@@ -1201,6 +1279,9 @@
                 style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required> {{j.discription}}</textarea>
                 <input type="file"  id="vm_file" class="form-control mt-2 " value="{{j.file.url}}"
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' >
+
+                <textarea name='target[]' id="target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target" required>{{j.target}}</textarea>
                
               </div>
             </div>
@@ -1257,11 +1338,13 @@
   function check_seo(){
     var chk_seo=document.getElementById("seo").checked;
     var textarea = document.getElementById('seo_txt');
-    var files = document.getElementById('seo_file');    
+    var files = document.getElementById('seo_file'); 
+   
     var onpage = document.getElementById('onpage');
     var onpg_lb = document.getElementById('onpg_lb');
     var offpage = document.getElementById('offpage');
     var offpg_lb = document.getElementById('offpg_lb');
+    
     if (chk_seo==true){
       textarea.style=('display: block');
       files.style=('display: block');
@@ -1269,6 +1352,9 @@
       onpg_lb.style=('display: block');
       offpage.style=('display: block');
       offpg_lb.style=('display: block');
+    
+      
+      
     }else{
   
       textarea.style=('display: none');
@@ -1277,6 +1363,9 @@
       onpg_lb.style=('display: none');
       offpage.style=('display: none');
       offpg_lb.style=('display: none');
+    
+      
+      
     }
   }
    
@@ -1284,14 +1373,17 @@
     var onpage=document.getElementById("onpage").checked;
     var textarea = document.getElementById('on_txt');
     var files = document.getElementById('on_file');
+    var onpg_tar = document.getElementById('on_target');
     if (onpage==true){
   
       textarea.style=('display: block');
       files.style=('display: block');
+      onpg_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      onpg_tar.style=('display: none');
     }
   }
 
@@ -1299,29 +1391,17 @@
     var offpage=document.getElementById("offpage").checked;
     var textarea = document.getElementById('off_txt');
     var files = document.getElementById('off_file');
+    var offpg_tar = document.getElementById('off_target');
     if (offpage==true){
   
       textarea.style=('display: block');
       files.style=('display: block');
+      offpg_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
-    }
-  }
-
-  function check_smo(){
-    var chk_smo=document.getElementById("smo").checked;
-    var textarea = document.getElementById('smo_txt');
-    var files = document.getElementById('smo_file');
-    if (chk_smo==true){
-  
-      textarea.style=('display: block');
-      files.style=('display: block');
-    }else{
-    
-      textarea.style=('display: none');
-      files.style=('display: none');
+      offpg_tar.style=('display: none');
     }
   }
 
@@ -1329,14 +1409,35 @@
     var chk_smm=document.getElementById("smm").checked;
     var textarea = document.getElementById('smm_txt');
     var files = document.getElementById('smm_file');
+    var smm_tar = document.getElementById('smm_target');
     if (chk_smm==true){
   
       textarea.style=('display: block');
       files.style=('display: block');
+      smm_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      smm_tar.style=('display: none');
+    }
+  }
+
+  function check_smo(){
+    var chk_smo=document.getElementById("smo").checked;
+    var textarea = document.getElementById('smo_txt');
+    var files = document.getElementById('smo_file');
+    var smo_tar = document.getElementById('smo_target');
+    if (chk_smo==true){
+  
+      textarea.style=('display: block');
+      files.style=('display: block');
+      smo_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      smo_tar.style=('display: none');
     }
   }
 
@@ -1344,16 +1445,19 @@
     var chk_sem=document.getElementById("sem").checked;
     var textarea = document.getElementById('sem_txt');
     var files = document.getElementById('sem_file');
+    var sem_tar = document.getElementById('sem_target');
 
     if (chk_sem==true){
   
       
       textarea.style=('display: block');
       files.style=('display: block');
+      sem_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      sem_tar.style=('display: none');
     }
   }
 
@@ -1363,15 +1467,18 @@
     var chk_em=document.getElementById("em").checked;
     var textarea = document.getElementById('em_txt');
     var files = document.getElementById('em_file');
+    var em_tar = document.getElementById('em_target');
     if (chk_em==true){
   
       
       textarea.style=('display: block');
       files.style=('display: block');
+      em_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      em_tar.style=('display: none');
     }
   }
 
@@ -1379,15 +1486,18 @@
     var chk_cm=document.getElementById("cm").checked;
     var textarea = document.getElementById('cm_txt');
     var files = document.getElementById('cm_file');
+    var cm_tar = document.getElementById('cm_target');
     if (chk_cm==true){
   
       
       textarea.style=('display: block');
       files.style=('display: block');
+      cm_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      cm_tar.style=('display: none');
       
     }
   }
@@ -1396,15 +1506,18 @@
     var chk_am=document.getElementById("am").checked;
     var textarea = document.getElementById('am_txt');
     var files = document.getElementById('am_file');
+    var am_tar = document.getElementById('am_target');
     if (chk_am==true){
   
       
       textarea.style=('display: block');
       files.style=('display: block');
+      am_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      am_tar.style=('display: none');
     }
   }
 
@@ -1412,15 +1525,18 @@
     var chk_mm=document.getElementById("mm").checked;
     var textarea = document.getElementById('mm_txt');
     var files = document.getElementById('mm_file');
+    var mm_tar = document.getElementById('mm_target');
     if (chk_mm==true){
   
       
       textarea.style=('display: block');
       files.style=('display: block');
+      mm_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      mm_tar.style=('display: none');
     }
   }
 
@@ -1428,18 +1544,20 @@
     var chk_vm=document.getElementById("vm").checked;
     var textarea = document.getElementById('vm_txt');
     var files = document.getElementById('vm_file');
+    var vm_tar = document.getElementById('vm_target');
     if (chk_vm==true){
   
       
       textarea.style=('display: block');
       files.style=('display: block');
+      vm_tar.style=('display: block');
     }else{
     
       textarea.style=('display: none');
       files.style=('display: none');
+      vm_tar.style=('display: none');
     }
   }
-
 
 </script>
 <script>
@@ -1488,7 +1606,7 @@
     $('#add_req_row').click(function(){
     
         $('#ad_req_nts').append(
-            `
+          `
             <div class="row pt-1">
               <div class="col-md-4">
                 <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;" name='label_req[]' required>
@@ -1498,7 +1616,10 @@
                 <textarea id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required></textarea>
                 <input type="file"  id="vm_file" class="form-control mt-2 "
-                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' >
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' required>
+
+                <textarea name='target[]' id="target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;" placeholder="target" required></textarea>
               </div>
             </div>
                                             
@@ -1550,5 +1671,6 @@
         
     }
   </script>
+
 
 {% endblock %}
