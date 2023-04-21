@@ -102,5 +102,8 @@ urlpatterns = [
     path('add_event', views.add_event, name='add_event'), 
     path('update', views.update, name='update'),
     path('remove', views.remove, name='remove'),
+    path('work_shedule_exe', views.work_shedule_exe, name='work_shedule_exe'),
+    path('work_shedule/<int:id>', views.work_shedule, name='work_shedule'),
+
  
 ]

@@ -1000,6 +1000,73 @@ def get_sub(request):
 
     return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
 
+
+def work_shedule_exe(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    exe=user_registration.objects.filter(department="Digital Marketing Executive")
+   
+    context={
+        "usr":usr,
+        "exe":exe
+
+    }
+    return render(request, 'admin/ad_exe_shedule.html',context)
+
+def work_shedule(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+
+   
+    context={
+        "usr":usr,
+
+
+    }
+    return render(request, 'admin/ad_work_shedule.html',context)
+
+
+def all_events(request):
+    all_events = Events.objects.all()
+    out=[]
+    for event in all_events:
+        out.append({
+            "title":event.name,
+            "id":event.id,
+            "start":event.start.strftime("%m/%d/%Y, %H:%M:%S"),
+            'end': event.end.strftime("%m/%d/%Y, %H:%M:%S"), 
+        })
+    return JsonResponse(out, safe=False) 
+ 
+ 
+def add_event(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    event = Events(name=str(title), start=start, end=end)
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def remove(request):
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
