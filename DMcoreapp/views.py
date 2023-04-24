@@ -40,6 +40,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 # Create your views here.
 
+
 #----------------------------------------------------------Login, Sign Up, Reset, Internshipform 
 def login(request):
     return render(request, 'home/login.html')
@@ -1016,14 +1017,29 @@ def work_shedule_exe(request):
 def work_shedule(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
-
-   
+    events = Events.objects.all()
+    
     context={
         "usr":usr,
-
+        'events': events
 
     }
     return render(request, 'admin/ad_work_shedule.html',context)
+
+# views.py
+
+
+def events(request):
+    events = Events.objects.all()
+    data = []
+    for event in events:
+        data.append({
+            'title': event.title,
+            'start': event.start_time.isoformat(),
+            'end': event.end_time.isoformat(),
+        })
+    return JsonResponse(data, safe=False)
+
 
 
 def all_events(request):
@@ -1296,9 +1312,7 @@ def ex_view_work_clint(request):
     work=Work.objects.all()
     cl=client_information.objects.all()
     last=work_asign.objects.filter(exe_name=ids).last()
-    
-    
-    
+
     context={
         "usr":usr,
         "work":work,
@@ -1370,6 +1384,34 @@ def add_suggestion(request, id):
     return redirect("ex_warning")
 
 
+def corrections(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    cor=correction.objects.filter(executive=ids)
+    context={
+        "usr":usr,
+        "warn":cor
+    }
+    return render(request, 'executive/correction.html',context)
+
+def add_corrections(request, id):
+   
+
+    if request.method == 'POST':
+        warn = correction.objects.get(id=id)
+        warn.reply=request.POST.get('workdone',None)
+        warn.save()
+        return redirect("corrections")
+    return redirect("corrections")
+
+def get_corrections(request):
+    ele = request.GET.get('ele')
+    warn = correction.objects.get(id=ele)
+    warns =warn.description
+    rep =warn.reply
+ 
+    return JsonResponse({"status":" not","warns":warns,"rep":rep})
+
     
 def get_warns(request):
     ele = request.GET.get('ele')
@@ -1387,7 +1429,7 @@ def get_requ(request):
     rep =warn.file
     nm =warn.labels
     target =warn.target
-    print()
+   
     vk=str(rep)
     
     return JsonResponse({"status":" not","warns":warns,"rep":vk,"nm":nm,"target":target})
@@ -1952,3 +1994,8 @@ def remove(request):
     event.delete()
     data = {}
     return JsonResponse(data)
+
+
+
+
+

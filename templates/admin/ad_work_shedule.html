@@ -1,107 +1,81 @@
 {%extends 'admin/ad_base.html'%}
-<!-- DEVprojects -->
 {%load static%}
 {%block content%}
 
-  <div class="col-md-12">    
-      <div id='calendar_ad'></div> 
-  </div>
 
+<div class="row pt-3" style="background-color: black;">
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Warnings History</div>
+  </div> 
+  <div class="row mt-4">
+    <div class="card">
+      <div class="card-body">
+        <input type="text" class="form-control" id="search" placeholder="search...">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col-4" style="color:#6C7293;">Start Date & Time</th> 
+                <th scope="col-4" style="color:#6C7293;">End Date & Time</th> 
+                <th scope="col-4" style="color:#6C7293;">Description</th> 
+            
+              </tr>
+            </thead>
+            <tbody id="myTable">
+                {% for k in events%}
+                <tr>
+                <td style="color:white;">{{ k.start}}</td>
+                <td style="color:white;">{{ k.end}}</td>
+                <td style="color:white;" data-toggle="modal" data-target="#view{{k.id}}"><div class="badge badge-outline-info">View Details</div></td>
+              </tr>
+              {%endfor%}
+          </table>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  {% for l in events%}
+  <div class="rowmt-5 modal fade" id="view{{l.id}}">
+    <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+      aria-labelledby="myLargeModalLabel" aria-hidden="true">
+      <div class="modal-content modal-xl" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Description</div>
+  
+              <div class="row mt-5">
+                
+                <div class="col-md-12 ">
+                    <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des">{{l.name}}</p>
+                  
+                </div>
+              </div>
+      
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {%endfor%}
   <script>
     $(document).ready(function () {
-        var calendar = $('#calendar_ad').fullCalendar({
-            header: {
-                left: 'prev,next today',
-                center: 'title',
-                right: 'month,agendaWeek,agendaDay,'
-            },
-            events: '/all_events',
-            selectable: true,
-            selectHelper: true,
-            editable: true,
-            eventLimit: true,
-            select: function (start, end, allDay) {
-                var title = prompt("Enter Event Title");
-                if (title) {
-                    var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
-                    var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
-                    $.ajax({
-                        type: "GET",
-                        url: '/add_event',
-                        data: {'title': title, 'start': start, 'end': end},
-                        dataType: "json",
-                        success: function (data) {
-                            calendar.fullCalendar('refetchEvents');
-                            alert("Added Successfully");
-                        },
-                        error: function (data) {
-                            alert('There is a problem!!!');
-                        }
-                    });
-                }
-            },
-            eventResize: function (event) {
-                var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-                var title = event.title;
-                var id = event.id;
-                $.ajax({
-                    type: "GET",
-                    url: '/update',
-                    data: {'title': title, 'start': start, 'end': end, 'id': id},
-                    dataType: "json",
-                    success: function (data) {
-                        calendar.fullCalendar('refetchEvents');
-                        alert('Event Update');
-                    },
-                    error: function (data) {
-                        alert('There is a problem!!!');
-                    }
-                });
-            },
-  
-            eventDrop: function (event) {
-                var start = $.fullCalendar.formatDate(event.start, "Y-MM-DD HH:mm:ss");
-                var end = $.fullCalendar.formatDate(event.end, "Y-MM-DD HH:mm:ss");
-                var title = event.title;
-                var id = event.id;
-                $.ajax({
-                    type: "GET",
-                    url: '/update',
-                    data: {'title': title, 'start': start, 'end': end, 'id': id},
-                    dataType: "json",
-                    success: function (data) {
-                        calendar.fullCalendar('refetchEvents');
-                        alert('Event Update');
-                    },
-                    error: function (data) {
-                        alert('There is a problem!!!');
-                    }
-                });
-            },
-  
-            eventClick: function (event) {
-                if (confirm("Are you sure you want to remove it?")) {
-                    var id = event.id;
-                    $.ajax({
-                        type: "GET",
-                        url: '/remove',
-                        data: {'id': id},
-                        dataType: "json",
-                        success: function (data) {
-                            calendar.fullCalendar('refetchEvents');
-                            alert('Event Removed');
-                        },
-                        error: function (data) {
-                            alert('There is a problem!!!');
-                        }
-                    });
-                }
-            },
-  
+      $("#search").on("keyup", function () {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function () {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
         });
+      });
     });
+  </script>
   
-  </script> 
-    
+  <script type="text/javascript">
+    function setselected(id) {
+      $('input[name="selected"]').val(id);
+    }
+  </script>
+
 {% endblock %}

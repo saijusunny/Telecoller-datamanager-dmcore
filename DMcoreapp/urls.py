@@ -60,7 +60,11 @@ urlpatterns = [
     path('ex_change_pass', views.ex_change_pass, name='ex_change_pass'),
     path('ex_accountset', views.ex_accountset, name='ex_accountset'),
     path('ex_imagechange/<int:id>', views.ex_imagechange, name='ex_imagechange'),
-    path('get_sub/', views.get_sub, name='get_sub'),
+    path('get_sub', views.get_sub, name='get_sub'),
+    path('corrections', views.corrections, name='corrections'),
+    path('add_corrections/<int:id>', views.add_corrections, name='add_corrections'),
+    path('get_corrections', views.get_corrections, name='get_corrections'),
+    
 
     #---------------marketing head
     

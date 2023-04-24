@@ -332,6 +332,12 @@ class Warning(models.Model):
     date=models.DateField(auto_now_add=True, null=False)
     reply=models.TextField(null=True)
 
+class correction(models.Model):
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    description=models.TextField()
+    date=models.DateField(auto_now_add=True, null=False)
+    reply=models.TextField(null=True)
+
 #------------------------------------------------------------------------smo Registration
 class smo_registration(models.Model):
     
