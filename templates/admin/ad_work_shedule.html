@@ -4,7 +4,7 @@
 
 
 <div class="row pt-3" style="background-color: black;">
-    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Warnings History</div>
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Correction History</div>
   </div> 
   <div class="row mt-4">
     <div class="card">
@@ -14,9 +14,10 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col-4" style="color:#6C7293;">Start Date & Time</th> 
-                <th scope="col-4" style="color:#6C7293;">End Date & Time</th> 
+                <th scope="col-4" style="color:#6C7293;">Date & Time</th> 
+                
                 <th scope="col-4" style="color:#6C7293;">Description</th> 
+                <th scope="col-4" style="color:#6C7293;">File</th> 
             
               </tr>
             </thead>
@@ -24,8 +25,16 @@
                 {% for k in events%}
                 <tr>
                 <td style="color:white;">{{ k.start}}</td>
-                <td style="color:white;">{{ k.end}}</td>
-                <td style="color:white;" data-toggle="modal" data-target="#view{{k.id}}"><div class="badge badge-outline-info">View Details</div></td>
+                <td style="color:white;" data-toggle="modal" data-target="#view{{k.id}}"><div class="badge badge-outline-info">View Details</div></td> 
+                <td style="color:white;">
+                  {% if k.img == NULL%}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{k.img}}" download>Download</a></div>
+                  {%else%}
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{k.img}}" download>Download</a></div>
+                  {%endif%}
+
+                </td>
+                
               </tr>
               {%endfor%}
           </table>

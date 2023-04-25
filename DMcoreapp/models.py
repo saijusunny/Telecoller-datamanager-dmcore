@@ -337,6 +337,7 @@ class correction(models.Model):
     description=models.TextField()
     date=models.DateField(auto_now_add=True, null=False)
     reply=models.TextField(null=True)
+    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
 
 #------------------------------------------------------------------------smo Registration
 class smo_registration(models.Model):
@@ -357,4 +358,5 @@ class Events(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255,null=True,blank=True)
     start = models.DateTimeField(null=True,blank=True)
-    end = models.DateTimeField(null=True,blank=True)
+    img=models.ImageField(upload_to='images/smo_post/',null=True,blank=True)
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
