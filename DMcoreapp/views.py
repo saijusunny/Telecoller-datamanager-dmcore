@@ -1040,6 +1040,28 @@ def events(request):
         })
     return JsonResponse(data, safe=False)
 
+def ad_exe_smopost(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    exe=user_registration.objects.filter(department="Digital Marketing Executive")
+   
+    context={
+        "usr":usr,
+        "exe":exe
+
+    }
+    return render(request, 'admin/ad_exe_smopost.html',context) 
+    # 
+
+def ad_sv_smopost(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    post = smo_post.objects.filter(executive=id)
+    context={
+            "usr":usr,
+            "post":post
+        }
+    return render(request, 'admin/ad_sv_smopost.html',context)
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
@@ -1826,6 +1848,8 @@ def edit_post_drft(request,id):
 
 
 def save_post_drft(request):
+    idr=request.session['userid']
+    usr_lg = user_registration.objects.get(id=idr)
 
     if request.method == 'POST':
 
@@ -1848,6 +1872,7 @@ def save_post_drft(request):
                     b.json_testerscreenshot = lst_file
         b.json_testerscreenshot=b.json_testerscreenshot
         b.smo=usr
+        b.executive=usr_lg
         b.status="draft"
         b.save()
         return redirect('create_post')
@@ -1936,7 +1961,7 @@ def add_event(request):
         start = request.POST.get('start', None)
         title = request.POST.get('title', None)
         img = request.FILES.get('file', None)
-        event = Events(name=title, start=start, img=img,executive=usr) 
+        event = Events(name=title, start=start, img=img,executive=usr, status="draft") 
         event.save()
         data = {}
         return JsonResponse(data)

@@ -300,6 +300,7 @@ class daily_work(models.Model):
     bk = models.CharField(max_length=200,default='', null=True, blank=True)
     bk_txt = models.TextField(default='', null=True, blank=True)
     bk_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    status= models.CharField(max_length=200,default='', null=True, blank=True)
     
 class daily_work_sub(models.Model):
     daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
@@ -347,12 +348,14 @@ class smo_registration(models.Model):
     password = models.CharField(max_length=240, null=True)
     photo = models.FileField(upload_to='images/', null=True, blank=True)
     client = models.ForeignKey(client_information, on_delete=models.SET_NULL, null=True, blank=True)
+
 class smo_post(models.Model):
     description = models.TextField(null=True)
     status = models.CharField(max_length=240,null=True)
     json=models.FileField(upload_to = 'images/smo_post/', null=True, blank=True,default='')
     json_testerscreenshot = JSONField(blank=True, null=True,default='')
     smo = models.ForeignKey(smo_registration, on_delete=models.SET_NULL, null=True, blank=True)
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
 
 class Events(models.Model):
     id = models.AutoField(primary_key=True)
@@ -360,3 +363,4 @@ class Events(models.Model):
     start = models.DateTimeField(null=True,blank=True)
     img=models.ImageField(upload_to='images/smo_post/',null=True,blank=True)
     executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    status = models.CharField(max_length=240,null=True)

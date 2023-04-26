@@ -49,6 +49,7 @@
               <th scope="col" style="color:#6C7293;">AssignedTo</th>
               <th scope="col" style="color:#6C7293;">Description</th>
               <th scope="col" style="color:#6C7293;">Attached File</th>
+              <th scope="col" style="color:#6C7293;">Target</th>
               
             </tr>
           </thead>
@@ -75,6 +76,16 @@
                   {% endfor %}
 
                 {% endif %}
+              </td>
+
+              <td class="text-primary">
+                {% if work.status == "no"%}
+                <div class="badge badge-outline-danger">
+                Target Not Achived</div>
+                {%else%}
+                <div class="badge badge-outline-success">
+                  Target Achived</div>
+                  {%endif%}
               </td>
             </tr>
             
