@@ -87,6 +87,7 @@
             eventLimit: true,
             select: function (start, end, allDay) {
                 var start = $.fullCalendar.formatDate(start, "Y-MM-DD HH:mm:ss");
+                var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
                 $('#create_post').modal('show');
                 $('#saveEvent').off('click').on('click', function() {
                 var title = $('#dsrptn').val();
@@ -94,6 +95,7 @@
                 var formData = new FormData();
                 formData.append('title', title);
                 formData.append('start', start);
+                formData.append('end', end);
                 formData.append('file', file);
                 
                 $.ajax({

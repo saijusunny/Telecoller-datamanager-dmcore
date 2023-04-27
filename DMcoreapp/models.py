@@ -361,6 +361,7 @@ class Events(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=255,null=True,blank=True)
     start = models.DateTimeField(null=True,blank=True)
+    end = models.DateTimeField(null=True,blank=True)
     img=models.ImageField(upload_to='images/smo_post/',null=True,blank=True)
     executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
     status = models.CharField(max_length=240,null=True)

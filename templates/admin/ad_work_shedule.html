@@ -14,8 +14,8 @@
           <table class="table">
             <thead>
               <tr>
-                <th scope="col-4" style="color:#6C7293;">Date & Time</th> 
-                
+                <th scope="col-4" style="color:#6C7293;">Start Date & Time</th> 
+                <th scope="col-4" style="color:#6C7293;">End Date & Time</th> 
                 <th scope="col-4" style="color:#6C7293;">Description</th> 
                 <th scope="col-4" style="color:#6C7293;">File</th> 
                 <th scope="col-4" style="color:#6C7293;">Status</th> 
@@ -26,6 +26,7 @@
                 {% for k in events%}
                 <tr>
                 <td style="color:white;">{{ k.start}}</td>
+                <td style="color:white;">{{ k.end}}</td>
                 <td style="color:white;" data-toggle="modal" data-target="#view{{k.id}}"><div class="badge badge-outline-info">View Details</div></td> 
                 <td style="color:white;">
                   {% if k.img == NULL%}

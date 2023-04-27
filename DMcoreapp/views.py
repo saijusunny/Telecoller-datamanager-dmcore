@@ -1083,8 +1083,13 @@ def ex_profile(request):
 def ex_dashboard(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
+    cor=correction.objects.filter(executive=ids).order_by('id').last()
+    
+    dt=date.today()
     context={
-        "usr":usr
+        "usr":usr,
+        "cor":cor,
+        "dt":dt
     }
     return render(request, 'executive/ex_dashboard.html',context)
 
@@ -1959,9 +1964,10 @@ def add_event(request):
     usr = user_registration.objects.get(id=ids)
     if request.method == 'POST':
         start = request.POST.get('start', None)
+        end = request.GET.get("end", None)
         title = request.POST.get('title', None)
         img = request.FILES.get('file', None)
-        event = Events(name=title, start=start, img=img,executive=usr, status="draft") 
+        event = Events(name=title, start=start, end=end, img=img,executive=usr, status="draft") 
         event.save()
         data = {}
         return JsonResponse(data)
