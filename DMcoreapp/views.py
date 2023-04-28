@@ -1816,9 +1816,11 @@ def create_post(request):
     ids=request.session['smo_userid']
     usr = smo_registration.objects.get(id=ids) 
     post = smo_post.objects.filter(smo=usr)
+    dt=date.today()
     context={
             "usr":usr,
-            "post":post
+            "post":post,
+            "dt":dt
         }
     return render(request, 'smo/publishing/create_post.html',context)
 
@@ -1879,6 +1881,39 @@ def save_post_drft(request):
         b.smo=usr
         b.executive=usr_lg
         b.status="draft"
+
+        b.fb = request.POST.get('fb',None)
+        b.fb_dt = request.POST.get('fb_txt',"dd-mm-YYYY")
+        b.fb_file = request.FILES.get('fb_file',None)
+        b.tw = request.POST.get('tw',None)
+        b.tw_dt = request.POST.get('tw_txt',None)
+        b.tw_file = request.FILES.get('tw_file',None)
+        b.pin = request.POST.get('pin',None)
+        b.pin_dt = request.POST.get('pin_txt',None)
+        b.pin_file = request.FILES.get('pin_file',None)
+        b.link = request.POST.get('link',None)
+        b.link_dt = request.POST.get('link_txt',None)
+        b.link_file = request.FILES.get('link_file',None)
+        b.insta = request.POST.get('insta',None)
+        b.insta_dt = request.POST.get('insta_txt',None)
+        b.insta_file = request.FILES.get('insta_file',None)
+        b.tumb = request.POST.get('tumb',None)
+        b.tumb_dt = request.POST.get('tumb_txt',None)
+        b.tumb_file = request.FILES.get('tumb_file',None)
+        b.diry = request.POST.get('diry',None)
+        b.diry_dt = request.POST.get('diry_txt',None)
+        b.diry_file = request.FILES.get('diry_file',None)
+        b.yt = request.POST.get('yt',None)
+        b.yt_dt = request.POST.get('yt_txt',None)
+        b.yt_file = request.FILES.get('yt_file',None)
+        b.qra = request.POST.get('qra',None)
+        b.qra_dt = request.POST.get('qra_txt',None)
+        b.qra_file = request.FILES.get('qra_file',None)
+        b.sbms = request.POST.get('sbms',None)
+        b.sbms_dt = request.POST.get('sbms_txt',None)
+        b.sbms_file = request.FILES.get('sbms_file',None)
+
+        
         b.save()
         return redirect('create_post')
     return redirect('create_post')
@@ -1991,6 +2026,8 @@ def remove(request):
     event.delete()
     data = {}
     return JsonResponse(data)
+
+
 
 
 
