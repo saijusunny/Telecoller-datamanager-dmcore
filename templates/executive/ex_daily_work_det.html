@@ -561,7 +561,7 @@
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{work.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
                     {%else%}
                     {%endif%}
-                    {% if work.qra != v%}
+                    {% if work.qra != None%}
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
                     {%else%}
                     {%endif%}

@@ -1002,6 +1002,7 @@ def get_sub(request):
     return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
 
 
+
 def work_shedule_exe(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
@@ -1057,11 +1058,116 @@ def ad_sv_smopost(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     post = smo_post.objects.filter(executive=id)
+    addi_post=addi_smo_post.objects.all()
     context={
             "usr":usr,
-            "post":post
+            "post":post,
+            "addi_post":addi_post
         }
     return render(request, 'admin/ad_sv_smopost.html',context)
+
+def ad_get_smo_pst(request):
+    ele = request.GET.get('ele')
+    ids = request.GET.get('idss')
+    print("fdgfdgfdgdgfdgfdg")
+    print(ids)
+    try:
+        warn = smo_post.objects.get(id=ids)
+    except:
+        pass
+    if ele=="Facebook":
+        print("haii")
+        hd=ele
+        des=warn.fb_dt
+        print(des)
+        fl=warn.fb_file
+
+    elif ele=="Twitter":
+        hd=ele
+        des=warn.tw_dt
+        fl=warn.tw_file
+
+    elif ele=="Pinterest":
+        hd=ele
+        des=warn.pin_dt
+        fl=warn.pin_file
+
+    elif ele=="Linkedin":
+        hd=ele
+        des=warn.link_dt
+        fl=warn.link_file
+
+    elif ele=="Instagram":
+        hd=ele
+        des=warn.insta_dt
+        fl=warn.insta_file
+
+    elif ele=="Tumber":
+        hd=ele
+        des=warn.tumb_dt
+        fl=warn.tumb_file
+
+    elif ele=="Directories":
+        hd=ele
+        des=warn.diry_dt
+        fl=warn.diry_file
+
+    elif ele=="You Tube":
+        hd=ele
+        des=warn.yt_dt
+        fl=warn.yt_file
+
+    elif ele=="Quora":
+        hd=ele
+        des=warn.qra_dt
+        fl=warn.qra_file
+
+    elif ele=="PR Submission":
+        hd=ele
+        des=warn.pr_dt
+        fl=warn.pr_file 
+
+    elif ele=="Article Submission":
+        hd=ele
+        des=warn.art_dt
+        fl=warn.art_file 
+
+    elif ele=="Blog Posting":
+        hd=ele
+        des=warn.blg_dt
+        fl=warn.blg_file 
+
+    elif ele=="Classified Submission":
+        hd=ele
+        des=warn.clss_dt
+        fl=warn.clss_file
+
+    elif ele=="Guest Blogging":
+        hd=ele
+        des=warn.gst_dt
+        fl=warn.gst_file
+
+    elif ele=="Bokkmarking":
+        hd=ele
+        des=warn.bk_dt
+        fl=warn.bk_file
+
+    elif daily_off_sub.objects.filter(id=ids,sub=ele).exists():
+       
+        off = daily_off_sub.objects.get(id=ids,sub=ele)
+        hd=off.sub
+        des=off.sub_dt
+        fl=off.sub_file
+    else:
+        
+        sm = daily_work_sub.objects.get(id=ids,sub=ele)
+        hd=sm.sub
+        des=sm.sub_dt
+        fl=sm.sub_file
+        
+
+    return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
+
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
@@ -1865,25 +1971,26 @@ def save_post_drft(request):
         b=smo_post()
         b.description = request.POST['description']
         dct_file = dict(request.FILES)
-        if dct_file['filed'] == None:
-            lst_screenshot = dct_file['filed']
-            lst_file = []
-            for ins_screenshot in lst_screenshot:
-                str_img_path = ""
-                if ins_screenshot:
-                    img_emp = ins_screenshot
-                    fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
-                    str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
-                    str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
-                    lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
-                    b.json_testerscreenshot = lst_file
+        lst_screenshot = dct_file['filed']
+        lst_file = []
+        for ins_screenshot in lst_screenshot:
+            str_img_path = ""
+            if ins_screenshot:
+                img_emp = ins_screenshot
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                b.json_testerscreenshot = lst_file
+
+        
         b.json_testerscreenshot=b.json_testerscreenshot
         b.smo=usr
         b.executive=usr_lg
         b.status="draft"
 
         b.fb = request.POST.get('fb',None)
-        b.fb_dt = request.POST.get('fb_txt',"dd-mm-YYYY")
+        b.fb_dt = request.POST.get('fb_txt',None)
         b.fb_file = request.FILES.get('fb_file',None)
         b.tw = request.POST.get('tw',None)
         b.tw_dt = request.POST.get('tw_txt',None)
@@ -1912,9 +2019,22 @@ def save_post_drft(request):
         b.sbms = request.POST.get('sbms',None)
         b.sbms_dt = request.POST.get('sbms_txt',None)
         b.sbms_file = request.FILES.get('sbms_file',None)
-
         
         b.save()
+
+        
+        label_req =request.POST.getlist('sub_lb[]')
+        dt =request.POST.getlist('dates[]') 
+        files_req =request.FILES.getlist('sub_file[]') 
+      
+
+        
+        if len(files_req)==len(label_req)==len(dt):
+            mapped2 = zip(label_req,dt,files_req)
+            mapped2=list(mapped2)
+         
+            for ele in mapped2:
+                created = addi_smo_post.objects.get_or_create(label=ele[0],date=ele[1],file=ele[2],executive=usr_lg,smo=usr,post=b)
         return redirect('create_post')
     return redirect('create_post')
 

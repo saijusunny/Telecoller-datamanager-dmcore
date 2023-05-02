@@ -40,7 +40,8 @@ urlpatterns = [
     path('ad_accountset', views.ad_accountset, name='ad_accountset'),  
     path('get_dis', views.get_dis, name='get_dis'), 
     path('ad_exe_smopost', views.ad_exe_smopost, name='ad_exe_smopost'),
-    path('ad_sv_smopost/<int:id>', views.ad_sv_smopost, name='ad_sv_smopost'),
+    path('ad_sv_smopost/<int:id>', views.ad_sv_smopost, name='ad_sv_smopost'), 
+    path('ad_get_smo_pst', views.ad_get_smo_pst, name='ad_get_smo_pst'),
     #---------------------------------------------------------------------------Executive Section
     path('ex_base', views.ex_base, name='ex_base'),
     path('ex_profile', views.ex_profile, name='ex_profile'),
