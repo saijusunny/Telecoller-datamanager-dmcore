@@ -23,7 +23,17 @@
            <img class="card-img-top" style=" width: 18rem;" src="{{ss}}">
            
            {%endfor%}
-          
+
+           {% if i.status == "complete"%}
+            <div style="background-color: green;">
+              Complete
+            </div>
+            {%else%}
+            <div style="background-color: rgb(255, 0, 0);">
+              Pending
+            </div>
+            {%endif%}
+            
             <div class="card-body">
             <h5 class="card-title">{{i.description}}</h5>
 
@@ -102,14 +112,29 @@
               </div>
             </div>
 
-            <div class="row mt-3" >
+            <div class="row mt-3 p-3" >
                 <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
                     
                     {% for ss in l.json_testerscreenshot %}
-                    <img class="card-img-top" style=" width: 18rem;" src="{{ss}}">
+                    <a href="{{ss}}"><img class="card-img-top" style=" width: 18rem;" src="{{ss}}"></a>
            
                     {%endfor%}
                 </div>
+            </div>
+
+            <hr>
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Status Updation</div>
+              </div>
+            </div>
+            <div class="row p-3">
+              <div class="col-sm-12">
+                    {% if l.st_file != None%}
+                    <a href="{{l.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{l.st_file.url}}"></a>
+                    {%else%}
+                    {%endif%}
+              </div>
             </div>
 
             

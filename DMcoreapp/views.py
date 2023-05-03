@@ -1937,23 +1937,28 @@ def edit_post_drft(request,id):
         usr = smo_registration.objects.get(id=ids)
         b=smo_post.objects.get(id=id)
         b.description = request.POST['description']
-        dct_file = dict(request.FILES)
-        try:
-            lst_screenshot = dct_file['filed']
-            lst_file = []
-            for ins_screenshot in lst_screenshot:
-                str_img_path = ""
-                if ins_screenshot:
-                    img_emp = ins_screenshot
-                    fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
-                    str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
-                    str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
-                    lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
-                    b.json_testerscreenshot = lst_file
-        except:
-            b.json_testerscreenshot=b.json_testerscreenshot
+        b.status=request.POST['status']
+        b.st_file=request.FILES.get('cmpl_file',None)
+        if request.FILES.get('filed',None) == None:
+            pass
+        else:
+            dct_file = dict(request.FILES)
+            try:
+                lst_screenshot = dct_file['filed']
+                lst_file = []
+                for ins_screenshot in lst_screenshot:
+                    str_img_path = ""
+                    if ins_screenshot:
+                        img_emp = ins_screenshot
+                        fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                        str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                        str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                        lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                        b.json_testerscreenshot = lst_file
+            except:
+                b.json_testerscreenshot=b.json_testerscreenshot
         b.smo=usr
-        b.status="save"
+     
         b.save()
         return redirect('create_post')
 
@@ -1970,6 +1975,7 @@ def save_post_drft(request):
         usr = smo_registration.objects.get(id=ids)
         b=smo_post()
         b.description = request.POST['description']
+        b.status="pending"
         dct_file = dict(request.FILES)
         lst_screenshot = dct_file['filed']
         lst_file = []
@@ -1987,7 +1993,7 @@ def save_post_drft(request):
         b.json_testerscreenshot=b.json_testerscreenshot
         b.smo=usr
         b.executive=usr_lg
-        b.status="draft"
+
 
         b.fb = request.POST.get('fb',None)
         b.fb_dt = request.POST.get('fb_txt',None)

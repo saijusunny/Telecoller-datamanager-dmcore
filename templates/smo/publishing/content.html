@@ -23,6 +23,15 @@
            <img class="card-img-top" style=" width: 18rem;" src="{{ss}}">
            
            {%endfor%}
+           {% if i.status == "complete"%}
+            <div style="background-color: green;">
+              Complete
+            </div>
+            {%else%}
+            <div style="background-color: rgb(255, 0, 0);">
+              Pending
+            </div>
+            {%endif%}
           
             <div class="card-body">
             <h5 class="card-title">{{i.description}}</h5>
