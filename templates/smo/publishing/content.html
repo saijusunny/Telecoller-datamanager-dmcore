@@ -23,16 +23,19 @@
            <img class="card-img-top" style=" width: 18rem;" src="{{ss}}">
            
            {%endfor%}
-           {% if i.status == "complete"%}
-            <div style="background-color: green;">
-              Complete
+           {% if i.status == "pending"%}
+            <div style="background-color: rgb(255, 0, 0);">
+              {{i.status}}
+            </div>
+            {% elif i.status == "draft"%}
+            <div style="background-color: rgb(255, 0, 0);">
+              {{i.status}}
             </div>
             {%else%}
-            <div style="background-color: rgb(255, 0, 0);">
-              Pending
+            <div style="background-color: green">
+              {{i.status}}
             </div>
             {%endif%}
-          
             <div class="card-body">
             <h5 class="card-title">{{i.description}}</h5>
 

@@ -1019,10 +1019,120 @@ def work_shedule(request,id):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     events = Events.objects.filter(executive=id)
+
+  
+
+    from datetime import datetime, timedelta, time
+    
+
+    # # Define a start and end time range
+    # start_time = time(0, 0, 0)
+    # end_time = time(23, 59, 59)
+
+    # # Define the date for which you want to find missing times
+    # search_date = datetime(2023, 5, 4).date()
+
+    # # Create a list of all times that should be in the database for the given date
+    # expected_times = [datetime.combine(search_date, start_time) + timedelta(seconds=x) for x in range((datetime.combine(search_date, end_time) - datetime.combine(search_date, start_time)).seconds + 1)]
+
+    # # Retrieve all date and time values from the database for the given date
+    # actual_datetimes = Events.objects.filter(start__date=search_date).values_list('start', flat=True)
+
+    # # Extract the time portion of the actual date and time values
+    # actual_times = [dt.time() for dt in actual_datetimes]
+
+    # # Find missing times
+    # missing_times = set(expected_times) - set(actual_times)
+
+    # # Print out the missing times
+    # print(missing_times)
+
+    # from datetime import datetime, timedelta, time
+    # from django.db.models.functions import TruncHour
+  
+    # start_time = time(0, 0, 0)
+    # end_time = time(9, 59, 59)
+
+    # search_date = datetime(2023, 5, 4).date()
+
+
+    # expected_hours = [datetime.combine(search_date, start_time) + timedelta(hours=x) for x in range((datetime.combine(search_date, end_time) - datetime.combine(search_date, start_time)).seconds // 3600 + 1)]
+
+  
+    # actual_hours = Events.objects.filter(start__date=search_date).annotate(hour=TruncHour('start')).values_list('start', flat=True)
+
+    # # Find missing hours
+    # missing_hours = set(expected_hours) - set(actual_hours)
+
+    # # Print out the missing hours
+    # print(missing_hours)
+
+
+    # from datetime import datetime, timedelta, time
+    # from django.db.models.functions import TruncHour
+
+
+    # # Define a start and end date and time range
+    # start_datetime = datetime(2023, 4, 5, 9, 0, 0)
+    # end_datetime = datetime(2023, 4, 5, 18, 0, 0)
+
+    # # Create a list of all hours that should be in the table for the given date range
+    # expected_hours = []
+    # current_datetime = start_datetime
+    # while current_datetime <= end_datetime:
+    #     expected_hours += [current_datetime]
+    #     current_datetime += timedelta(hours=1)
+
+    # # Retrieve all records from the database for the given date range and group them by hour
+    # actual_hours = Events.objects.filter(start__gte=start_datetime, end__lte=end_datetime, id=1).annotate(hour=TruncHour('start')).values_list('hour', flat=True)
+   
+    # # Find missing hours
+    # missing_hours = set(expected_hours) - set(actual_hours)
+
+    # # Print out the missing hours
+    # print(missing_hours)
+
+    from datetime import datetime, time, timedelta
+    from django.db.models.functions import TruncHour
+    
+
+    # Get the current date and time
+    now = datetime.now()
+
+    # Calculate the start and end time range for the current date
+    start_time = datetime.combine(now.date(), time.min)
+    end_time = datetime.combine(now.date(), time.max)
+
+    # Retrieve all records from the database for the current date that overlap with the start and end time range
+    records = Events.objects.filter(start__lte=end_time, end__gte=start_time)
+ 
+    # Create a list of all hours that should be free for the current date
+    all_hours = [start_time + timedelta(hours=x) for x in range(9,18)]
+    print("record")
+ 
+    # For each record in the retrieved records, create a list of all hours that the record occupies
+    occupied_hours = set()
+    for record in records:
+        
+        hours = [record.start+ timedelta(hours=x) for x in range((record.end - record.start).seconds // 3600 + 1)]
+        occupied_hours.update(hours)
+    print(occupied_hours)
+
+    # Subtract the hours occupied by all records from the list of all hours for the current date using a set operation to get the list of free hours
+    free_hours = set(all_hours) - occupied_hours
+
+    # Print out the list of free hours
+    k=list(free_hours)
+    for i in k:
+        print(i)
+
+
+
     
     context={
         "usr":usr,
-        'events': events
+        'events': events,
+        "hr":k
 
     }
     return render(request, 'admin/ad_work_shedule.html',context)

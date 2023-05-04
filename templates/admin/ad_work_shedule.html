@@ -4,8 +4,18 @@
 
 
 <div class="row pt-3" style="background-color: black;">
-    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Correction History</div>
+    <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Shedule Work History</div>
   </div> 
+  <div class="row">
+    <div class="col-sm-4" style="background-color: #2c2e33; margin-right: 0;" >
+      <button class="btn btn-danger"> current date free hours</button>
+      <div style=" width: 300px; position:sticky;">
+        {% for l in hr%}
+        <p>{{l}}</p>
+        {%endfor%}
+      </div>
+    </div>
+  </div>
   <div class="row mt-4">
     <div class="card">
       <div class="card-body">
@@ -36,7 +46,15 @@
                   {%endif%}
 
                 </td>
-                <td style="color:white;">{{k.status}}</td>
+                <td style="color:white;">
+                  {% if k.status == "pending"%}
+                  <div class="badge badge-outline-danger">{{k.status}}</div>
+                  {% elif k.status == "draft"%}
+                  <div class="badge badge-outline-danger">{{k.status}}</div>
+                  {%else%}
+                  <a data-toggle="modal" data-target="#descr{{k.id}}"><div class="badge badge-outline-success">{{k.status}}</div></a>
+                  {%endif%}
+                </td>
                 
               </tr>
               {%endfor%}
@@ -46,7 +64,42 @@
       </div>
     </div>
   </div>
+  {% for g in events%}
+  <div class="rowmt-5 modal fade" id="descr{{g.id}}">
+    <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+      <div class="modal-content modal-m" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <div class="container">
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">{{g.status}}</div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+                </div>
+                <div id="files_sub" style="text-align: center;">
+                  {% if g.st_file != None%}
+                  <a href="{{g.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{g.st_file.url}}"></a>
+                  {%else%}
+                  {%endif%}
+                </div>
+                
+              </div>
+             
+          </div>
+        </div>
+    </div>
+  </div>
+  </div>
+  </div>
+  {%endfor%}
   {% for l in events%}
+  
+
   <div class="rowmt-5 modal fade" id="view{{l.id}}">
     <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
       aria-labelledby="myLargeModalLabel" aria-hidden="true">
