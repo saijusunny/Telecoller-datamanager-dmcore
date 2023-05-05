@@ -1096,43 +1096,66 @@ def work_shedule(request,id):
     from django.db.models.functions import TruncHour
     
 
-    # Get the current date and time
+
     now = datetime.now()
 
-    # Calculate the start and end time range for the current date
     start_time = datetime.combine(now.date(), time.min)
     end_time = datetime.combine(now.date(), time.max)
+    records = Events.objects.filter(start__date=now.date(), end__date=now.date(), start__lte=end_time, end__gte=start_time)
+    # records = Events.objects.filter(start__lte=start_time, end__gte=end_time)
 
-    # Retrieve all records from the database for the current date that overlap with the start and end time range
-    records = Events.objects.filter(start__lte=end_time, end__gte=start_time)
- 
-    # Create a list of all hours that should be free for the current date
     all_hours = [start_time + timedelta(hours=x) for x in range(9,18)]
-    print("record")
- 
-    # For each record in the retrieved records, create a list of all hours that the record occupies
+    
     occupied_hours = set()
     for record in records:
         
         hours = [record.start+ timedelta(hours=x) for x in range((record.end - record.start).seconds // 3600 + 1)]
         occupied_hours.update(hours)
-    print(occupied_hours)
+   
+ 
 
-    # Subtract the hours occupied by all records from the list of all hours for the current date using a set operation to get the list of free hours
     free_hours = set(all_hours) - occupied_hours
+    
 
-    # Print out the list of free hours
-    k=list(free_hours)
-    for i in k:
-        print(i)
+    lst = []
+    
+    
+    # for all_hr in sorted(all_hours):
+    #   for oc_hr in sorted(occupied_hours):
+    #         print( str(all_hr.time()) +"="+ str(oc_hr.time()))
+    #         if all_hr.time() == oc_hr.time():
+    #             pass
+    #         else:
+                
+    #             print(all_hr.time())
+    
+    from datetime import time
+ 
+    list1=[]
+    for ls1 in sorted(occupied_hours):
+        list1.append(ls1.time())
 
+    list2=[]
+    for ls2 in all_hours:
+        list2.append(ls2.time())
 
+    result_set = set(list1) - set(list2)
 
+    result_list = list(result_set)
+    
+    def remove_dupilicate(List1,List2):
+        return [item for item in List1 if item not in List2]
+
+    new_a = remove_dupilicate(list1, list2)
+    new_b = remove_dupilicate(list2, list1)
+
+    k=list(sorted(new_b))
     
     context={
         "usr":usr,
         'events': events,
-        "hr":k
+        "hr":k,
+        "noti":len(k)
 
     }
     return render(request, 'admin/ad_work_shedule.html',context)
@@ -1183,6 +1206,108 @@ def ad_get_smo_pst(request):
     print(ids)
     try:
         warn = smo_post.objects.get(id=ids)
+    except:
+        pass
+    if ele=="Facebook":
+        print("haii")
+        hd=ele
+        des=warn.fb_dt
+        print(des)
+        fl=warn.fb_file
+
+    elif ele=="Twitter":
+        hd=ele
+        des=warn.tw_dt
+        fl=warn.tw_file
+
+    elif ele=="Pinterest":
+        hd=ele
+        des=warn.pin_dt
+        fl=warn.pin_file
+
+    elif ele=="Linkedin":
+        hd=ele
+        des=warn.link_dt
+        fl=warn.link_file
+
+    elif ele=="Instagram":
+        hd=ele
+        des=warn.insta_dt
+        fl=warn.insta_file
+
+    elif ele=="Tumber":
+        hd=ele
+        des=warn.tumb_dt
+        fl=warn.tumb_file
+
+    elif ele=="Directories":
+        hd=ele
+        des=warn.diry_dt
+        fl=warn.diry_file
+
+    elif ele=="You Tube":
+        hd=ele
+        des=warn.yt_dt
+        fl=warn.yt_file
+
+    elif ele=="Quora":
+        hd=ele
+        des=warn.qra_dt
+        fl=warn.qra_file
+
+    elif ele=="PR Submission":
+        hd=ele
+        des=warn.pr_dt
+        fl=warn.pr_file 
+
+    elif ele=="Article Submission":
+        hd=ele
+        des=warn.art_dt
+        fl=warn.art_file 
+
+    elif ele=="Blog Posting":
+        hd=ele
+        des=warn.blg_dt
+        fl=warn.blg_file 
+
+    elif ele=="Classified Submission":
+        hd=ele
+        des=warn.clss_dt
+        fl=warn.clss_file
+
+    elif ele=="Guest Blogging":
+        hd=ele
+        des=warn.gst_dt
+        fl=warn.gst_file
+
+    elif ele=="Bokkmarking":
+        hd=ele
+        des=warn.bk_dt
+        fl=warn.bk_file
+
+    elif daily_off_sub.objects.filter(id=ids,sub=ele).exists():
+       
+        off = daily_off_sub.objects.get(id=ids,sub=ele)
+        hd=off.sub
+        des=off.sub_dt
+        fl=off.sub_file
+    else:
+        
+        sm = daily_work_sub.objects.get(id=ids,sub=ele)
+        hd=sm.sub
+        des=sm.sub_dt
+        fl=sm.sub_file
+        
+
+    return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
+
+def get_event_det(request):
+    ele = request.GET.get('ele')
+    ids = request.GET.get('idss')
+    print("fdgfdgfdgdgfdgfdg")
+    print(ids)
+    try:
+        warn = Events.objects.get(id=ids)
     except:
         pass
     if ele=="Facebook":

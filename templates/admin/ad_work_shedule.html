@@ -2,20 +2,70 @@
 {%load static%}
 {%block content%}
 
+<style>
+  .notification {
+  background-color: red;
+  color: white;
+  text-decoration: none;
+  padding: 15px 26px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+}
 
+.notification:hover {
+  background: #555;
+  color: white;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background: white;
+  color: black;
+}
+</style>
 <div class="row pt-3" style="background-color: black;">
     <div class="" style="font-size: 20px;font-weight: 600;color:#6C7293;">Shedule Work History</div>
   </div> 
   <div class="row">
-    <div class="col-sm-4" style="background-color: #2c2e33; margin-right: 0;" >
-      <button class="btn btn-danger"> current date free hours</button>
-      <div style=" width: 300px; position:sticky;">
-        {% for l in hr%}
-        <p>{{l}}</p>
-        {%endfor%}
-      </div>
+    <div class="col-sm-12" style="text-align: right;" >
+      
+      
+    </div>
+
+    
+  </div>
+  <div class="row">
+    <div class="col-sm-2" style="margin-left: auto; padding-right: 30%;">
+     
+        <ul class="navbar navbar-expand" style="list-style-type: none; margin: 0; padding: 0;">
+          <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative notification" href="javascript:;" data-toggle="dropdown" >
+            <span>Free Time</span>
+            <span class="badge">{{noti}}</span>
+          </a>
+          
+      
+          <div class="dropdown-menu dropdown-menu-right" style="margin-top: 300px;">
+            <ul class="a" style=" list-style-type: none;width: 200px; ">
+              {% for l in hr%}
+              <li><a href="" style="display: block; padding: 8px 16px; text-decoration: none; color: white; font-size: 20px;"><p >{{l}}</p></a></li>
+              
+              {%endfor%}
+            </ul>
+          </div>
+        </ul>
+   
+        
+        
+        
+
     </div>
   </div>
+  
   <div class="row mt-4">
     <div class="card">
       <div class="card-body">
@@ -97,9 +147,9 @@
   </div>
   </div>
   {%endfor%}
+  
   {% for l in events%}
   
-
   <div class="rowmt-5 modal fade" id="view{{l.id}}">
     <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
       aria-labelledby="myLargeModalLabel" aria-hidden="true">
@@ -110,7 +160,7 @@
               style="background-color: #191c24;border:none;float: right;font-size: 20px;">
               <span aria-hidden="true">&times;</span>
             </button>
-            <div class="text-info" style="font-size: 20px;font-weight: 600;">Description</div>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;">Descriptionsss</div>
   
               <div class="row mt-5">
                 
@@ -119,13 +169,126 @@
                   
                 </div>
               </div>
+
+              <div class="row">
+                <div class="col-sm-12">
+                      {% if l.fb != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.tw != None%}
+                      <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.pin != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.link != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.insta != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.tumb != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.diry != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.yt != None%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{l.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                      {%else%}
+                      {%endif%}
+                      {% if l.qra != v%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                      {%else%}
+                      {%endif%}
+  
+                      {% for n in dl_sub %}
+                      
+                        {% if l.id == n.daily_id%}
+                        <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                        {%else%}
+                        {%endif%}
+                      {%endfor%}
+                </div>
+              </div>
       
           </div>
         </div>
       </div>
     </div>
   </div>
+  
+
+  
+  
   {%endfor%}
+
+  <div class="rowmt-5 modal fade" id="descr">
+    <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+      <div class="modal-content modal-m" style="background-color: #191c24;">
+        <div class="card ">
+          <div class="card-body">
+            <div class="container">
+              <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+                <span aria-hidden="true">&times;</span>
+              </button>
+              <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads2"> </div>
+  
+              <div class="row mt-5">
+                <div class="col">
+                  <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des2"></p>
+                </div>
+                <div id="files_sub">
+                  <a href="" id="files2"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+                </div>
+                
+              </div>
+             
+          </div>
+        </div>
+    </div>
+  </div>
+  
+  <script>
+    function view_sub(el, id){
+        var elem=el
+        var ids=id
+        
+        $.ajax({
+            type: "GET",
+            url: "{% url 'get_event_det' %}",
+            data: {
+                ele : elem,
+                idss:ids,
+                
+            },
+            success:function(response){
+                    console.log(response)
+             
+                    head = response.hd
+                    des = response.des
+                    fil = response.fl
+             
+                    document.getElementById('sub_des2').innerHTML = "Posting Date : "+des;
+                    document.getElementById('heads2').innerHTML = head;
+                    flr=document.getElementById('files2')
+               
+                    flr.href = (`/media/${fil}`)
+                    
+  
+            }});
+  
+        
+    }
+  </script>
   <script>
     $(document).ready(function () {
       $("#search").on("keyup", function () {
