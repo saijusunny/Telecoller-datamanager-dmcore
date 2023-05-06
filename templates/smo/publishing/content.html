@@ -72,15 +72,22 @@
               <div class="col-sm-12">
 
                 {% for ss in l.json_testerscreenshot %}
-                <img class="card-img-top" style=" width: 18rem;" src="{{ss}}">
+                <a href="{{ss}}"><img class="card-img-top" style=" width: 18rem;" src="{{ss}}"></a>
                 
                 {%endfor%}
               </div>
             </div>
             <hr>
-            
+
             <div class="row">
-              <div class="col-sm-12">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Posting Social Media</div>
+              </div>
+            </div>
+            
+            
+            <div class="row mt-3">
+              <div class="col-sm-12" style="text-align: center;">
                     {% if l.fb != None%}
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
                     {%else%}
@@ -127,6 +134,33 @@
                     {%endfor%}
               </div>
             </div>
+
+            <hr>
+
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Status Updation</div>
+              </div>
+            </div>
+            
+            {% if l.status == "complete"%}
+            <div class="row" style="text-align: center;">
+              <div class="col-sm-12">
+                
+                <div class="row mt-3">
+                  <div class="col-sm-12">
+                    {% if l.st_file != None%}
+                    <a href="{{l.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{l.st_file.url}}"></a>
+                    {%else%}
+                    {%endif%}
+                    
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            {%else%}
+            {%endif%}
              
             <div class="row mt-3" >
                 <div class="col-sm-12" style="text-align: right;">
@@ -158,7 +192,7 @@
               style="background-color: #191c24;border:none; float: right; font-size: 20px;">
               <span aria-hidden="true">&times;</span>
             </button>
-            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"> </div>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="headssss"> </div>
 
             <div class="row mt-5">
               <div class="col">
@@ -202,7 +236,7 @@
                   fil = response.fl
            
                   document.getElementById('sub_des').innerHTML = "Posting Date : "+des;
-                  document.getElementById('heads').innerHTML = head;
+                  document.getElementById('headssss').innerHTML = head;
                   flr=document.getElementById('files')
              
                   flr.href = (`/media/${fil}`)

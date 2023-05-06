@@ -40,6 +40,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponseRedirect
 # Create your views here.
 
+from datetime import datetime, time, timedelta
+from django.db.models.functions import TruncHour
+from datetime import time
 
 #----------------------------------------------------------Login, Sign Up, Reset, Internshipform 
 def login(request):
@@ -1092,8 +1095,7 @@ def work_shedule(request,id):
     # # Print out the missing hours
     # print(missing_hours)
 
-    from datetime import datetime, time, timedelta
-    from django.db.models.functions import TruncHour
+    
     
 
 
@@ -1129,7 +1131,7 @@ def work_shedule(request,id):
                 
     #             print(all_hr.time())
     
-    from datetime import time
+    
  
     list1=[]
     for ls1 in sorted(occupied_hours):
@@ -2210,7 +2212,7 @@ def save_post_drft(request):
         usr = smo_registration.objects.get(id=ids)
         b=smo_post()
         b.description = request.POST['description']
-        b.status="pending"
+        b.status="draft"
         dct_file = dict(request.FILES)
         lst_screenshot = dct_file['filed']
         lst_file = []
