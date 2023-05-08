@@ -1836,6 +1836,71 @@ def ex_imagechange(request, id):
         return redirect('ex_accountset')
     return render(request, 'executive/ex_accountset.html',{'dev': dev,"usr":usr})
 
+
+def ex_schedule_dash(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    context={
+        "usr":usr,
+    
+    }
+    return render(request, 'executive/ex_schedule_dash.html',context)
+
+def ex_calander(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    context={
+        "usr":usr,
+    
+    }
+    return render(request, 'executive/ex_calander.html',context)
+
+
+def ex_all_events(request):
+    all_events = Events.objects.all()
+    out=[]
+    for event in all_events:
+        out.append({
+            "title":event.name,
+            "id":event.id,
+            "start":event.start.strftime("%m/%d/%Y, %H:%M:%S"), 
+        })
+    return JsonResponse(out, safe=False)
+ 
+ 
+def ex_add_event(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    if request.method == 'POST':
+        start = request.POST.get('start', None)
+        end = request.GET.get("end", None)
+        title = request.POST.get('title', None)
+        img = request.FILES.get('file', None)
+        event = Events(name=title, start=start, end=end, img=img,executive=usr, status="draft") 
+        event.save()
+        data = {}
+        return JsonResponse(data)
+ 
+def ex_update(request):
+    start = request.GET.get("start", None)
+    end = request.GET.get("end", None)
+    title = request.GET.get("title", None)
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.start = start
+    event.end = end
+    event.name = title
+    event.save()
+    data = {}
+    return JsonResponse(data)
+ 
+def ex_remove(request):
+    id = request.GET.get("id", None)
+    event = Events.objects.get(id=id)
+    event.delete()
+    data = {}
+    return JsonResponse(data)
+
 #---------------------------------marketing section
 
     

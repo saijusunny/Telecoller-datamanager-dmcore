@@ -68,6 +68,12 @@ urlpatterns = [
     path('corrections', views.corrections, name='corrections'),
     path('add_corrections/<int:id>', views.add_corrections, name='add_corrections'),
     path('get_corrections', views.get_corrections, name='get_corrections'),
+    path('ex_schedule_dash', views.ex_schedule_dash, name='ex_schedule_dash'),
+    path('ex_calander', views.ex_calander, name='ex_calander'),
+    path('ex_all_events', views.ex_all_events, name='ex_all_events'), 
+    path('ex_add_event', views.ex_add_event, name='ex_add_event'), 
+    path('ex_update', views.ex_update, name='ex_update'),
+    path('ex_remove', views.ex_remove, name='ex_remove'),
     
 
     #---------------marketing head

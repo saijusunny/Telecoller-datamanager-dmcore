@@ -172,9 +172,9 @@
                 <input type="radio" value="pending" id="status2" style="margin-left: 1%;"  name="status" onclick=status_chk()><label for="" >Pending</label>
                 {%endif%}
                 {% if l.status == "complete"%}
-                <input type="radio" value="complete" id="status2" style="margin-left: 1%;"  name="status" onclick=status_chk() checked><label for="" >complete</label>
+                <input type="radio" value="complete" id="status" style="margin-left: 1%;"  name="status" onclick=status_chk() checked><label for="" >complete</label>
                 {%else%}
-                <input type="radio" value="complete" style="margin-left: 1%;" id="status" name="status" onclick=status_chk()><label for="">Complete</label>
+                <input type="radio" value="complete" style="margin-left: 1%;" id="statu" name="status" onclick=status_chk()><label for="">Complete</label>
                 {%endif%}
 
                 
@@ -199,14 +199,13 @@
               </div>
             </div>
             {%else%}
+            {%endif%}
+
             <div class="row mt-2" style="text-align: center;">
-              <div class="col-sm-12" style="display: none; " id="cmpl_file">
+              <div class="col-sm-12" style=" " id="cmpl_file">
                 <input type="file" name="cmpl_file"  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ; margin-left: 8%;">
               </div>
             </div>
-            {%endif%}
-
-            
            
             <div class="row mt-3" >
                 <div class="col-sm-12" style="text-align: right;">
@@ -474,18 +473,21 @@
   <script>
     
     function status_chk(){
-      var chk_fb=document.getElementById("status").checked;
+      var chrt=document.getElementById("statu").checked;
       var chk_fb2=document.getElementById("status2").checked;
-      var fil = document.getElementById('cmpl_file');
-      if (chk_fb==true){
+      var files = document.getElementById('cmpl_file');
       
-        fil.style=('display: block');
+      if (chrt==false){
+        
+        files.style=('display: none');
       }else if (chk_fb2==true) {
      
-        fil.style=('display: none');
+        files.style=('display: block');
       }else{
-    
+        
+        files.style=('display: block');
       }
+      
     }
 
   </script>
