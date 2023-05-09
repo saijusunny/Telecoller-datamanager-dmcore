@@ -74,6 +74,9 @@ urlpatterns = [
     path('ex_add_event', views.ex_add_event, name='ex_add_event'), 
     path('ex_update', views.ex_update, name='ex_update'),
     path('ex_remove', views.ex_remove, name='ex_remove'),
+    path('ex_shedule_work', views.ex_shedule_work, name='ex_shedule_work'),
+    path('ex_edit_post_status/<int:id>', views.ex_edit_post_status, name='ex_edit_post_status'),
+    path('ex_save_shedule', views.ex_save_shedule, name='ex_save_shedule'),
     
 
     #---------------marketing head

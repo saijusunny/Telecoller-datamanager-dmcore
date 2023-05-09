@@ -44,6 +44,7 @@ from datetime import datetime, time, timedelta
 from django.db.models.functions import TruncHour
 from datetime import time
 
+from datetime import datetime, timedelta, time
 #----------------------------------------------------------Login, Sign Up, Reset, Internshipform 
 def login(request):
     return render(request, 'home/login.html')
@@ -1023,9 +1024,6 @@ def work_shedule(request,id):
     usr = user_registration.objects.get(id=ids)
     events = Events.objects.filter(executive=id)
 
-  
-
-    from datetime import datetime, timedelta, time
     
 
     # # Define a start and end time range
@@ -1103,7 +1101,7 @@ def work_shedule(request,id):
 
     start_time = datetime.combine(now.date(), time.min)
     end_time = datetime.combine(now.date(), time.max)
-    records = Events.objects.filter(start__date=now.date(), end__date=now.date(), start__lte=end_time, end__gte=start_time)
+    records = Events.objects.filter(start__date=now.date(), end__date=now.date(), start__lte=end_time, end__gte=start_time,executive=id)
     # records = Events.objects.filter(start__lte=start_time, end__gte=end_time)
 
     all_hours = [start_time + timedelta(hours=x) for x in range(9,18)]
@@ -1901,6 +1899,240 @@ def ex_remove(request):
     data = {}
     return JsonResponse(data)
 
+def ex_shedule_work(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    events = Events.objects.filter(executive=usr)
+
+    
+    
+
+    # # Define a start and end time range
+    # start_time = time(0, 0, 0)
+    # end_time = time(23, 59, 59)
+
+    # # Define the date for which you want to find missing times
+    # search_date = datetime(2023, 5, 4).date()
+
+    # # Create a list of all times that should be in the database for the given date
+    # expected_times = [datetime.combine(search_date, start_time) + timedelta(seconds=x) for x in range((datetime.combine(search_date, end_time) - datetime.combine(search_date, start_time)).seconds + 1)]
+
+    # # Retrieve all date and time values from the database for the given date
+    # actual_datetimes = Events.objects.filter(start__date=search_date).values_list('start', flat=True)
+
+    # # Extract the time portion of the actual date and time values
+    # actual_times = [dt.time() for dt in actual_datetimes]
+
+    # # Find missing times
+    # missing_times = set(expected_times) - set(actual_times)
+
+    # # Print out the missing times
+    # print(missing_times)
+
+    # from datetime import datetime, timedelta, time
+    # from django.db.models.functions import TruncHour
+  
+    # start_time = time(0, 0, 0)
+    # end_time = time(9, 59, 59)
+
+    # search_date = datetime(2023, 5, 4).date()
+
+
+    # expected_hours = [datetime.combine(search_date, start_time) + timedelta(hours=x) for x in range((datetime.combine(search_date, end_time) - datetime.combine(search_date, start_time)).seconds // 3600 + 1)]
+
+  
+    # actual_hours = Events.objects.filter(start__date=search_date).annotate(hour=TruncHour('start')).values_list('start', flat=True)
+
+    # # Find missing hours
+    # missing_hours = set(expected_hours) - set(actual_hours)
+
+    # # Print out the missing hours
+    # print(missing_hours)
+
+
+    # from datetime import datetime, timedelta, time
+    # from django.db.models.functions import TruncHour
+
+
+    # # Define a start and end date and time range
+    # start_datetime = datetime(2023, 4, 5, 9, 0, 0)
+    # end_datetime = datetime(2023, 4, 5, 18, 0, 0)
+
+    # # Create a list of all hours that should be in the table for the given date range
+    # expected_hours = []
+    # current_datetime = start_datetime
+    # while current_datetime <= end_datetime:
+    #     expected_hours += [current_datetime]
+    #     current_datetime += timedelta(hours=1)
+
+    # # Retrieve all records from the database for the given date range and group them by hour
+    # actual_hours = Events.objects.filter(start__gte=start_datetime, end__lte=end_datetime, id=1).annotate(hour=TruncHour('start')).values_list('hour', flat=True)
+   
+    # # Find missing hours
+    # missing_hours = set(expected_hours) - set(actual_hours)
+
+    # # Print out the missing hours
+    # print(missing_hours)
+
+    
+    
+
+
+    now = datetime.now()
+
+    start_time = datetime.combine(now.date(), time.min)
+    end_time = datetime.combine(now.date(), time.max)
+    records = Events.objects.filter(start__date=now.date(), end__date=now.date(), start__lte=end_time, end__gte=start_time, executive=usr)
+    # records = Events.objects.filter(start__lte=start_time, end__gte=end_time)
+
+    all_hours = [start_time + timedelta(hours=x) for x in range(9,18)]
+    
+    occupied_hours = set()
+    for record in records:
+        
+        hours = [record.start+ timedelta(hours=x) for x in range((record.end - record.start).seconds // 3600 + 1)]
+        occupied_hours.update(hours)
+   
+ 
+
+    free_hours = set(all_hours) - occupied_hours
+    
+
+    lst = []
+    
+    
+    # for all_hr in sorted(all_hours):
+    #   for oc_hr in sorted(occupied_hours):
+    #         print( str(all_hr.time()) +"="+ str(oc_hr.time()))
+    #         if all_hr.time() == oc_hr.time():
+    #             pass
+    #         else:
+                
+    #             print(all_hr.time())
+    
+    
+ 
+    list1=[]
+    for ls1 in sorted(occupied_hours):
+        list1.append(ls1.time())
+
+    list2=[]
+    for ls2 in all_hours:
+        list2.append(ls2.time())
+
+    result_set = set(list1) - set(list2)
+
+    result_list = list(result_set)
+    
+    def remove_dupilicates(List1,List2):
+        return [item for item in List1 if item not in List2]
+
+    new_a = remove_dupilicates(list1, list2)
+    new_b = remove_dupilicates(list2, list1)
+
+    k=list(sorted(new_b))
+    
+    context={
+        "usr":usr,
+        'events': events,
+        "hr":k,
+        "noti":len(k)
+
+    }
+    return render(request, 'executive/ex_schedule_work.html',context)
+
+
+def ex_edit_post_status(request,id):
+    if request.method == 'POST':
+        ids=request.session['userid']
+        usr = user_registration.objects.get(id=ids)
+        b=Events.objects.get(id=id)
+        b.status=request.POST['status']
+        b.st_file=request.FILES.get('cmpl_file',None)
+      
+        b.save()
+        return redirect('ex_shedule_work')
+
+    return redirect('ex_shedule_work')
+    
+def ex_save_shedule(request):
+    idr=request.session['userid']
+    usr_lg = user_registration.objects.get(id=idr)
+
+    if request.method == 'POST':
+
+        ids=request.session['smo_userid']
+        usr = smo_registration.objects.get(id=ids)
+        b=smo_post()
+        b.description = request.POST['description']
+        b.status="pending"
+        dct_file = dict(request.FILES)
+        lst_screenshot = dct_file['filed']
+        lst_file = []
+        for ins_screenshot in lst_screenshot:
+            str_img_path = ""
+            if ins_screenshot:
+                img_emp = ins_screenshot
+                fs = FileSystemStorage(location=settings.MEDIA_ROOT,base_url=settings.MEDIA_URL)
+                str_img = fs.save(''.join(filter(str.isalnum, str(img_emp))), img_emp)
+                str_img_path = fs.url(''.join(filter(str.isalnum, str_img)))
+                lst_file.append('/media/'+''.join(filter(str.isalnum, str(img_emp))))
+                b.json_testerscreenshot = lst_file
+
+        
+        b.json_testerscreenshot=b.json_testerscreenshot
+        b.smo=usr
+        b.executive=usr_lg
+
+ 
+        b.fb = request.POST.get('fb',None)
+        b.fb_dt = request.POST.get('fb_txt',None)
+        b.fb_file = request.FILES.get('fb_file',None)
+        b.tw = request.POST.get('tw',None)
+        b.tw_dt = request.POST.get('tw_txt',None)
+        b.tw_file = request.FILES.get('tw_file',None)
+        b.pin = request.POST.get('pin',None)
+        b.pin_dt = request.POST.get('pin_txt',None)
+        b.pin_file = request.FILES.get('pin_file',None)
+        b.link = request.POST.get('link',None)
+        b.link_dt = request.POST.get('link_txt',None)
+        b.link_file = request.FILES.get('link_file',None)
+        b.insta = request.POST.get('insta',None)
+        b.insta_dt = request.POST.get('insta_txt',None)
+        b.insta_file = request.FILES.get('insta_file',None)
+        b.tumb = request.POST.get('tumb',None)
+        b.tumb_dt = request.POST.get('tumb_txt',None)
+        b.tumb_file = request.FILES.get('tumb_file',None)
+        b.diry = request.POST.get('diry',None)
+        b.diry_dt = request.POST.get('diry_txt',None)
+        b.diry_file = request.FILES.get('diry_file',None)
+        b.yt = request.POST.get('yt',None)
+        b.yt_dt = request.POST.get('yt_txt',None)
+        b.yt_file = request.FILES.get('yt_file',None)
+        b.qra = request.POST.get('qra',None)
+        b.qra_dt = request.POST.get('qra_txt',None)
+        b.qra_file = request.FILES.get('qra_file',None)
+        b.sbms = request.POST.get('sbms',None)
+        b.sbms_dt = request.POST.get('sbms_txt',None)
+        b.sbms_file = request.FILES.get('sbms_file',None)
+        
+        b.save()
+
+        
+        label_req =request.POST.getlist('sub_lb[]')
+        dt =request.POST.getlist('dates[]') 
+        files_req =request.FILES.getlist('sub_file[]') 
+      
+
+        
+        if len(files_req)==len(label_req)==len(dt):
+            mapped2 = zip(label_req,dt,files_req)
+            mapped2=list(mapped2)
+         
+            for ele in mapped2:
+                created = addi_smo_post.objects.get_or_create(label=ele[0],date=ele[1],file=ele[2],executive=usr_lg,smo=usr,post=b)
+        return redirect('ex_calander')
+    return redirect('ex_calander')
 #---------------------------------marketing section
 
     

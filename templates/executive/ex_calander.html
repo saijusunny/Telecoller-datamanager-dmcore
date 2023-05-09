@@ -1,4 +1,4 @@
-{%extends 'smo/publishing/smo_base.html'%}
+{%extends 'executive/ex_base.html'%}
 <!-- DEVprojects -->
 {%load static%}
 {%block content%}
@@ -7,72 +7,181 @@
     <div id='calendar'></div> 
 </div>
 
-<div class="rowmt-5 modal fade" id="create_post">
-  <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
-    <div class="modal-content modal-xl" style="background-color: #191c24;">
-      <div class="card ">
-        <div class="card-body">
-          <div class="row">
-              <div class="col-lg-10 col-md-12 col-sm-12 mt-2" style="margin: 0 auto;">
-                  <div class="card">
-                      
-                      <div class="card-body">
-                         
-                              
-                              <div class="row" >
-                                  <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
-                                      
-                                      <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." id="dsrptn"></textarea>
-                                  </div>
-                              </div>
-  
-                              <div class="row mt-3" >
-                                  <div class="col-12 col-sm-12 col-xl-8 " style="margin: 0 auto;">
-                                      <div class="d-flex d-sm-block d-md-flex ">
-                                      
-                                          
-                                          <div>
-                                              <input type="file" name="" id="file" multiple>
-                                          </div>
-                                      
-                          
-                                      </div>
-                                  </div>
-                              </div>
 
-                              
-                              <hr>
-                              <div class="row mt-3" >
-                                  <div class="col-sm-12" style="text-align: right;">
-                                      <div>
-                                          
-  
-                                          <button  class="btn btn-outline-primary mt-4 ml-4" id="saveEvent" >Save As Draft</button>
-                                 
-                                      
-                                      <a href=""><div class="btn btn-outline-primary mt-4 " >Create Post</div></a>
+<div class="rowmt-5 modal fade" id="create_post">
+        <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+          <div class="modal-content modal-xl" style="background-color: #191c24;">
+            <div class="card ">
+              <div class="card-body">
+                <div class="row">
+                    <div class="col-lg-10 col-md-12 col-sm-12 mt-2" style="margin: 0 auto;">
+                        <div class="card">
+                            
+                            <div class="card-body">
+                                <form action="{% url 'ex_save_shedule'%}" class="form" method="post" enctype="multipart/form-data">
+                                    {% csrf_token %}
+                                    <div class="row" >
+                                        <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
+                                            
+                                            <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="description"></textarea>
+                                        </div>
+                                    </div>
+        
+                                    <div class="row mt-3" >
+                                        <div class="col-12 col-sm-12 col-xl-8 " style="margin: 0 auto;">
+                                            <div class="d-flex d-sm-block d-md-flex ">
+                                            
+                                                
+                                                <div>
+                                                  <input type="file" name="filed" multiple>
+                                                </div>
+                                            
+                                
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="row mt-3">
+                                        <div class="col-md-12" >
+                                            <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_fb() name="fb" id="fb" value="Facebook">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Facebook</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date"  name="fb_txt" id="fb_txt"  class="form-control mt-2" value="{{ dt | date:'Y-m-d'  }}"style="text-decoration:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                                
+                                                  <input type="file" name="fb_file" id="fb_file" class="form-control mt-2 " 
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tw() name="tw" id="tw" value="Twitter">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Twitter</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}" name="tw_txt" id="tw_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                                
+                                                  <input type="file" name="tw_file" id="tw_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_pin() name="pin" id="pin" value="Pinterest">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Pinterest</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="pin_txt" id="pin_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                                
+                                                  <input type="file" name="pin_file" id="pin_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_link() name="link" id="link" value="Linkedin">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Linkedin</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="link_txt" id="link_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                                
+                                                  <input type="file" name="link_file" id="link_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_insta() name="insta" id="insta" value="Instagram">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Instagram</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="insta_txt" id="insta_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ; display: none;">
+                                                
+                                                  <input type="file" name="insta_file" id="insta_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tumb() name="tumb" id="tumb" value="Tumber">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Tumblr</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="tumb_txt" id="tumb_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ; display: none;">
+                                               
+                                                  <input type="file" name="tumb_file" id="tumb_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_diry() name="diry" id="diry" value="Directories">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Directories</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="diry_txt" id="diry_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ; display: none;">
+                                                
+                                                  <input type="file" name="diry_file" id="diry_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_yt() name="yt" id="yt" value="YouTube">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">YouTube</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="yt_txt" id="yt_txt"  class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                                
+                                                  <input type="file" name="yt_file" id="yt_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                            
+                                              <div class="col-md-4 ">
+                                                <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_qra() name="qra" id="qra" value="Quora">
+                                                <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Quora</label>
+                                              </div>
+                                              <div class="col-md-8 ">
+                                                <input type="date" value="{{ dt | date:'Y-m-d'  }}"name="qra_txt" id="qra_txt" class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                                
+                                                  <input type="file" name="qra_file" id="qra_file" class="form-control mt-2 "
+                                                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                                              </div>
+                                              
+                                              <div id="sub_info">
+                            
+                                              </div>
+                                              <div class="btn btn-light mt-2" id="add_sub">+</div>
+                                        </div>
+        
                                       </div>
-                                  </div>
-                                  
-                          
-                                    
-                              </div>
-                         
-                          
-  
-                  
-                      </div>
-                     
-                  </div>
-              </div>
-          
+                                    <hr>
+                                    <div class="row mt-3" >
+                                        <div class="col-sm-12" style="text-align: right;">
+                                            <div>
+                                                
+        
+                                                <button type="submit" class="btn btn-outline-primary mt-4 ml-4" >Save And Draft</button>
+                                            </form>
+                                            
+                                            <a href="{% url 'published_post' %}"><div class="btn btn-outline-primary mt-4 " >Create Post</div></a>
+                                            </div>
+                                        </div>
+                                        
+                                
+                                          
+                                    </div>
+                               
+                                
+        
+                        
+                            </div>
+                           
+                        </div>
+                    </div>
+                
+                </div>
+            </div>
+            
+            <br><br>
           </div>
+        </div>
       </div>
-      
-      <br><br>
     </div>
-  </div>
-</div>
 
 
 
@@ -187,5 +296,170 @@
   
  </script>   
 
-          
+<script>
+    function check_fb(){
+      var chk_fb=document.getElementById("fb").checked;
+      var textarea = document.getElementById('fb_txt');
+      var files = document.getElementById('fb_file');
+      if (chk_fb==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }
+      else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_tw(){
+      var chk_tw=document.getElementById("tw").checked;
+      var textarea = document.getElementById('tw_txt');
+      var files = document.getElementById('tw_file');
+      if (chk_tw==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_pin(){
+      var chk_pin=document.getElementById("pin").checked;
+      var textarea = document.getElementById('pin_txt');
+      var files = document.getElementById('pin_file');
+      if (chk_pin==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_link(){
+      var chk_link=document.getElementById("link").checked;
+      var textarea = document.getElementById('link_txt');
+      var files = document.getElementById('link_file');
+      if (chk_link==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_insta(){
+      var chk_insta=document.getElementById("insta").checked;
+      var textarea = document.getElementById('insta_txt');
+      var files = document.getElementById('insta_file');
+      if (chk_insta==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_tumb(){
+      var chk_tumb=document.getElementById("tumb").checked;
+      var textarea = document.getElementById('tumb_txt');
+      var files = document.getElementById('tumb_file');
+      if (chk_tumb==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_diry(){
+      var chk_diry=document.getElementById("diry").checked;
+      var textarea = document.getElementById('diry_txt');
+      var files = document.getElementById('diry_file');
+      if (chk_diry==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_yt(){
+      var chk_yt=document.getElementById("yt").checked;
+      var textarea = document.getElementById('yt_txt');
+      var files = document.getElementById('yt_file');
+      if (chk_yt==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    function check_qra(){
+      var chk_qra=document.getElementById("qra").checked;
+      var textarea = document.getElementById('qra_txt');
+      var files = document.getElementById('qra_file');
+      if (chk_qra==true){
+    
+        textarea.style=('display: block');
+        files.style=('display: block');
+      }else{
+      
+        textarea.style=('display: none');
+        files.style=('display: none');
+      }
+    }
+  
+    
+  </script>
+
+
+
+<script>
+    $(document).ready(function(){
+              
+              $('#add_sub').click(function(){
+              
+                  $('#sub_info').append(
+                      `
+                      <div class="col-md-12 ">
+                      <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='sub_lb[]' id="sub_lb" >
+                     
+                    </div>
+                    <div class="col-md-12">
+                        <input type="date" value="{{ dt | date:'Y-m-d'  }}" name='dates[]' id="sub_txt" id="sub_file" class="form-control mt-2 "style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                      
+                        <input type="file" name='sub_file[]' id="sub_file" class="form-control mt-2 "
+                        style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                    </div>
+                                                      
+                      `
+                  );
+              });
+            });
+  </script>
+        
   {% endblock %}
