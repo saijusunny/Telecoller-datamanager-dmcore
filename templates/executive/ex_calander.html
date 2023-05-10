@@ -18,12 +18,11 @@
                         <div class="card">
                             
                             <div class="card-body">
-                                <form action="{% url 'ex_save_shedule'%}" class="form" method="post" enctype="multipart/form-data">
-                                    {% csrf_token %}
+                          
                                     <div class="row" >
                                         <div class="col-12 col-sm-12 col-xl-12 my-auto" style="margin: 0 auto;">
                                             
-                                            <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="description"></textarea>
+                                            <textarea class=" form-control text-light" style="border:0px solid #6C7293 ;height:400px; width: 100%; font-size: 16px;" placeholder="Type something else..." name="description" id="dsrptn"></textarea>
                                         </div>
                                     </div>
         
@@ -33,7 +32,7 @@
                                             
                                                 
                                                 <div>
-                                                  <input type="file" name="filed" multiple>
+                                                  <input type="file" name="filed" id="file" multiple>
                                                 </div>
                                             
                                 
@@ -155,8 +154,8 @@
                                             <div>
                                                 
         
-                                                <button type="submit" class="btn btn-outline-primary mt-4 ml-4" >Save And Draft</button>
-                                            </form>
+                                                <button type="submit" class="btn btn-outline-primary mt-4 ml-4" id="saveEvent">Save And Draft</button>
+                                         
                                             
                                             <a href="{% url 'published_post' %}"><div class="btn btn-outline-primary mt-4 " >Create Post</div></a>
                                             </div>
@@ -204,17 +203,77 @@
                 var end = $.fullCalendar.formatDate(end, "Y-MM-DD HH:mm:ss");
                 $('#create_post').modal('show');
                 $('#saveEvent').off('click').on('click', function() {
+                
                 var title = $('#dsrptn').val();
                 var file = $('#file')[0].files[0];  // get the first selected file
+                
+                var fb = $('#fb').val().checked;
+                var fb_dt = $('#fb_txt').val();
+                var fb_file = $('#fb_file')
+                var tw = $('#tw').val();
+                var tw_dt = $('#tw_txt').val();
+                var tw_file = $('#tw_file')
+                var pin = $('#pin').val();
+                var pin_dt = $('#pin_txt').val();
+                var pin_file = $('#pin_file')
+                var link = $('#link').val();
+                var link_dt = $('#link_txt').val();
+                var link_file = $('#link_file')
+                var insta = $('#insta').val();
+                var insta_dt = $('#insta_txt').val();
+                var insta_file = $('#insta_file')
+                var tumb = $('#tumb').val();
+                var tumb_dt = $('#tumb_txt').val();
+                var tumb_file = $('#tumb_file')
+                var diry = $('#diry').val();
+                var diry_dt = $('#diry_txt').val();
+                var diry_file = $('#diry_file')
+                var yt = $('#yt').val();
+                var yt_dt = $('#yt_txt').val();
+                var yt_file = $('#yt_file')
+                var qra = $('#qra').val();
+                var qra_dt = $('#qra_txt').val();
+                var qra_file = $('#qra_file')
+                
+                
                 var formData = new FormData();
                 formData.append('title', title);
                 formData.append('start', start);
+                
                 formData.append('end', end);
                 formData.append('file', file);
+                formData.append('fb', fb);
+                formData.append('fb_dt', fb_dt);
+                formData.append('fb_file', fb_file);
+                formData.append('tw', tw);
+                formData.append('tw_dt', tw_dt);
+                formData.append('tw_file', tw_file);
+                formData.append('pin', pin);
+                formData.append('pin_dt', pin_dt); 
+                formData.append('pin_file', pin_file); 
+                formData.append('link', link);
+                formData.append('link_dt', link_dt); 
+                formData.append('link_file', link_file); 
+                formData.append('insta', insta);
+                formData.append('insta_dt', insta_dt); 
+                formData.append('insta_file', insta_file); 
+                formData.append('tumb', tumb);
+                formData.append('tumb_dt', tumb_dt);
+                formData.append('tumb_file', tumb_file);
+                formData.append('diry', diry);
+                formData.append('diry_dt', diry_dt); 
+                formData.append('diry_file', diry_file); 
+                formData.append('yt', yt); 
+                formData.append('yt_dt', yt_dt); 
+                formData.append('yt_file', yt_file); 
+                formData.append('qra', qra);
+                formData.append('qra_dt', qra_dt); 
+                formData.append('qra_file', qra_file); 
+                
                 
                 $.ajax({
                     type: "POST",
-                    url: "{% url 'add_event' %}",
+                    url: "{% url 'ex_add_event' %}",
                     data: formData,
                     dataType: "json",
                     processData: false,

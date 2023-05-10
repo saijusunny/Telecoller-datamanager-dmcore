@@ -107,7 +107,8 @@
                   <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
                 </div>
                 <div id="files_sub" style="text-align: center;">
-                  {% if g.st_file != None%}
+                  {{g.st_file}}
+                  {% if g.st_file != NULL%}
                   <a href="{{g.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{g.st_file.url}}"></a>
                   {%else%}
                   {%endif%}

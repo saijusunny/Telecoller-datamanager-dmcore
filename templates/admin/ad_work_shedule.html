@@ -69,6 +69,32 @@
   <div class="row mt-4">
     <div class="card">
       <div class="card-body">
+        <div class="row"  >
+
+          <div class="col-sm-12" style="text-align: right;">
+            <form action="{% url 'filter_shedule' idr%}" method="post">
+              {% csrf_token %}
+            
+            <div class="row">
+              <div class="col-sm-4" style="margin:0 0 2% 65%;">
+                <div class="row">
+                  <div class="col-sm-10">
+                    <input class="form-control" type="date" name="flt_date" id="">
+                    
+                  </div>
+                  <div class="col-sm-2" >
+                    <input class="btn btn-light" style="height: 38px;" type="submit" value="Filter">
+                  </div>
+    
+                </div>
+
+              </div>
+            </div>
+          </form>
+            
+          </div>
+          
+        </div>
         <input type="text" class="form-control" id="search" placeholder="search...">
         <div class="table-responsive">
           <table class="table">

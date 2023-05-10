@@ -1021,8 +1021,9 @@ def work_shedule_exe(request):
 
 def work_shedule(request,id):
     ids=request.session['userid']
+    now = datetime.now()
     usr = user_registration.objects.get(id=ids)
-    events = Events.objects.filter(executive=id)
+    events = Events.objects.filter(executive=id, start=now.date())
 
     
 
@@ -1097,7 +1098,7 @@ def work_shedule(request,id):
     
 
 
-    now = datetime.now()
+    
 
     start_time = datetime.combine(now.date(), time.min)
     end_time = datetime.combine(now.date(), time.max)
@@ -1155,10 +1156,75 @@ def work_shedule(request,id):
         "usr":usr,
         'events': events,
         "hr":k,
-        "noti":len(k)
+        "noti":len(k),
+        "idr":id
 
     }
     return render(request, 'admin/ad_work_shedule.html',context)
+
+def filter_shedule(request,id):
+
+    if request.method == 'POST':
+        dates = request.POST['flt_date']
+        
+        ids=request.session['userid']
+        usr = user_registration.objects.get(id=ids)
+        events = Events.objects.filter(executive=id, start__date=dates)
+     
+        now = datetime.now()
+
+        start_time = datetime.combine(now.date(), time.min)
+        end_time = datetime.combine(now.date(), time.max)
+        
+        records = Events.objects.filter(start__date=dates, end__date=dates,executive=id)
+     
+
+        all_hours = [start_time + timedelta(hours=x) for x in range(9,18)]
+        
+        occupied_hours = set()
+        for record in records:
+            
+            hours = [record.start+ timedelta(hours=x) for x in range((record.end - record.start).seconds // 3600 + 1)]
+            occupied_hours.update(hours)
+    
+    
+
+        free_hours = set(all_hours) - occupied_hours
+        
+
+        lst = []
+        
+    
+        list1=[]
+        for ls1 in sorted(occupied_hours):
+            list1.append(ls1.time())
+
+        list2=[]
+        for ls2 in all_hours:
+            list2.append(ls2.time())
+
+        result_set = set(list1) - set(list2)
+
+        result_list = list(result_set)
+        
+        def remove_dupilicate(List1,List2):
+            return [item for item in List1 if item not in List2]
+
+        new_a = remove_dupilicate(list1, list2)
+        new_b = remove_dupilicate(list2, list1)
+
+        k=list(sorted(new_b))
+        
+        context={
+            "usr":usr,
+            'events': events,
+            "hr":k,
+            "noti":len(k),
+            "idr":id
+
+        }
+        return render(request, 'admin/ad_work_shedule.html',context)
+    return redirect("work_shedule",id)
 
 # views.py
 
@@ -1871,11 +1937,51 @@ def ex_add_event(request):
     usr = user_registration.objects.get(id=ids)
     if request.method == 'POST':
         start = request.POST.get('start', None)
-        end = request.GET.get("end", None)
+        end = request.POST.get("end", None)
         title = request.POST.get('title', None)
         img = request.FILES.get('file', None)
-        event = Events(name=title, start=start, end=end, img=img,executive=usr, status="draft") 
-        event.save()
+
+        b = Events()
+        b.name=title
+        b.start=start 
+        b.end=end 
+        b.img=img
+        b.executive=usr
+        b.status="pending"
+
+        b.fb = request.POST.get('fb',None)
+        b.fb_dt = request.POST.get('fb_txt',None)
+        b.fb_file = request.FILES.get('fb_file',None)
+        b.tw = request.POST.get('tw',None)
+        b.tw_dt = request.POST.get('tw_txt',None)
+        b.tw_file = request.FILES.get('tw_file',None)
+        b.pin = request.POST.get('pin',None)
+        b.pin_dt = request.POST.get('pin_txt',None)
+        b.pin_file = request.FILES.get('pin_file',None)
+        b.link = request.POST.get('link',None)
+        b.link_dt = request.POST.get('link_txt',None)
+        b.link_file = request.FILES.get('link_file',None)
+        b.insta = request.POST.get('insta',None)
+        b.insta_dt = request.POST.get('insta_txt',None)
+        b.insta_file = request.FILES.get('insta_file',None)
+        b.tumb = request.POST.get('tumb',None)
+        b.tumb_dt = request.POST.get('tumb_txt',None)
+        b.tumb_file = request.FILES.get('tumb_file',None)
+        b.diry = request.POST.get('diry',None)
+        b.diry_dt = request.POST.get('diry_txt',None)
+        b.diry_file = request.FILES.get('diry_file',None)
+        b.yt = request.POST.get('yt',None)
+        b.yt_dt = request.POST.get('yt_txt',None)
+        b.yt_file = request.FILES.get('yt_file',None)
+        b.qra = request.POST.get('qra',None)
+        b.qra_dt = request.POST.get('qra_txt',None)
+        b.qra_file = request.FILES.get('qra_file',None)
+        b.sbms = request.POST.get('sbms',None)
+        b.sbms_dt = request.POST.get('sbms_txt',None)
+        b.sbms_file = request.FILES.get('sbms_file',None)
+
+        
+        b.save()
         data = {}
         return JsonResponse(data)
  

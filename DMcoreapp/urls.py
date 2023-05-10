@@ -42,7 +42,8 @@ urlpatterns = [
     path('ad_exe_smopost', views.ad_exe_smopost, name='ad_exe_smopost'),
     path('ad_sv_smopost/<int:id>', views.ad_sv_smopost, name='ad_sv_smopost'), 
     path('ad_get_smo_pst', views.ad_get_smo_pst, name='ad_get_smo_pst'), 
-    path('get_event_det', views.get_event_det, name='get_event_det'),
+    path('get_event_det', views.get_event_det, name='get_event_det'), 
+    path('filter_shedule/<int:id>', views.filter_shedule, name='filter_shedule'), 
     #---------------------------------------------------------------------------Executive Section
     path('ex_base', views.ex_base, name='ex_base'),
     path('ex_profile', views.ex_profile, name='ex_profile'),
