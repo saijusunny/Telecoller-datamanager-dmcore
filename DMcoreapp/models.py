@@ -436,3 +436,11 @@ class Events(models.Model):
     sbms_dt = models.CharField(max_length=255,null=True,blank=True)
     sbms_file = models.ImageField(upload_to='images/smo_post/', null=True,blank=True)
     st_file = models.ImageField(upload_to='images/smo_post/', null=True,blank=True)
+
+class addi_events(models.Model):
+    events = models.ForeignKey(Events, on_delete=models.SET_NULL, null=True, blank=True)
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    post=models.ForeignKey(smo_post, on_delete=models.CASCADE, null=True, blank=True)
+    label = models.CharField(max_length=255,null=True,blank=True)
+    date = models.DateField(null=True,blank=True)
+    file =models.ImageField(upload_to='images/smo_post/', null=True, blank=True)

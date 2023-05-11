@@ -137,13 +137,35 @@
 
             <hr>
 
+            
+            
+            {% if l.status == "complete"%}
             <div class="row">
               <div class="col-sm-12" style="text-align: center;">
                 <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Status Updation</div>
               </div>
             </div>
-            
-            {% if l.status == "complete"%}
+            <div class="row" style="text-align: center;">
+              <div class="col-sm-12">
+                
+                <div class="row mt-3">
+                  <div class="col-sm-12">
+                    {% if l.st_file != None%}
+                    <a href="{{l.st_file.url}}"><img class="card-img-top" style=" width: 18rem;" src="{{l.st_file.url}}"></a>
+                    {%else%}
+                    {%endif%}
+                    
+                   
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% elif l.status == "submitted"%}
+            <div class="row">
+              <div class="col-sm-12" style="text-align: center;">
+                <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads">Status Updation</div>
+              </div>
+            </div>
             <div class="row" style="text-align: center;">
               <div class="col-sm-12">
                 
