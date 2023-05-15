@@ -182,6 +182,18 @@
               </div>
 
               <div>
+                {% if work.task == "Leeds Collection" %}
+                {% for n in dl_leeds %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                {%else%}
+                {%endif%}
                 
                     {% if work.fb != None%}
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary">Facebook</div></a>

@@ -210,6 +210,13 @@ class client_information(models.Model):
     vm_file = models.ImageField(upload_to='images/requirement/', null=True, blank=True)
     vm_target =models.TextField(default='', null=True, blank=True)
 
+    lc = models.CharField(max_length=200,default='', null=True, blank=True)
+    lc_txt = models.TextField(default='', null=True, blank=True)
+    lc_file = models.ImageField(upload_to='images/requirement/', null=True, blank=True)
+    lc_target =models.TextField(default='', null=True, blank=True)
+
+
+
 class addi_client_info(models.Model):
     user = models.ForeignKey(user_registration, on_delete=models.SET_NULL, null=True, blank=True)
     client = models.ForeignKey(client_information, on_delete=models.SET_NULL, null=True, blank=True)
@@ -310,6 +317,12 @@ class daily_work_sub(models.Model):
 
 
 class daily_off_sub(models.Model):
+    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
+    sub = models.CharField(max_length=200,default='', null=True, blank=True)
+    sub_txt = models.TextField(default='', null=True, blank=True)
+    sub_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+
+class daily_leeds(models.Model):
     daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
     sub = models.CharField(max_length=200,default='', null=True, blank=True)
     sub_txt = models.TextField(default='', null=True, blank=True)

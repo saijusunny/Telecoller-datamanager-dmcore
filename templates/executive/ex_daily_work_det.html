@@ -487,6 +487,16 @@
                   <div class="btn btn-light mt-2" id="add_sub">+</div>
                 {%else%}
                 {%endif%}
+                
+                {% if dp.task == "Leeds Collection" %}
+
+                  <div id="lc_col">
+
+                  </div>
+                  <div class="btn btn-light mt-2" id="lc_col_btn">+</div>
+                  {%else%}
+                  {%endif%}
+
                 </td>
 
                 <td class="text-info"><input type="file" name="filed" multiple></td>
@@ -528,6 +538,17 @@
               </div>
 
               <div>
+                {% if work.task == "Leeds Collection" %}
+                {% for n in dl_leeds %}
+                    
+                    {% if work.id == n.daily_id%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                    {%else%}
+                    {%endif%}
+                {%endfor%}
+                {%else%}
+                {%endif%}
+
                 {% if work.task == "SMO" %}
                     {% if work.fb != None%}
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
@@ -718,8 +739,30 @@
                 );
             });
           });
+</script> 
+<script>
+  $(document).ready(function(){
+            
+            $('#lc_col_btn').click(function(){
+            
+                $('#lc_col').append(
+                    `
+                    <div class="col-md-12 ">
+                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_lb[]' id="lc_lb" >
+                   
+                  </div>
+                  <div class="col-md-12">
+                    <textarea name='lc_txt[]' id="lc_txt" class="drop form-control ml-3 mt-2 text-light" 
+                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
+                      <input type="file" name='lc_file[]' id="lc_file" class="form-control mt-2 "
+                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
+                  </div>
+                                                    
+                    `
+                );
+            });
+          });
 </script>
-
 <script>
   $(document).ready(function(){
             

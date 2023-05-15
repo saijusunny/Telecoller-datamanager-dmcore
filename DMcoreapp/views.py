@@ -386,6 +386,11 @@ def save_create_work(request):
         client.vm_file = request.FILES.get('vm_file',None)
         client.vm_target = request.POST.get('vm_target',None)
 
+        client.lc = request.POST.get('lc',None)
+        client.lc_txt = request.POST.get('lc_txt',None)
+        client.lc_file = request.FILES.get('lc_file',None)
+        client.lc_target = request.POST.get('lc_target',None)
+
         client.user=usr
         client.save()
         
@@ -594,6 +599,16 @@ def update_client(request,id):
         else:
             client.vm_file = request.FILES.get('vm_file',None)
 
+        client.lc = request.POST.get('lc',None)
+        
+        client.lc_txt = request.POST.get('lc_txt',None)
+     
+        client.lc_target = request.POST.get('lc_target',None)
+        if request.FILES.get('lc_file',None) == None:
+            client.lc_file=client.lc_file
+        else:
+            client.lc_file = request.FILES.get('lc_file',None)
+
 
         client.user=usr
         client.save()
@@ -707,10 +722,12 @@ def ad_daily_work_det(request):
 
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
+    dl_leeds=daily_leeds.objects.all()
     
     context={
         "usr":usr,
-        "dl_work":dl_work
+        "dl_work":dl_work,
+        "dl_leeds":dl_leeds
 
     }
     return render(request, 'admin/ad_daily_work_det.html',context)
@@ -721,13 +738,15 @@ def ad_work_analiz_det(request):
     usr = user_registration.objects.get(id=ids)
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
+    dl_leeds=daily_leeds.objects.all()
 
     dl_work=daily_work.objects.all()
     context={
         "usr":usr,
         "dl_work":dl_work,
         "dl_sub":dl_sub,
-        "dl_off":dl_off
+        "dl_off":dl_off,
+        "dl_leeds":dl_leeds
 
     }
     return render(request, 'admin/ad_work_analiz_det.html',context)
@@ -737,11 +756,17 @@ def flt_dt_analiz(request):
     usr = user_registration.objects.get(id=ids)
     st_dt=request.POST.get('str_dt')
     en_dt=request.POST.get('end_dt')
+    dl_sub=daily_work_sub.objects.all() 
+    dl_off=daily_off_sub.objects.all()
+    dl_leeds=daily_leeds.objects.all()
 
     dl_work=daily_work.objects.filter(date__gte=st_dt,date__lte=en_dt)
     context={
         "usr":usr,
-        "dl_work":dl_work
+        "dl_work":dl_work,
+        "dl_sub":dl_sub,
+        "dl_off":dl_off,
+        "dl_leeds":dl_leeds
 
     }
     return render(request, 'admin/ad_work_analiz_det.html',context)
@@ -995,6 +1020,15 @@ def get_sub(request):
         hd=off.sub
         des=off.sub_txt
         fl=off.sub_file
+
+    elif daily_leeds.objects.filter(id=ids,sub=ele).exists():
+       
+        lc = daily_leeds.objects.get(id=ids,sub=ele)
+        hd=lc.sub
+        des=lc.sub_txt
+        fl=lc.sub_file
+
+
     else:
         
         sm = daily_work_sub.objects.get(id=ids,sub=ele)
@@ -1023,7 +1057,7 @@ def work_shedule(request,id):
     ids=request.session['userid']
     now = datetime.now()
     usr = user_registration.objects.get(id=ids)
-    events = Events.objects.filter(executive=id, start=now.date())
+    events = Events.objects.filter(executive=id, start__date=now.date())
     dl_sub=addi_events.objects.filter(executive=id)
 
     
@@ -1530,6 +1564,8 @@ def ex_daily_work_det(request,id):
     daily=daily_work.objects.filter(user=ids)
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
+
+    dl_leeds=daily_leeds.objects.all()
     cr_date=date.today()
     
     context={
@@ -1539,7 +1575,8 @@ def ex_daily_work_det(request,id):
         "work_as":work_as,
         "works":works,
         "dl_sub":dl_sub,
-        "dl_off":dl_off
+        "dl_off":dl_off,
+        "dl_leeds":dl_leeds
         
     }
     return render(request, 'executive/ex_daily_work_det.html',context)
@@ -1644,6 +1681,17 @@ def daily_work_done(request,id):
             for ele in mapped2:
                
                 created = daily_off_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
+
+        lc_lb =request.POST.getlist('lc_lb[]') 
+        lc_txt =request.POST.getlist('lc_txt[]')
+        lc_file =request.FILES.getlist('lc_file[]')
+        
+        if len(lc_lb)==len(lc_txt)==len(lc_file):
+            mapped2 = zip(lc_lb,lc_txt,lc_file)
+            mapped2=list(mapped2)
+            for ele in mapped2:
+               
+                created = daily_leeds.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
 
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)

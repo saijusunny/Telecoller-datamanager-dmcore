@@ -255,6 +255,19 @@
                 <textarea name="vm_target" id="vm_target" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
             </div>
+
+            <div class="col-md-4 ">
+              <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_lc() name="lc" id="lc" value="Leeds Collection">
+              <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Leeds Collection</label>
+            </div>
+            <div class="col-md-8 ">
+              <textarea name="lc_txt" id="lc_txt" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px;display: none;" placeholder="Description"></textarea>
+                <input type="file" name="lc_file" id="lc_file" class="form-control mt-2 "
+                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;" >
+                <textarea name="lc_target" id="lc_target" class="drop form-control ml-3 mt-2 text-light" 
+                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+            </div>
           </fieldset>
             <div class="col-md-4 ">
               <div class="btn btn-light mt-2" id="add_req_row">+</div>
@@ -516,6 +529,25 @@
       textarea.style=('display: none');
       files.style=('display: none');
       vm_tar.style=('display: none');
+    }
+  }
+
+  function check_lc(){
+    var chk_lc=document.getElementById("lc").checked;
+    var textarea = document.getElementById('lc_txt');
+    var files = document.getElementById('lc_file');
+    var lc_tar = document.getElementById('lc_target');
+    if (chk_lc==true){
+  
+      
+      textarea.style=('display: block');
+      files.style=('display: block');
+      lc_tar.style=('display: block');
+    }else{
+    
+      textarea.style=('display: none');
+      files.style=('display: none');
+      lc_tar.style=('display: none');
     }
   }
 
