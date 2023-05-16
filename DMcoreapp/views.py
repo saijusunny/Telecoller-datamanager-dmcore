@@ -10,6 +10,8 @@ from urllib.parse import urlencode
 from django.views.decorators.csrf import csrf_exempt
 from django. contrib import messages
 from unicodedata import name
+# pip install openpyxl
+from openpyxl import Workbook
 
 from django.shortcuts import render, redirect
 from .models import *
@@ -1506,6 +1508,36 @@ def get_event_det(request):
         
 
     return JsonResponse({"status":" not","hd":hd,"des":des,"fl":str(fl),})
+
+
+def ad_export_excel(request,id):
+
+    filtered_data = daily_leeds.objects.filter(daily=id)
+
+    # Create an Excel workbook and get the active sheet
+    workbook = Workbook()
+    sheet = workbook.active
+
+    # Add column headers to the Excel sheet
+    headers = ['No.', 'Date', 'Label', 'Text']  # Replace with your actual column names
+    sheet.append(headers)
+
+    # Add data rows to the Excel sheet
+    count = 1
+    for item in filtered_data:
+       
+        row = [count,item.daily.date,item.sub, item.sub_txt]  # Replace with your actual column names
+        sheet.append(row)
+        count+=1
+
+    # Set the response headers for the Excel file
+    response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename=filtered_data.xlsx'
+
+    # Save the Excel workbook to the response
+    workbook.save(response)
+
+    return response
 
 # -----------------------------------------------------------------------------Executive Section
 

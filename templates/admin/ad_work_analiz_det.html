@@ -93,6 +93,8 @@
               {% if work.status == "no"%}
               <div class="badge badge-outline-danger">
               Target Not Achived</div>
+              {% elif work.status == ""%}
+               
               {%else%}
               <div class="badge badge-outline-success">
                 Target Achived</div>
@@ -287,6 +289,17 @@
               </div>
               
             </div>
+            {% if work.task == "Leeds Collection" %}
+            <div class="row mt-2">
+              <div class="col-sm-12" style="text-align: right;">
+                <a href="{% url 'ad_export_excel' work.id %}">
+                <div class="badge badge-outline-success">
+                  Download Excel</div></a>
+              </div>
+            </div>
+            {%else%}
+            {%endif%}
+
           </div>
         </div>
       </div>

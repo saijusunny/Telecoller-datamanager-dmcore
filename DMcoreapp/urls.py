@@ -43,7 +43,8 @@ urlpatterns = [
     path('ad_sv_smopost/<int:id>', views.ad_sv_smopost, name='ad_sv_smopost'), 
     path('ad_get_smo_pst', views.ad_get_smo_pst, name='ad_get_smo_pst'), 
     path('get_event_det', views.get_event_det, name='get_event_det'), 
-    path('filter_shedule/<int:id>', views.filter_shedule, name='filter_shedule'), 
+    path('filter_shedule/<int:id>', views.filter_shedule, name='filter_shedule'),  
+    path('ad_export_excel/<int:id>', views.ad_export_excel, name='ad_export_excel'),
     #---------------------------------------------------------------------------Executive Section
     path('ex_base', views.ex_base, name='ex_base'),
     path('ex_profile', views.ex_profile, name='ex_profile'),
