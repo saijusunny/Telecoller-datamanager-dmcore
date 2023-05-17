@@ -28,7 +28,7 @@
               <th scope="col" style="color:#6C7293;">AssignedTo</th>
               <th scope="col" style="color:#6C7293;">Task Status</th>
               <th scope="col" style="color:#6C7293;">Project Details</th>
-              <th scope="col" style="color:#6C7293;">Target</th>
+              
               <th scope="col" style="color:#6C7293;">Action</th>
             </tr>
           </thead>
@@ -56,19 +56,8 @@
 
                 </a>
               </td>
-              <td>
-                {% if work.status == "no"%}
-                <div class="badge badge-outline-danger">
-                Target Not Achived</div>
-                {% elif work.status == NULL%}
-                <div class="badge badge-outline-danger">
-                  Target Not Achived</div>
-                {%else%}
-                <div class="badge badge-outline-success">
-                  Target Achived</div>
+            
                 
-           
-                {%endif%}</td>
               
               {% if l.task == "SMO" %}
               <td>
@@ -287,6 +276,18 @@
                   </td>
                   
                   <td>
+                    {% if dl.status == "no"%}
+                    <div class="badge badge-outline-danger">
+                    Target Not Achived</div>
+                    {% elif dl.status == ""%}
+                    <div class="badge badge-outline-danger">
+                      Target Not Achived</div>
+                    {%else%}
+                    <div class="badge badge-outline-success">
+                      Target Achived</div>
+                    
+              
+                    {%endif%}
                     <!-- <div class="badge badge-outline-primary"><a href="" style="text-decoration: none;"
                         target="_blank">View</a></div> -->
                   </td>

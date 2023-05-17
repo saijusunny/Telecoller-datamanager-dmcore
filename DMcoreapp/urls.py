@@ -100,6 +100,11 @@ urlpatterns = [
     path('he_flt_progress',views.he_flt_progress,name='he_flt_progress'),
     path('he_view_work_asign_client',views.he_view_work_asign_client,name='he_view_work_asign_client'),
     path('he_view_work_asign_exe/<int:id>',views.he_view_work_asign_exe,name='he_view_work_asign_exe'),
+    path('he_view_post/<int:id>',views.he_view_post,name='he_view_post'),
+    path('he_add_correction/<int:id>',views.he_add_correction,name='he_add_correction'),
+    path('he_add_status/<int:id>',views.he_add_status,name='he_add_status'),
+    path('he_smo_exe',views.he_smo_exe,name='he_smo_exe'),
+    path('he_add_event_status/<int:id>',views.he_add_event_status,name='he_add_event_status'),
 
     #--------------------------------------------------------------Smo Submission
     
@@ -123,6 +128,8 @@ urlpatterns = [
     path('remove', views.remove, name='remove'),
     path('work_shedule_exe', views.work_shedule_exe, name='work_shedule_exe'),
     path('work_shedule/<int:id>', views.work_shedule, name='work_shedule'),
+
+
 
  
 ]

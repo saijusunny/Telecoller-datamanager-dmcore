@@ -725,11 +725,13 @@ def ad_daily_work_det(request):
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
     dl_leeds=daily_leeds.objects.all()
-    
+    print(dl_sub)
     context={
         "usr":usr,
         "dl_work":dl_work,
-        "dl_leeds":dl_leeds
+        "dl_leeds":dl_leeds,
+        "dl_off":dl_off,
+        "dl_sub":dl_sub
 
     }
     return render(request, 'admin/ad_daily_work_det.html',context)
@@ -2251,7 +2253,6 @@ def he_view_work_asign_exe(request,id):
     return render(request,'head/he_view_work_asign_exe.html',{"usr":usr,"w":work})
 
 
-
 def he_daily_task(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
@@ -2311,6 +2312,7 @@ def he_work_add(request,id):
         edate=request.POST.get('edate')
         file=request.FILES.get('file')
         sub_tsk = request.POST.get('sub_tsk')
+        target=request.POST.get('trgt')
         client=client_information.objects.get(id=id)
         json_data = request.POST.get('array', '')
         array = json.loads(json_data)
@@ -2324,37 +2326,51 @@ def he_work_add(request,id):
                 w.sub_task="On page"
                 w.sub_des=client.on_pg_txt
                 w.sub_file=client.on_pg_file
+                w.target=request.POST.get('ontrgt')
                 w.save()
             if sub_tsk=="Off page":
                 w.sub_task="Off page"
                 w.sub_des=client.off_pg_txt
                 w.sub_file=client.off_pg_file
+                w.target=request.POST.get('offtrgt')
                 w.save()
 
         if w.task=="SMM":
             w.file_2=client.smm_file
+            w.target=target
             w.save()
         if w.task=="SEM/PPC":
             w.file_2=client.sem_file
+            w.target=target
             w.save()
         if w.task=="Email Marketing":
             w.file_2=client.em_file
+            w.target=target
             w.save()   
         if w.task=="Content Marketing":
             w.file_2=client.cm_file
+            w.target=target
             w.save() 
         if w.task=="Affiliate Marketing":
             w.file_2=client.am_file
+            w.target=target
             w.save()   
         if w.task=="Mobile marketing":
             w.file_2=client.mm_file
+            w.target=target
             w.save()  
         if w.task=="Video Marketing":
             w.file_2=client.vm_file
+            w.target=target
             w.save() 
         if w.task=="SMO":
             w.file_2=client.smo_file
-            w.save()     
+            w.target=target
+            w.save() 
+        if w.task=="LC":
+            w.file_2=client.lc_file
+            w.target=target
+            w.save()            
         w=Work.objects.latest('id')
         for i in array:
             b=user_registration.objects.get(department="Digital Marketing Executive",fullname=i)
@@ -2436,6 +2452,51 @@ def he_flt_progress(request):
 
     }
     return render(request, 'head/he_workprogress_executive.html',context)
+
+def he_view_post(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    today = date.today()
+    event=Events.objects.filter(executive=id, start__date=today)
+    hr_list=["09:00:00","10:00:00","11:00:00","12:00:00","13:00:00","14:00:00","15:00:00","16:00:00"]
+    start_values = [i.start.strftime("%H:%M:%S") for i in event]
+    unschedule = [datetime.strptime(elem, '%H:%M:%S').strftime('%I:%M %p') for elem in hr_list if elem not in start_values]
+    return render(request,'head/he_view_post.html',{"usr":usr,'evnt':event,'unsh':unschedule})
+
+def he_add_correction(request,id):
+    if request.method=='POST':
+        cor=request.POST.get('cor')
+        event=Events.objects.get(id=id)
+        c=correction(description=cor,executive_id=event.executive.id,event_id=event.id)
+        c.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+        
+def he_add_status(request,id):
+    if request.method=='POST':
+        status=request.POST.get('status')   
+        daily=daily_work.objects.get(id=id)
+        daily.status=status
+        daily.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+def he_add_event_status(request,id):
+    if request.method=='POST':
+        status=request.POST.get('status')   
+        event=Events.objects.get(id=id)
+        event.status=status
+        event.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))    
+    
+
+def he_smo_exe(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    exe=user_registration.objects.filter(department="Digital Marketing Executive")
+    return render(request, 'head/he_smo_exe.html',{'exe':exe,"usr":usr})
+
+
+
 
 #-------------------------------------------------------------------------------Smo Submission
 def smo_base(request):
@@ -2728,7 +2789,7 @@ def all_events(request):
             "id":event.id,
             "start":event.start.strftime("%m/%d/%Y, %H:%M:%S"), 
         })
-    return JsonResponse(out, safe=False)
+    return JsonResponse(out, safe=False) 
  
  
 def add_event(request):
@@ -2736,10 +2797,13 @@ def add_event(request):
     usr = user_registration.objects.get(id=ids)
     if request.method == 'POST':
         start = request.POST.get('start', None)
-        end = request.GET.get("end", None)
         title = request.POST.get('title', None)
         img = request.FILES.get('file', None)
-        event = Events(name=title, start=start, end=end, img=img,executive=usr, status="draft") 
+        date_obj = datetime.strptime(start, "%Y-%m-%d %H:%M:%S")
+        one_hour = timedelta(hours=1)
+        new_date_obj = date_obj + one_hour
+        end = new_date_obj.strftime("%Y-%m-%d %H:%M:%S.%f")
+        event = Events(name=title, start=start,end=end, img=img,executive=usr, status="draft") 
         event.save()
         data = {}
         return JsonResponse(data)

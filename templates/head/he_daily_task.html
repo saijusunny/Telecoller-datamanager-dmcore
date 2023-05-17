@@ -16,6 +16,7 @@
               <th scope="col" style="color:#6C7293;">WORKDONE</th> 
               <th scope="col" style="color:#6C7293;">EXECUTIVE NAME</th> 
               <th scope="col" style="color:#6C7293;">FILE</th> 
+              <th scope="col" style="color:#6C7293;">TARGET STATUS</th> 
             </tr>
           </thead>
           <tbody id="myTable">
@@ -32,6 +33,46 @@
                   {% endfor %}
                   Download</a>
               </button></td>
+              <td style="color:white;" data-toggle="modal" data-target="#status{{i.id}}">
+               <i>status</i>
+              </td> 
+              
+              <div class="rowmt-5 hidden modal fade" id="status{{i.id}}">
+                <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+                  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+                  <div class="modal-content modal-xl" style="background-color: #191c24;">
+                    <div class="card ">
+                      <div class="card-body">
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                          style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="text-info" style="font-size: 20px;font-weight: 600;">TARGET STATUS</div>
+              
+                        <form action="{% url 'he_add_status' i.id %}" method="post">{% csrf_token %}
+                          <div class="row pt-1">
+                            <div class="row mt-3">
+                              <div class="col-md-6">
+                              <input type="radio" id="option1" name="status" value="yes" >
+                              <label for="option1">Achieved</label>
+                              </div>
+                              <div class="col-md-6">
+                              <input type="radio" id="option2" name="status" value="no">      
+                              <label for="option2">Not Achieved</label>       
+                              </div>
+                            </div> 
+                        </div> 
+                        <div class="mt-2">
+                          <button  class="ml-3 mt-2 btn btn-outline-success">
+                            SUBMIT
+                            </button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </tr>
             {% endfor %}
         </table>
@@ -58,6 +99,7 @@
                 <p class=" mt-2 text-light" style="color:white;">{{i.workdone}}</p>
               </div>
               {% if i.task == "SMO" %}
+             
               {% if i.fb %}
               <div class="row mt-3" data-toggle="modal" data-target="#fb">
                 {{i.fb}}
@@ -113,9 +155,9 @@
                 {{i.art}}
               </div>
               {% endif %}
+          
               {% endif %}
-            </div>
-           
+            </div> 
           </form>
         </div>
       </div>
@@ -141,8 +183,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.fb_file %}
                     <a href="{{i.fb_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -169,8 +213,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.tw_file %}
                     <a href="{{i.tw_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -197,7 +243,7 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="{{i.pin_file.url}}" download style="text-decoration:none;" class="text-success">
+                    <a href="" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
                     </button>
                 </div>
@@ -225,7 +271,7 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="{{i.link_file.url}}" download style="text-decoration:none;" class="text-success">
+                    <a href="" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
                     </button>
                 </div>
@@ -253,7 +299,7 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="{{i.insta_file.url}}" download style="text-decoration:none;" class="text-success">
+                    <a href="" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
                     </button>
                 </div>
@@ -281,7 +327,7 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="{{i.tumb_file.url}}" download style="text-decoration:none;" class="text-success">
+                    <a href="" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
                     </button>
                 </div>
@@ -309,7 +355,7 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="{{i.diry_file.url}}" download style="text-decoration:none;" class="text-success">
+                    <a href="" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
                     </button>
                 </div>
@@ -337,7 +383,7 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="{{i.yt_file.url}}" download style="text-decoration:none;" class="text-success">
+                    <a href="" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
                     </button>
                 </div>
@@ -348,6 +394,7 @@
     </div>
   </div>
 </div>
+
 {% endfor %}
 <script>
   $(document).ready(function () {
