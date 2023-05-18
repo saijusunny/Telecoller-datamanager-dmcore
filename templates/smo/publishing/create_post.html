@@ -130,7 +130,7 @@
                     {%else%}
                     {%endif%}
                     {% if l.tumb != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
                     {%else%}
                     {%endif%}
                     {% if l.diry != None%}
@@ -146,10 +146,10 @@
                     {%else%}
                     {%endif%}
 
-                    {% for n in dl_sub %}
+                    {% for n in addi_post %}
                     
-                      {% if l.id == n.daily_id%}
-                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {% if l.id == n.post_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.label}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.label}}</div></a>
                       {%else%}
                       {%endif%}
                     {%endfor%}
@@ -351,7 +351,7 @@
                                           </div>
                         
                                           <div class="col-md-4 ">
-                                            <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tumb() name="tumb" id="tumb" value="Tumber">
+                                            <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tumb() name="tumb" id="tumb" value="Tumblr">
                                             <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Tumblr</label>
                                           </div>
                                           <div class="col-md-8 ">

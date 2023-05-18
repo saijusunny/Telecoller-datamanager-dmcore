@@ -16,7 +16,8 @@
               <th scope="col" style="color:#6C7293;">WORKDONE</th> 
               <th scope="col" style="color:#6C7293;">EXECUTIVE NAME</th> 
               <th scope="col" style="color:#6C7293;">FILE</th> 
-              <th scope="col" style="color:#6C7293;">TARGET STATUS</th> 
+              <th scope="col" style="color:#6C7293;">TARGET STATUS</th>
+              <th scope="col" style="color:#6C7293;">CORRECTION</th>  
             </tr>
           </thead>
           <tbody id="myTable">
@@ -25,18 +26,52 @@
               <td style="color:white;">{{i.work.client_name.client_name}}</td>
               <td style="color:white;" data-toggle="modal" data-target="#workdetails{{i.id}}">{{i.task}}</td>
               <td style="color:white;">{{i.user.fullname}}</td>
-              <td style="color:white;"><button class="btn btn-outline-success">
+              <td style="color:white;">
                 {% for ss in i.json_testerscreenshot %}
                 {% if ss %}
-                <a href="{{ss}}" download style="text-decoration:none;">
+              
+                  <div class="badge badge-outline-primary"><a style="text-decoration: none;" href="{{ ss }}" download>
+                      Download</a></div>
+                
                   {% endif %}
                   {% endfor %}
-                  Download</a>
-              </button></td>
+               
+              </td>
               <td style="color:white;" data-toggle="modal" data-target="#status{{i.id}}">
-               <i>status</i>
+               <div class="badge badge-outline-success mt-1">Status</div>
               </td> 
+              <td style="color:white;" data-toggle="modal" data-target="#correction{{i.id}}"><div class="badge badge-outline-danger mt-1">Correction</div></td>
+
+
+              <div class="rowmt-5 hidden modal fade" id="correction{{i.id}}">
+                <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+                  aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+                  <div class="modal-content modal-xl" style="background-color: #191c24;">
+                    <div class="card ">
+                      <div class="card-body">
+                        <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+                          style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+                          <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="text-info" style="font-size: 20px;font-weight: 600;">CORRECTIONS</div>
               
+                        <form action="{% url 'he_add_correction_daily' i.id %}" method="post">{% csrf_token %}
+                          <div class="row pt-1">
+                            <div class="col">
+                              <textarea class="form-control ml-3 mt-2" name="cor" rows="8" cols="100" style="height: 100%; color:white"></textarea>
+                            </div>
+                        </div> 
+                        <div class="mt-2">
+                          <button  class="ml-3 mt-2 btn btn-outline-success">
+                            SUBMIT
+                            </button>
+                        </div>
+                      </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div class="rowmt-5 hidden modal fade" id="status{{i.id}}">
                 <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
                   aria-labelledby="myLargeModalLabel" aria-hidden="true" >
@@ -145,6 +180,18 @@
                 {{i.qra}}
               </div>
               {% endif %}
+              {% for j in sub %}
+              {% if j.daily_id == i.id %}
+              <div class="row mt-3" data-toggle="modal" data-target="add">
+                {{j.sub}}
+              </div>
+              {% endif %}
+              {% endfor %}
+          
+              {% endif %}
+
+              {% if i.task == "SEO" %}
+             
               {% if i.pr %}
               <div class="row mt-3" data-toggle="modal" data-target="#pr">
                 {{i.pr}}
@@ -155,7 +202,41 @@
                 {{i.art}}
               </div>
               {% endif %}
+              {% if i.blg %}
+              <div class="row mt-3" data-toggle="modal" data-target="#blg">
+                {{i.blg}}
+              </div>
+              {% endif %}
+              {% if i.clss %}
+              <div class="row mt-3" data-toggle="modal" data-target="#clss">
+                {{i.clss}}
+              </div>
+              {% endif %}
+              {% if i.gst %}
+              <div class="row mt-3" data-toggle="modal" data-target="#gst">
+                {{i.gst}}
+              </div>
+              {% endif %}
+              {% if i.bk %}
+              <div class="row mt-3" data-toggle="modal" data-target="#bk">
+                {{i.bk}}
+              </div>
+              {% endif %}
+             {% endif %}
+
+
+              {% if i.task == "Leads Collection" %}
+              <div class="row mt-2">
+                <div class="col-sm-12" style="text-align: right;">
+                  <a href="{% url 'ad_export_excel' i.id %}">
+                  <div class="badge badge-outline-success">
+                    Download Excel</div></a>
+                </div>
+              </div>
+             
+        
           
+             
               {% endif %}
             </div> 
           </form>
@@ -243,8 +324,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="" download style="text-decoration:none;" class="text-success">
+                    {% if i.pin_file %}
+                    <a href="{{i.pin_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -271,8 +354,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="" download style="text-decoration:none;" class="text-success">
+                    {% if i.link_file %}
+                    <a href="{{i.link_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -299,8 +384,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="" download style="text-decoration:none;" class="text-success">
+                    {% if i.insta_file %}
+                    <a href="{{i.insta_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -327,8 +414,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="" download style="text-decoration:none;" class="text-success">
+                    {% if i.tumb_file %}
+                    <a href="{{i.tumb_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -355,8 +444,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="" download style="text-decoration:none;" class="text-success">
+                    {% if i.diry_file %}
+                    <a href="{{i.diry_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -383,8 +474,10 @@
               <div class="row mt-3">
                 <div class="col-md-8 ">
                   <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
-                    <a href="" download style="text-decoration:none;" class="text-success">
+                    {% if i.yt_file %}
+                    <a href="{{i.yt_file.url}}" download style="text-decoration:none;" class="text-success">
                       DOWMLOAD FILE</a>
+                      {% endif %}
                     </button>
                 </div>
               </div>
@@ -394,7 +487,186 @@
     </div>
   </div>
 </div>
+<div class="rowmt-5 hidden modal fade" id="pr">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.pr}}</div>
 
+            <div class="row mt-2">
+              <p>{{i.pr_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.pr_file %}
+                    <a href="{{i.pr_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="art">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.art}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.art_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.art_file %}
+                    <a href="{{i.art_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="blg">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.blg}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.blg_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.blg_file %}
+                    <a href="{{i.blg_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="clss">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.clss}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.clss_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.clss_file %}
+                    <a href="{{i.clss_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="gst">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.gst}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.gst_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.gst_file %}
+                    <a href="{{i.gst_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="rowmt-5 hidden modal fade" id="bk">
+  <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
+    aria-labelledby="myLargeModalLabel" aria-hidden="true" >
+    <div class="modal-content modal-xl" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+            style="background-color: #191c24;border:none;float: right;font-size: 20px;">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <div class="text-info" style="font-size: 20px;font-weight: 600;">{{i.bk}}</div>
+
+            <div class="row mt-2">
+              <p>{{i.bk_txt}}</p>
+              <div class="row mt-3">
+                <div class="col-md-8 ">
+                  <button  class="ml-3 mt-2 btn btn-outline-success" style="width:100%;">
+                    {% if i.bk_file %}
+                    <a href="{{i.bk_file.url}}" download style="text-decoration:none;" class="text-success">
+                      DOWMLOAD FILE</a>
+                      {% endif %}
+                    </button>
+                </div>
+              </div>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endfor %}
 <script>
   $(document).ready(function () {

@@ -626,27 +626,34 @@ def update_client(request,id):
         if len(labels)==len(text):
             mapped = zip(labels,text)
             mapped=list(mapped)
+            count = addi_client_info.objects.filter(client=id,section='client_information').count()
+            lb_count=len(labels)
+            print(lb_count)
             for ele in mapped:
-                try:
-                    adiclient = addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
-                    
-                 
-                    if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
-                        created = addi_client_info.objects.filter(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1])).update(labels=ele[0],discription=ele[1])
-                     
-                    
-                    elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
-                        created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
-                   
-                    else:
-                        pass
+                
+                    try:
+                        adiclient = addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
                         
-                except:
-                    created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
+                    
+                        if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
+                            created = addi_client_info.objects.filter(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1])).update(labels=ele[0],discription=ele[1])
+                        
+                        
+                        elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
+                            created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
+                    
+                        else:
+                            pass
+                            
+                    except:
+                        created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],user=usr,client=client,section='client_information')
+                
+
 
 
 
         else:
+            
             pass
 
         labels2 = request.POST.getlist('label2[]')
@@ -968,7 +975,7 @@ def get_sub(request):
         des=warn.insta_txt
         fl=warn.insta_file
 
-    elif ele=="Tumber":
+    elif ele=="Tumblr":
         hd=ele
         des=warn.tumb_txt
         fl=warn.tumb_file
@@ -1301,10 +1308,11 @@ def ad_sv_smopost(request,id):
     usr = user_registration.objects.get(id=ids)
     post = smo_post.objects.filter(executive=id)
     addi_post=addi_smo_post.objects.all()
+    print(addi_post)
     context={
             "usr":usr,
             "post":post,
-            "addi_post":addi_post
+            "addi_post":addi_post,
         }
     return render(request, 'admin/ad_sv_smopost.html',context)
 
@@ -1344,7 +1352,7 @@ def ad_get_smo_pst(request):
         des=warn.insta_dt
         fl=warn.insta_file
 
-    elif ele=="Tumber":
+    elif ele=="Tumblr":
         hd=ele
         des=warn.tumb_dt
         fl=warn.tumb_file
@@ -1400,6 +1408,13 @@ def ad_get_smo_pst(request):
         hd=off.sub
         des=off.sub_dt
         fl=off.sub_file
+
+    elif addi_smo_post.objects.filter(id=ids,label=ele).exists():
+      
+        add_smo = addi_smo_post.objects.get(id=ids,label=ele)
+        hd=add_smo.label
+        des=add_smo.date
+        fl=add_smo.file
     else:
         
         sm = daily_work_sub.objects.get(id=ids,sub=ele)
@@ -1445,7 +1460,7 @@ def get_event_det(request):
         des=warn.insta_dt
         fl=warn.insta_file
 
-    elif ele=="Tumber":
+    elif ele=="Tumblr":
         hd=ele
         des=warn.tumb_dt
         fl=warn.tumb_file
@@ -1868,12 +1883,15 @@ def corrections(request):
     dl_work=daily_work.objects.filter(user=ids)
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
+    dl_leeds=daily_leeds.objects.all()
+    print(dl_leeds)
     context={
         "usr":usr,
         "warn":cor,
         "dl_work":dl_work,
         "dl_sub":dl_sub,
         "dl_off":dl_off,
+        "dl_leeds":dl_leeds,
 
     }
     return render(request, 'executive/correction.html',context)
@@ -2258,7 +2276,9 @@ def he_daily_task(request):
     usr = user_registration.objects.get(id=ids)
     today=date.today()
     work=daily_work.objects.filter(date=today)
-    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,})
+    sub_work=daily_work_sub.objects.all()
+    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,"sub":sub_work,})
+
 
 def he_workprogress_executive(request):
     ids=request.session['userid']
@@ -2367,7 +2387,7 @@ def he_work_add(request,id):
             w.file_2=client.smo_file
             w.target=target
             w.save() 
-        if w.task=="LC":
+        if w.task=="Leads Collection":
             w.file_2=client.lc_file
             w.target=target
             w.save()            
@@ -2378,7 +2398,15 @@ def he_work_add(request,id):
             c.save()
         return HttpResponse({"message": "success"})
 
-            
+
+def he_add_correction_daily(request,id):
+    if request.method=='POST':
+        cor=request.POST.get('cor')
+        daily=daily_work.objects.get(id=id)
+        print(daily.user_id)
+        c=correction(description=cor,daily_id=daily.id,executive_id=daily.user_id,event=None)
+        c.save()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     
 def he_change_pass(request):
     ids=request.session['userid']
@@ -2467,7 +2495,7 @@ def he_add_correction(request,id):
     if request.method=='POST':
         cor=request.POST.get('cor')
         event=Events.objects.get(id=id)
-        c=correction(description=cor,executive_id=event.executive.id,event_id=event.id)
+        c=correction(description=cor,executive_id=event.executive.id,event_id=event.id,daily=None)
         c.save()
         return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
@@ -2495,7 +2523,25 @@ def he_smo_exe(request):
     exe=user_registration.objects.filter(department="Digital Marketing Executive")
     return render(request, 'head/he_smo_exe.html',{'exe':exe,"usr":usr})
 
+def he_cor_exe(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    exe=user_registration.objects.filter(department="Digital Marketing Executive")
+    return render(request, 'head/he_cor_exe.html',{'exe':exe,"usr":usr})
 
+def he_cor_exe_det(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    cor=correction.objects.filter(executive=id)
+    
+
+    context={
+        "usr":usr,
+        "warn":cor,
+        
+
+    }
+    return render(request, 'head/he_cor_exe_det.html',context)
 
 
 #-------------------------------------------------------------------------------Smo Submission
@@ -2594,11 +2640,14 @@ def create_post(request):
     ids=request.session['smo_userid']
     usr = smo_registration.objects.get(id=ids) 
     post = smo_post.objects.filter(smo=usr)
+    addi_post = addi_smo_post.objects.all()
+    
     dt=date.today()
     context={
             "usr":usr,
             "post":post,
-            "dt":dt
+            "dt":dt,
+            "addi_post":addi_post
         }
     return render(request, 'smo/publishing/create_post.html',context)
 
@@ -2721,9 +2770,12 @@ def content(request):
     ids=request.session['smo_userid']
     usr = smo_registration.objects.get(id=ids) 
     post = smo_post.objects.filter(smo=usr)
+    addi_post=addi_smo_post.objects.all()
+
     context={
             "usr":usr,
-            "post":post
+            "post":post,
+            "addi_post":addi_post
         }
     return render(request, 'smo/publishing/content.html',context)
 

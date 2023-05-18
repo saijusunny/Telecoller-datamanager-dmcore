@@ -31,7 +31,9 @@
             <tr>
               <th scope="col" style="color:#6C7293;">Date</th>
               <th scope="col" style="color:#6C7293;">Correction</th>
+              
               <th scope="col" style="color:#6C7293;">Correction Work</th> 
+              
               <th scope="col" style="color:#6C7293;">Replay</th>
 
              
@@ -51,8 +53,11 @@
               <td style="color:white;">{{i.date}}</td>
 
               <td style="color:white;" data-toggle="modal" data-target="#feed"><div class="badge badge-outline-info" onclick="warning('{{i.id}}')" >View Corrections</div></td>
-
+              {% if i.daily_id == NULL%}
+              <td></td>
+              {%else%}
               <td style="color:white;" data-toggle="modal" data-target="#ramss{{i.daily_id}}"><div class="badge badge-outline-info">Work Details</div></td>
+              {% endif %}
 
               <td style="color:white;" > 
                 {% if i.reply != NULL %}
@@ -158,6 +163,19 @@
               </div>
 
               <div>
+                {% if work.task == "Leeds Collection" %}
+                {% for n in dl_leeds %}
+                    
+                      {% if work.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
+                {%else%}
+                {%endif%}
+
                 {% if work.task == "SMO" %}
                     {% if work.fb != None%}
                     <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
@@ -180,7 +198,7 @@
                     {%else%}
                     {%endif%}
                     {% if work.tumb != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
                     {%else%}
                     {%endif%}
                     {% if work.diry != None%}

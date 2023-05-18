@@ -105,6 +105,10 @@ urlpatterns = [
     path('he_add_status/<int:id>',views.he_add_status,name='he_add_status'),
     path('he_smo_exe',views.he_smo_exe,name='he_smo_exe'),
     path('he_add_event_status/<int:id>',views.he_add_event_status,name='he_add_event_status'),
+    path('he_add_correction_daily/<int:id>',views.he_add_correction_daily,name='he_add_correction_daily'),
+    path('he_cor_exe',views.he_cor_exe,name='he_cor_exe'),
+    path('he_cor_exe_det/<int:id>',views.he_cor_exe_det,name='he_cor_exe_det'),
+    
 
     #--------------------------------------------------------------Smo Submission
     

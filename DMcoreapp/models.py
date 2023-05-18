@@ -346,12 +346,7 @@ class Warning(models.Model):
     date=models.DateField(auto_now_add=True, null=False)
     reply=models.TextField(null=True)
 
-class correction(models.Model):
-    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
-    description=models.TextField()
-    date=models.DateField(auto_now_add=True, null=False)
-    reply=models.TextField(null=True)
-    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
+
 
 #------------------------------------------------------------------------smo Registration
 class smo_registration(models.Model):
@@ -449,6 +444,14 @@ class Events(models.Model):
     sbms_dt = models.CharField(max_length=255,null=True,blank=True)
     sbms_file = models.ImageField(upload_to='images/smo_post/', null=True,blank=True)
     st_file = models.ImageField(upload_to='images/smo_post/', null=True,blank=True)
+
+class correction(models.Model):
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    description=models.TextField()
+    date=models.DateField(auto_now_add=True, null=False)
+    reply=models.TextField(null=True)
+    daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
+    event = models.ForeignKey(Events, on_delete=models.SET_NULL, null=True, blank=True)
 
 class addi_events(models.Model):
     events = models.ForeignKey(Events, on_delete=models.SET_NULL, null=True, blank=True)

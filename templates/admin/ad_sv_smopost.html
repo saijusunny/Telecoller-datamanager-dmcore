@@ -111,7 +111,7 @@
                     {%else%}
                     {%endif%}
                     {% if l.tumb_dt != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{l.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
                     {%else%}
                     {%endif%}
                     {% if l.diry_dt != None%}
@@ -127,10 +127,10 @@
                     {%else%}
                     {%endif%}
 
-                    {% for n in dl_sub %}
+                    {% for n in addi_post %}
                     
-                      {% if l.id == n.daily_id%}
-                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {% if l.id == n.post_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.label}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.label}}</div></a>
                       {%else%}
                       {%endif%}
                     {%endfor%}

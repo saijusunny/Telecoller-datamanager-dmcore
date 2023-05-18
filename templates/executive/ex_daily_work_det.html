@@ -278,13 +278,13 @@
                   <td>
                     {% if dl.status == "no"%}
                     <div class="badge badge-outline-danger">
-                    Target Not Achived</div>
+                    Target Not Achieved</div>
                     {% elif dl.status == ""%}
                     <div class="badge badge-outline-danger">
-                      Target Not Achived</div>
+                      Target Not Achieved</div>
                     {%else%}
                     <div class="badge badge-outline-success">
-                      Target Achived</div>
+                      Target Achieved</div>
                     
               
                     {%endif%}
@@ -442,8 +442,8 @@
                   </div>
 
                   <div class="col-md-4 ">
-                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tumb() name="tumb" id="tumb" value="Tumber">
-                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Tumber</label>
+                    <input type="checkbox" class="ml-3 mt-2 text-light" onclick=check_tumb() name="tumb" id="tumb" value="Tumblr">
+                    <label for="" class="mr-2 ml-3 mt-2" style="color:white ;">Tumblr</label>
                   </div>
                   <div class="col-md-8 ">
                     <textarea name="tumb_txt" id="tumb_txt" class="drop form-control ml-3 mt-2 text-light" 
@@ -492,7 +492,7 @@
                 {%else%}
                 {%endif%}
                 
-                {% if dp.task == "Leeds Collection" %}
+                {% if dp.task == "Leads Collection" %}
 
                   <div id="lc_col">
 
@@ -542,7 +542,7 @@
               </div>
 
               <div>
-                {% if work.task == "Leeds Collection" %}
+                {% if work.task == "Leads Collection" %}
                 {% for n in dl_leeds %}
                     
                     {% if work.id == n.daily_id%}
@@ -575,7 +575,7 @@
                     {%else%}
                     {%endif%}
                     {% if work.tumb != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
                     {%else%}
                     {%endif%}
                     {% if work.diry != None%}
@@ -649,7 +649,7 @@
               
             </div>
 
-            {% if work.task == "Leeds Collection" %}
+            {% if work.task == "Leads Collection" %}
             <div class="row mt-2">
               <div class="col-sm-12" style="text-align: right;">
                 <a href="{% url 'ad_export_excel' work.id %}">

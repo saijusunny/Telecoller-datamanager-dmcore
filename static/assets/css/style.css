@@ -118,9 +118,7 @@
 
 
 /* === SCSS Compass Functions === */
-.form-control {
-    color:#fff !important;
-}
+
 
 @-moz-keyframes flash {
     0% {

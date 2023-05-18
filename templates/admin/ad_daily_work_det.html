@@ -81,13 +81,13 @@
               <td class="text-primary">
                 {% if work.status == "no"%}
                 <div class="badge badge-outline-danger">
-                Target Not Achived</div>
+                Target Not Achieved</div>
                 {% elif work.status == ""%}
                 <div class="badge badge-outline-danger">
-                  Target Not Achived</div>
+                  Target Not Achieved</div>
                 {%else%}
                 <div class="badge badge-outline-success">
-                  Target Achived</div>
+                  Target Achieved</div>
                   {%endif%}
               </td>
             </tr>
@@ -120,7 +120,7 @@
               </div>
 
               <div>
-                {% if work.task == "Leeds Collection" %}
+                {% if work.task == "Leads Collection" %}
                 {% for n in dl_leeds %}
                     
                       {% if work.id == n.daily_id%}
@@ -155,7 +155,7 @@
                     {%else%}
                     {%endif%}
                     {% if work.tumb != None%}
-                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumber','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumber</div></a>
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{work.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
                     {%else%}
                     {%endif%}
                     {% if work.diry != None%}
@@ -228,7 +228,7 @@
               </div>
               
             </div>
-            {% if work.task == "Leeds Collection" %}
+            {% if work.task == "Leads Collection" %}
             <div class="row mt-2">
               <div class="col-sm-12" style="text-align: right;">
                 <a href="{% url 'ad_export_excel' work.id %}">
