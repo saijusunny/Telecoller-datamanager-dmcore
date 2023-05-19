@@ -683,38 +683,46 @@ def update_client(request,id):
           
 
         
-        files_req =request.FILES.getlist('file_add[]') 
         label_req =request.POST.getlist('label_req[]')
         dis_req =request.POST.getlist('dis_req[]')
         target =request.POST.getlist('target[]')
-        if len(label_req)==len(dis_req)==len(target):
+       
+        if request.FILES.getlist('file_add[]') == []:
+            img=addi_client_info.objects.filter(client=id,section='Requirments')
+            files_req=[]
+            for i in img:
+                files_req.append(i.file)
+       
+           
+        elif len(request.FILES.getlist('file_add[]')) != len(label_req):
+          
+            img=addi_client_info.objects.filter(client=id,section='Requirments')
+            fr=[]
+            for i in img:
+                fr.append(i.file)
+            fr2 =request.FILES.getlist('file_add[]') 
+            files_req=fr+fr2
+           
+        else:
+           
+            files_req=request.FILES.getlist('file_add[]')
+
+        
+        
+        if len(label_req)==len(dis_req)==len(target)==len(files_req):
+            
             mapped2 = zip(label_req,dis_req,files_req,target)
             mapped2=list(mapped2)
            
-       
-        
+            
+            abs=addi_client_info.objects.filter(client=id,section='Requirments').delete()
             for ele in mapped2:
-                try:
                     
-                    adiclient=addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
-                    if ((adiclient.labels==ele[0]) or (adiclient.discription==ele[1])):
-                        crt= addi_client_info.objects.get(Q(client=client),Q(labels=ele[0])|Q(discription=ele[1]))
-                        crt.labels=ele[0]
-                        crt.discription=ele[1]
-                        crt.file=ele[2]
-                        crt.target=ele[3]
-                        crt.save()
-                        
-                       
-                    elif ((adiclient.labels!=ele[0]) or (adiclient.discription!=ele[1])):
-                       
-                        created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],target=ele[3],user=usr,client=client,section='Requirments')
-                    else:
-                        pass
-                except:
+
                     created = addi_client_info.objects.get_or_create(labels=ele[0],discription=ele[1],file=ele[2],target=ele[3],user=usr,client=client,section='Requirments')
                 
         else:
+       
             pass
 
         msg_success = "Save Successfully"
