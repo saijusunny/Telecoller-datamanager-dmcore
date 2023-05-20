@@ -2285,7 +2285,11 @@ def he_daily_task(request):
     today=date.today()
     work=daily_work.objects.filter(date=today)
     sub_work=daily_work_sub.objects.all()
-    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,"sub":sub_work,})
+    dl_sub=daily_work_sub.objects.all() 
+    dl_off=daily_off_sub.objects.all()
+
+    dl_leeds=daily_leeds.objects.all()
+    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,"sub":sub_work,"dl_sub":dl_sub,"dl_off":dl_off,"dl_leeds":dl_leeds})
 
 
 def he_workprogress_executive(request):

@@ -7,7 +7,7 @@
 <div class="row mt-4">
   <div class="card">
     <div class="card-body">
-      <input type="text" class="form-control" id="search" placeholder="search...">
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -133,96 +133,105 @@
               <div class="col">
                 <p class=" mt-2 text-light" style="color:white;">{{i.workdone}}</p>
               </div>
+              {% if i.task == "Leads Collection" %}
+                {% for n in dl_leeds %}
+                    
+                    {% if i.id == n.daily_id%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                    {%else%}
+                    {%endif%}
+                {%endfor%}
+                {%else%}
+                {%endif%}
               {% if i.task == "SMO" %}
-             
-              {% if i.fb %}
-              <div class="row mt-3" data-toggle="modal" data-target="#fb">
-                {{i.fb}}
-              </div>
-              {% endif %}
-              {% if i.tw %}
-              <div class="row mt-3" data-toggle="modal" data-target="#tw">
-                {{i.tw}}
-              </div>
-              {% endif %}
-              {% if i.pin %}
-              <div class="row mt-3" data-toggle="modal" data-target="#pin">
-                {{i.pin}}
-              </div>
-              {% endif %}
-              {% if i.link %}
-              <div class="row mt-3" data-toggle="modal" data-target="#link">
-                {{i.link}}
-              </div>
-              {% endif %}
-              {% if i.insta %}
-              <div class="row mt-3" data-toggle="modal" data-target="#insta">
-                {{i.insta}}
-              </div>
-              {% endif %}
-              {% if i.tumb %}
-              <div class="row mt-3" data-toggle="modal" data-target="#tumb">
-                {{i.tumb}}
-              </div>
-              {% endif %}
-              {% if i.diry %}
-              <div class="row mt-3" data-toggle="modal" data-target="#diry">
-                {{i.diry}}
-              </div>
-              {% endif %}
-              {% if i.yt %}
-              <div class="row mt-3" data-toggle="modal" data-target="#yt">
-                {{i.yt}}
-              </div>
-              {% endif %}
-              {% if i.qra %}
-              <div class="row mt-3" data-toggle="modal" data-target="#qra">
-                {{i.qra}}
-              </div>
-              {% endif %}
-              {% for j in sub %}
-              {% if j.daily_id == i.id %}
-              <div class="row mt-3" data-toggle="modal" data-target="add">
-                {{j.sub}}
-              </div>
-              {% endif %}
-              {% endfor %}
-          
-              {% endif %}
+                    {% if i.fb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Facebook','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Facebook</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.tw != None%}
+                    <a href="" data-toggle="modal" data-target="#descr"onclick="view_sub('Twitter','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Twitter</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.pin != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Pinterest','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Pinterest</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.link != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Linkedin','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Linkedin</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.insta != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Instagram','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Instagram</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.tumb != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Tumblr','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Tumblr</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.diry != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Directories','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Directories</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.yt != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('You Tube','{{i.id}}')"><div class="badge badge-outline-primary mt-1">You Tube</div></a>
+                    {%else%}
+                    {%endif%}
+                    {% if i.qra != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Quora','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Quora</div></a>
+                    {%else%}
+                    {%endif%}
 
-              {% if i.task == "SEO" %}
-             
-              {% if i.pr %}
-              <div class="row mt-3" data-toggle="modal" data-target="#pr">
-                {{i.pr}}
-              </div>
-              {% endif %}
-              {% if i.art %}
-              <div class="row mt-3" data-toggle="modal" data-target="#art">
-                {{i.art}}
-              </div>
-              {% endif %}
-              {% if i.blg %}
-              <div class="row mt-3" data-toggle="modal" data-target="#blg">
-                {{i.blg}}
-              </div>
-              {% endif %}
-              {% if i.clss %}
-              <div class="row mt-3" data-toggle="modal" data-target="#clss">
-                {{i.clss}}
-              </div>
-              {% endif %}
-              {% if i.gst %}
-              <div class="row mt-3" data-toggle="modal" data-target="#gst">
-                {{i.gst}}
-              </div>
-              {% endif %}
-              {% if i.bk %}
-              <div class="row mt-3" data-toggle="modal" data-target="#bk">
-                {{i.bk}}
-              </div>
-              {% endif %}
-             {% endif %}
+                    {% for n in dl_sub %}
+                    
+                      {% if i.id == n.daily_id%}
+                      <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')"><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      {%else%}
+                      {%endif%}
+                    {%endfor%}
+                
+                {%else%}
+                {%endif%}
+
+                {% if i.pr != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('PR Submission','{{i.id}}')"><div class="badge badge-outline-primary mt-1">PR Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.art != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Article Submission','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Article Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.blg != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Blog Posting','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Blog Posting</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.clss != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Classified Submission','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Classified Submission</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Guest Blogging','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Guest Blogging</div></a>
+                    {%else%}
+                    {%endif%}
+
+                    {% if i.gst != None%}
+                    <a href="" data-toggle="modal" data-target="#descr" onclick="view_sub('Bokkmarking','{{i.id}}')"><div class="badge badge-outline-primary mt-1">Bokkmarking</div></a>
+                    {%else%}
+                    {%endif%}
+                    
+
+                    {% for n in dl_off %}
+                    
+                      {% if i.id == n.daily_id%}
+                      <a href="" data-dismiss="modal" data-target="#descr" onclick="view_sub('{{n.sub}}','{{n.id}}')" data-toggle="modal" ><div class="badge badge-outline-primary mt-1">{{n.sub}}</div></a>
+                      
+                      {%else%}
+                      {%endif%}
+                      
+                    {%endfor%}
 
 
               {% if i.task == "Leads Collection" %}
@@ -668,6 +677,66 @@
   </div>
 </div>
 {% endfor %}
+
+
+<div class="rowmt-5 modal fade" id="descr">
+  <div class="modal-dialog modal-m modal-dialog-centered" role="document">
+    <div class="modal-content modal-m" style="background-color: #191c24;">
+      <div class="card ">
+        <div class="card-body">
+          <div class="container">
+            <button type="button" class="close text-light" data-dismiss="modal" aria-label=""
+              style="background-color: #191c24;border:none; float: right; font-size: 20px;">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="text-info" style="font-size: 20px;font-weight: 600;" id="heads"> </div>
+
+            <div class="row mt-5">
+              <div class="col">
+                <p class=" mt-2 text-light" style="color:white; ; font-size: 20px; text-align:justify" id="sub_des"></p>
+              </div>
+              <div id="files_sub">
+                <a href="" id="files"><div  class="btn-primary Search" style="width:220px; text-align:center" >Download Attach File</div></a>
+              </div>
+              
+            </div>
+           
+        </div>
+      </div>
+  </div>
+</div>
+<script>
+  function view_sub(el, id){
+      var elem=el
+      var ids=id
+      
+      $.ajax({
+          type: "GET",
+          url: "{% url 'get_sub' %}",
+          data: {
+              ele : elem,
+              idss:ids,
+              
+          },
+          success:function(response){
+                  console.log(response)
+           
+                  head = response.hd
+                  des = response.des
+                  fil = response.fl
+           
+                  document.getElementById('sub_des').innerHTML = des;
+                  document.getElementById('heads').innerHTML = head;
+                  flr=document.getElementById('files')
+             
+                  flr.href = (`/media/${fil}`)
+                  
+
+          }});
+
+      
+  }
+</script>
 <script>
   $(document).ready(function () {
     $("#search").on("keyup", function () {
