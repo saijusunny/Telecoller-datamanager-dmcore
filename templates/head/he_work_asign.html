@@ -42,7 +42,7 @@
 <div class="row mt-4">
   <div class="card">
     <div class="card-body">
-      <input type="text" class="form-control" id="search" placeholder="search...">
+      <input type="text" class="form-control text-light" id="search" placeholder="search...">
       <div class="table-responsive">
         <table class="table">
           <thead>
@@ -184,7 +184,7 @@
           {% if client.lc %}
               <tr>
                 <form action="" method="post">{% csrf_token %}
-              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_10" id="tsk9">{{client.lc}}</td>
+              <td style="color:white;" data-bs-toggle="modal" data-bs-target="#wrk_10" id="tsk10">{{client.lc}}</td>
              
               <td style="color:white;">
                   <input value="SELECT EXECUTIVE" class="form-control"  data-bs-toggle="modal" data-bs-target="#select_exe_10" type="button">
