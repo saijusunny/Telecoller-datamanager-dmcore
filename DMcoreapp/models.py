@@ -460,3 +460,24 @@ class addi_events(models.Model):
     label = models.CharField(max_length=255,null=True,blank=True)
     date = models.DateField(null=True,blank=True)
     file =models.ImageField(upload_to='images/smo_post/', null=True, blank=True)
+
+class All_leads(models.Model):
+    
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    name = models.CharField(max_length=255,null=True,blank=True,default='')
+    email_id = models.CharField(max_length=255,null=True,blank=True,default='')
+    ph_no = models.CharField(max_length=255,null=True,blank=True,default='')
+    location = models.CharField(max_length=255,null=True,blank=True,default='')
+    qualification = models.CharField(max_length=255,null=True,blank=True,default='')
+    year_of_passout = models.DateField(null=True,blank=True)
+    collegename = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_institute = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_topic = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_start = models.DateField(null=True,blank=True)
+    internship_end  = models.DateField(null=True,blank=True)
+    fresher_experience = models.CharField(max_length=255,null=True,blank=True,default='')
+    previous_experience = models.CharField(max_length=255,null=True,blank=True,default='')
+    company_name = models.CharField(max_length=255,null=True,blank=True,default='')
+    regiter = models.CharField(max_length=255,null=True,blank=True,default='')
+   
