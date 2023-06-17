@@ -498,6 +498,9 @@
 
                   </div>
                   <div class="btn btn-light mt-2" id="lc_col_btn">+</div>
+
+                  <div class="btn btn-danger mt-2">Upload Excel</div>
+                  <input type="file" name="up_ld_excel">
                   {%else%}
                   {%endif%}
 
@@ -668,6 +671,7 @@
 {%endfor%}
 
 
+
 <div class="rowmt-5 modal fade" id="descr">
   <div class="modal-dialog modal-m modal-dialog-centered" role="document">
     <div class="modal-content modal-m" style="background-color: #191c24;">
@@ -756,6 +760,106 @@
             });
           });
 </script> 
+
+<!-- <div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_name[]' id="name" placeholder="Name">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_email_id[]' id="email_id" placeholder="Email id">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_ph_no[]' id="ph_no" placeholder="Phone Number">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_location[]' id="location" placeholder="Location">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_qualification[]' id="qualification" placeholder="Qualification">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_year_of_passout[]' id="year_of_passout" placeholder="Year of passout">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_collegename[]' id="collegename" placeholder="Collegename">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship[]' id="internship" placeholder="Internship">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_institute[]' id="internship_institute" placeholder="Internship Institute">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_topic[]' id="internship_topic" placeholder="Internship Topic">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_start[]' id="internship_start" placeholder="Internship start Date">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_end[]' id="internship_end" placeholder="Internship End Date">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+
+    <input type="radio" class=" ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" placeholder="Fresher">
+    <input type="radio" class="ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" placeholder="Experience">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_previous_experience[]' id="previous_experience" placeholder="Previous Experience">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_company_name[]' id="company_name" placeholder="Company Name">
+  </div>
+</div>
+
+<div class="row">
+  <div class="col-sm-12">
+    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_register[]' id="register" placeholder="register">
+  </div>
+</div> -->
+
+
 <script>
   $(document).ready(function(){
             
@@ -763,16 +867,116 @@
             
                 $('#lc_col').append(
                     `
-                    <div class="col-md-12 ">
-                    <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_lb[]' id="lc_lb" >
-                   
-                  </div>
-                  <div class="col-md-12">
-                    <textarea name='lc_txt[]' id="lc_txt" class="drop form-control ml-3 mt-2 text-light" 
-                      style="border:1px solid #6C7293 ;height:70px; " ></textarea>
-                      <input type="file" name='lc_file[]' id="lc_file" class="form-control mt-2 "
-                      style="text-decoration:none;background-color: #191c24;color:#6C7293 ;">
-                  </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_name[]' id="name" placeholder="Name">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_email_id[]' id="email_id" placeholder="Email id">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_ph_no[]' id="ph_no" placeholder="Phone Number">
+                      </div>
+                    </div>
+
+                    
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_qualification[]' id="qualification" placeholder="Qualification">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_year_of_passout[]' id="year_of_passout" placeholder="Year of Passout">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_collegename[]' id="collegename" placeholder="College Name">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_location[]' id="location" placeholder="Location">
+                      </div>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        
+                        <label>Internship If Any : </label>
+                        <input type="radio" class=" ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship[]' id="internship" value="Yes" ><label>Yes</label>
+                        <input type="radio" class="ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship[]' id="internship" value="No"><label>No</label>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_institute[]' id="internship_institute" placeholder="Internship Institute">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_topic[]' id="internship_topic" placeholder="Internship Topic">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12 mt-2">
+                        <label>Internship Start Date:</label>
+                        <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_start[]' id="internship_start" placeholder="Internship start Date">
+                      </div>
+                    </div>
+
+                    <div class="row mt-2">
+                      <div class="col-sm-12">
+                        <label>Internship End Date:</label>
+                        <input type="date" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_internship_end[]' id="internship_end" placeholder="Internship End Date">
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_duration[]' id="duration" placeholder="Duration">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+
+                        <input type="radio" class=" ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" value="Fresher" ><label>Fresher</label>
+                        <input type="radio" class="ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_fresher_experience[]' id="fresher_experience" value="experience"><label>Experience</label>
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_previous_experience[]' id="previous_experience" placeholder="Previous Experience">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_company_name[]' id="company_name" placeholder="Company Name">
+                      </div>
+                    </div>
+
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <input type="text" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;color:#6C7293;"  name='lc_register[]' id="register" placeholder="Register For What">
+                      </div>
+                    </div>
                                                     
                     `
                 );

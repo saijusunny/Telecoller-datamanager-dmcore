@@ -47,6 +47,8 @@ from django.db.models.functions import TruncHour
 from datetime import time
 
 from datetime import datetime, timedelta, time
+from django.shortcuts import render
+from openpyxl import load_workbook
 #----------------------------------------------------------Login, Sign Up, Reset, Internshipform 
 def login(request):
     return render(request, 'home/login.html')
@@ -1739,17 +1741,56 @@ def daily_work_done(request,id):
                
                 created = daily_off_sub.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
 
-        lc_lb =request.POST.getlist('lc_lb[]') 
-        lc_txt =request.POST.getlist('lc_txt[]')
-        lc_file =request.FILES.getlist('lc_file[]')
+       
+
+        name=request.POST.getlist('lc_name[]')
+        email_id=request.POST.getlist('lc_email_id[]')
+        ph_no=request.POST.getlist('lc_ph_no[]')
+        location=request.POST.getlist('lc_location[]')
+        qualification=request.POST.getlist('lc_qualification[]')
+        year_of_passout=request.POST.getlist('lc_year_of_passout[]')
+        collegename=request.POST.getlist('lc_collegename[]')
+        internship=request.POST.getlist('lc_internship[]')
+        internship_institute=request.POST.getlist('lc_internship_institute[]')
+        internship_topic=request.POST.getlist('lc_internship_topic[]')
+        internship_start=request.POST.getlist('lc_internship_start[]')
+        internship_end=request.POST.getlist('lc_internship_end[]')
+        fresher_experience=request.POST.getlist('lc_fresher_experience[]')
+        previous_experience=request.POST.getlist('lc_previous_experience[]')
+        company_name=request.POST.getlist('lc_company_name[]')
+        register=request.POST.getlist('lc_register[]')
+        duration=request.POST.getlist('lc_duration[]')
         
-        if len(lc_lb)==len(lc_txt)==len(lc_file):
-            mapped2 = zip(lc_lb,lc_txt,lc_file)
+        if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration):
+            mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration)
             mapped2=list(mapped2)
             for ele in mapped2:
-               
-                created = daily_leeds.objects.get_or_create(sub=ele[0],sub_txt=ele[1],sub_file=ele[2],daily=dl)
 
+                fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],duration=ele[16],register=ele[15],daily=dl)
+
+        if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration):
+            mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration)
+            mapped2=list(mapped2)
+            for ele in mapped2:
+
+                fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=row[16],executive=usr)
+
+        # file_up=request.FILES.get('up_ld_excel',None)
+        # excel_contents = file_up.read_excel()
+
+        file = request.FILES.get('up_ld_excel',None)
+        wb = load_workbook(file)
+        sheet = wb.active
+        for row in sheet.iter_rows(values_only=True):
+            print(row[0])
+            fromdate=datetime.strptime(str(row[11]), "%Y-%m-%d").date()
+            todate=datetime.strptime(str(row[12]), "%Y-%m-%d").date()
+            created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],executive=usr)
+    
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)
 
@@ -2894,7 +2935,48 @@ def remove(request):
 
 
 
+# def Analysis(request):
+#     if 'uid' in request.session:
+#         if request.session.has_key('userid'):
+#             uid = request.session['userid']
+           
+#         else:
+#             return render(request,'Analsis_HomePage.html')
+#         if request.method == "POST":
+#             user_reg=user_registration.objects.get(id=userid)
+            
+#             file_up=UploadFiles.objects.get(id=pk)
+#             excel_contents = file_up.read_excel()
+#             return redirect('ex_dashboard')
+   
+#         return redirect('ex_dashboard')
 
+#     else:
+#         return redirect('ex_dashboard')
+
+# from django.shortcuts import render
+# from openpyxl import load_workbook
+
+# def upload_excel(request):
+#     if request.method == 'POST':
+#         form = ExcelUploadForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             file = form.cleaned_data['file']
+#             wb = load_workbook(file)
+#             sheet = wb.active
+
+#             # Process the data from the sheet
+#             for row in sheet.iter_rows(values_only=True):
+#                 # Here, you can perform operations with each row's data
+#                 # For example, you can save the data to your SQL table using Django ORM
+
+#             # Optionally, you can render a success message
+#             return redirect('ex_dashboard')
+#         else:
+#             return redirect('ex_dashboard')
+#     else:
+#         form = ExcelUploadForm()
+#     return render(request, 'upload.html', {'form': form})
 
 
 

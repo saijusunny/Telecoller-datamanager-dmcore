@@ -324,9 +324,23 @@ class daily_off_sub(models.Model):
 
 class daily_leeds(models.Model):
     daily=models.ForeignKey(daily_work,on_delete=models.CASCADE,null=True,blank=True)
-    sub = models.CharField(max_length=200,default='', null=True, blank=True)
-    sub_txt = models.TextField(default='', null=True, blank=True)
-    sub_file = models.ImageField(upload_to='images/sub/', null=True, blank=True)
+    name = models.CharField(max_length=255,null=True,blank=True,default='')
+    email_id = models.CharField(max_length=255,null=True,blank=True,default='')
+    ph_no = models.CharField(max_length=255,null=True,blank=True,default='')
+    location = models.CharField(max_length=255,null=True,blank=True,default='')
+    qualification = models.CharField(max_length=255,null=True,blank=True,default='')
+    year_of_passout = models.CharField(max_length=255,null=True,blank=True,default='')
+    collegename = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_institute = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_topic = models.CharField(max_length=255,null=True,blank=True,default='')
+    internship_start = models.DateField(null=True,blank=True)
+    internship_end  = models.DateField(null=True,blank=True)
+    duration = models.CharField(max_length=255,null=True,blank=True,default='')
+    fresher_experience = models.CharField(max_length=255,null=True,blank=True,default='')
+    previous_experience = models.CharField(max_length=255,null=True,blank=True,default='')
+    company_name = models.CharField(max_length=255,null=True,blank=True,default='')
+    register = models.CharField(max_length=255,null=True,blank=True,default='')
 
 class progress_report(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)
@@ -463,21 +477,31 @@ class addi_events(models.Model):
 
 class All_leads(models.Model):
     
-    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+    date=models.DateField(null=True,blank=True)
     name = models.CharField(max_length=255,null=True,blank=True,default='')
     email_id = models.CharField(max_length=255,null=True,blank=True,default='')
     ph_no = models.CharField(max_length=255,null=True,blank=True,default='')
     location = models.CharField(max_length=255,null=True,blank=True,default='')
     qualification = models.CharField(max_length=255,null=True,blank=True,default='')
-    year_of_passout = models.DateField(null=True,blank=True)
+    year_of_passout = models.CharField(max_length=255,null=True,blank=True,default='')
     collegename = models.CharField(max_length=255,null=True,blank=True,default='')
     internship = models.CharField(max_length=255,null=True,blank=True,default='')
     internship_institute = models.CharField(max_length=255,null=True,blank=True,default='')
     internship_topic = models.CharField(max_length=255,null=True,blank=True,default='')
     internship_start = models.DateField(null=True,blank=True)
     internship_end  = models.DateField(null=True,blank=True)
+    duration = models.CharField(max_length=255,null=True,blank=True,default='')
     fresher_experience = models.CharField(max_length=255,null=True,blank=True,default='')
     previous_experience = models.CharField(max_length=255,null=True,blank=True,default='')
     company_name = models.CharField(max_length=255,null=True,blank=True,default='')
-    regiter = models.CharField(max_length=255,null=True,blank=True,default='')
+    register = models.CharField(max_length=255,null=True,blank=True,default='')
+
+    status =models.CharField(max_length=255,null=True,blank=True,default='')
+    followup_dt =models.DateField(null=True,blank=True)
+    assign_status=models.CharField(max_length=255,null=True,blank=True,default='')
+    assign_dt =models.DateField(null=True,blank=True)
+
+
+    executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
+
    

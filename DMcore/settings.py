@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'DMcore.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'dmr',
+        'NAME': 'dem_tele',
         'USER': 'root',
         'PASSWORD': '',
         'HOST': 'localhost',
