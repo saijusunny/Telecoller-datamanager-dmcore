@@ -922,23 +922,25 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
-                {% if client.on_pg != ""%}
-                <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="Onpage" name="onpage" onclick=check_onpage()  checked>
-                <label for="" class="mr-2 ml-3 mt-2" style="color:rgb(255, 255, 255) ;" id="onpg_lb">Onpage</label>
-                
-                <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; " >{{client.on_pg_txt}}</textarea>
+                {% if client.on_pg != None%}
+                  <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="Onpage" name="onpage" onclick=check_onpage()  checked>
+                  <label for="" class="mr-2 ml-3 mt-2" style="color:rgb(255, 255, 255) ;" id="onpg_lb">Onpage</label>
+                  
+                  <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
+                  style="border:1px solid #6C7293 ;height:70px; " >{{client.on_pg_txt}}</textarea>
 
-                <textarea name="on_target" id="on_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="Target">{{client.on_pg_target}}</textarea>
+                  
 
-                {% if client.on_pg_file != ""%}
-                <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
-                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" value="{{client.on_pg_file.url}}">
-                {%else%}
-                <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
-                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" >
-                {%endif%}
+                  <input type="number" value="{{client.on_pg_target}}" name="on_target" id="am_target" class="form-control mt-2 text-light "
+                  style="text-decoration:none;border:none;color:#6C7293 ;">
+
+                  {% if client.on_pg_file != ""%}
+                  <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
+                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" value="{{client.on_pg_file.url}}">
+                  {%else%}
+                  <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
+                  style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" >
+                  {%endif%}
 
                 {%else%}
                 <input type="checkbox" class="ml-3 mt-2 text-light" id="onpage" value="onpage" name="onpage" onclick=check_onpage() >
@@ -946,8 +948,10 @@
                 
                 <textarea name="on_txt" id="on_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
-                <textarea name="on_target" id="on_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Target"></textarea>
+                
+
+                <input type="number" value="0" name="on_target" id="on_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;display: none;">
 
                 <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
@@ -961,7 +965,11 @@
                 <textarea name="off_txt" id="off_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; " >{{client.off_pg_txt}}</textarea>
 
-                <textarea name="off_target" id="off_target" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px;" placeholder="Target">{{client.off_pg_target}}</textarea>
+                
+
+                <input type="number" value="{{client.off_pg_target}}" name="off_target" id="off_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293">
+                
                 {% if client.off_pg_file != ""%}
                 <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;" value="{{client.off_pg_file.url}}">
@@ -976,9 +984,12 @@
 
                 <textarea name="off_txt" id="off_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
-                <textarea name="off_target" id="off_target" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="Target"></textarea>
+                
+                <input type="number" value="0" name="off_target" id="off_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;display: none;">
                 <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                
                 {%endif%}
                 
                
@@ -1004,6 +1015,8 @@
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="on_file" id="on_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <input type="number" value="0" name="on_target" id="on_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;display: none;">
 
                 <input type="checkbox" class="ml-3 mt-2 text-light" id="offpage" value="offpage" name="offpage" onclick=check_offpage() style="display: none;">
                 <label for="" class="mr-2 ml-3 mt-2" style="color:white;display: none;" id="offpg_lb">Offpage</label>
@@ -1012,6 +1025,8 @@
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="off_file" id="off_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
+                <input type="number" value="0" name="off_target" id="off_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;display: none;">
                 
 
 
@@ -1037,8 +1052,10 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
-                <textarea name="smo_target" id="smo_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.smo_target}}</textarea>
+                
+
+                <input type="number" value="{{client.smo_target}}" name="smo_target" id="smo_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
 
                 
             </div>
@@ -1053,8 +1070,10 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;"  ></textarea>
                 <input type="file" name="smo_file" id="smo_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="smo_target" id="smo_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+               
+
+                <input type="number" value="0" name="smo_target" id="smo_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
 
 
@@ -1080,8 +1099,10 @@
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;">
                
                 {%endif%}
-                <textarea name="smm_target" id="smm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.smm_target}}</textarea>
+               
+
+                <input type="number" value="{{client.smm_target}}" name="smm_target" id="smm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; ">
 
                 
             </div>
@@ -1096,8 +1117,9 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;"  ></textarea>
                 <input type="file" name="smm_file" id="smm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="smm_target" id="smm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+                
+                <input type="number" value="0" name="smm_target" id="smm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
 
             {%endif%}
@@ -1119,7 +1141,10 @@
                
                 {%endif%}
 
-                <textarea name="sem_target" id="sem_target" class="drop form-control ml-3 mt-2 text-light" style="border:1px solid #6C7293 ;height:70px; " placeholder="target">{{client.sem_target}}</textarea>
+                
+
+                <input type="number" value="{{client.sem_target}}" name="sem_target" id="sem_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; ">
                 
             </div>
             {%else%}
@@ -1132,8 +1157,10 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="sem_file" id="sem_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="sem_target" id="sem_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+              
+
+                <input type="number" value="0" name="sem_target" id="sem_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
             {%endif%}
             {% if client.em != None%}
@@ -1154,8 +1181,10 @@
                
                 {%endif%}
 
-                <textarea name="em_target" id="em_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.em_target}}</textarea>
+             
+
+                <input type="number" value="{{client.em_target}}" name="em_target" id="em_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; ">
                 
             </div>
             {%else%}
@@ -1168,8 +1197,9 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="em_file" id="em_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="em_target" id="em_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+               
+                <input type="number" value="0" name="em_target" id="em_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
             {%endif%}
 
@@ -1190,8 +1220,10 @@
                
                 {%endif%}
 
-                <textarea name="cm_target" id="cm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; " placeholder="target">{{client.cm_target}}</textarea>
+                
+
+                <input type="number" value="{{client.cm_target}}" name="cm_target" id="cm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; ">
                 
             </div>
             {%else%}
@@ -1204,8 +1236,10 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="cm_file" id="cm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="cm_target" id="cm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+               
+
+                <input type="number" value="0" name="cm_target" id="cm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
             {%endif%}
 
@@ -1226,8 +1260,10 @@
                
                 {%endif%}
 
-                <textarea name="am_target" id="am_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.am_target}}</textarea>
+                
+
+                <input type="number" value="{{client.am_target}}" name="am_target" id="am_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
                 
             </div>
             {%else%}
@@ -1240,8 +1276,10 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="am_file" id="am_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="am_target" id="am_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+                
+
+                <input type="number" value="0" name="am_target" id="am_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
             {%endif%}
             {% if client.mm != None%}
@@ -1261,8 +1299,10 @@
                
                 {%endif%}
 
-                <textarea name="mm_target" id="mm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.mm_target}}</textarea>
+               
+
+                <input type="number" value="{{client.mm_target}}" name="mm_target" id="mm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
 
                 
             </div>
@@ -1276,8 +1316,10 @@
                 style="border:1px solid #6C7293 ;height:70px; display: none;" ></textarea>
                 <input type="file" name="mm_file" id="mm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;">
-                <textarea name="mm_target" id="mm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+               
+
+                <input type="number" value="0" name="mm_target" id="mm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
             {%endif%}
             {% if client.vm != None%}
@@ -1297,8 +1339,10 @@
                
                 {%endif%}
 
-                <textarea name="vm_target" id="vm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.vm_target}}</textarea>
+             
+
+                <input type="number" value="{{client.vm_target}}" name="vm_target" id="vm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
                 
             </div>
             {%else%}
@@ -1311,8 +1355,9 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="vm_file" id="vm_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;" >
-                <textarea name="vm_target" id="vm_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+               
+                <input type="number" value="0" name="vm_target" id="vm_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; display: none;">
             </div>
             {%endif%}
 
@@ -1333,8 +1378,10 @@
                
                 {%endif%}
 
-                <textarea name="lc_target" id="lc_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target">{{client.lc_target}}</textarea>
+               
+
+                <input type="number" value="{{client.lc_target}}" name="lc_target" id="lc_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ; ">
                 
             </div>
             {%else%}
@@ -1347,8 +1394,10 @@
                 style="border:1px solid #6C7293 ;height:70px;display: none;" ></textarea>
                 <input type="file" name="lc_file" id="lc_file" class="form-control mt-2 "
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 ;display: none;" >
-                <textarea name="lc_target" id="lc_target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px; display: none;" placeholder="target"></textarea>
+             
+
+                <input type="number" value="0" name="lc_target" id="lc_target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;display: none; ">
             </div>
             {%endif%}
 
@@ -1364,8 +1413,10 @@
                 <input type="file"  id="vm_file" class="form-control mt-2 " value="{{j.file.url}}"
                 style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' >
 
-                <textarea name='target[]' id="target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target" required>{{j.target}}</textarea>
+                
+
+                <input type="number" value="{{j.target}}" name='target[]' id="target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
                
               </div>
             </div>
@@ -1719,10 +1770,12 @@
                 <textarea id="mm_txt" class="drop form-control ml-3 mt-2 text-light" 
                 style="border:1px solid #6C7293 ;color:#6C7293;" name='dis_req[]' required></textarea>
                 <input type="file"  id="vm_file" class="form-control mt-2 "
-                style="text-decoration:none;border:none;background-color: #191c24;color:#6C7293 " name='file_add[]' required>
+                style="text-decoration:none;border:none;color:#6C7293 " name='file_add[]' required>
 
-                <textarea name='target[]' id="target" class="drop form-control ml-3 mt-2 text-light" 
-                style="border:1px solid #6C7293 ;height:70px;" placeholder="target" required></textarea>
+              
+
+                <input type="number" value="0" name='target[]' id="target" class="form-control mt-2 text-light "
+                style="text-decoration:none;border:none;color:#6C7293 ;">
               </div>
             </div>
                                             

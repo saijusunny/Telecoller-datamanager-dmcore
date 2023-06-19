@@ -1546,14 +1546,14 @@ def ad_export_excel(request,id):
     sheet = workbook.active
 
     # Add column headers to the Excel sheet
-    headers = ['No.', 'Date', 'Label', 'Text']  # Replace with your actual column names
+    headers = ['No.',"name","email_id","ph_no","location","qualification","year_of_passout","collegename","internship","internship_institute","internship_topic","internship_start","internship_end","duration","fresher_experience","previous_experience","company_name","register for what",]  # "Replace with your actual column names
     sheet.append(headers)
 
     # Add data rows to the Excel sheet
     count = 1
     for item in filtered_data:
-       
-        row = [count,item.daily.date,item.sub, item.sub_txt]  # Replace with your actual column names
+        
+        row = [count,item.name,item.email_id,item.ph_no,item.location,item.qualification,item.year_of_passout,item.collegename,item.internship,item.internship_institute,item.internship_topic,item.internship_start,item.internship_end,item.duration,item.fresher_experience,item.previous_experience,item.company_name,item.register] # Replace with your actual column names
         sheet.append(row)
         count+=1
 
@@ -1765,31 +1765,115 @@ def daily_work_done(request,id):
             mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration)
             mapped2=list(mapped2)
             for ele in mapped2:
+                if daily_leeds.objects.filter(name=ele[0],email_id=ele[1],ph_no=ele[2]).exists():
+                    pass
+                else:
 
-                fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
-                todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
-                created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],duration=ele[16],register=ele[15],daily=dl)
+                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                    created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],duration=ele[16],register=ele[15],daily=dl)
 
         if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration):
             mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration)
             mapped2=list(mapped2)
             for ele in mapped2:
+                if daily_leeds.objects.filter(name=ele[0],email_id=ele[1],ph_no=ele[2]).exists():
+                    pass
+                else:
 
-                fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
-                todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
-                created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=row[16],executive=usr)
+                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                    created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=row[16],executive=usr)
 
         # file_up=request.FILES.get('up_ld_excel',None)
         # excel_contents = file_up.read_excel()
 
-        file = request.FILES.get('up_ld_excel',None)
-        wb = load_workbook(file)
-        sheet = wb.active
-        for row in sheet.iter_rows(values_only=True):
-            print(row[0])
-            fromdate=datetime.strptime(str(row[11]), "%Y-%m-%d").date()
-            todate=datetime.strptime(str(row[12]), "%Y-%m-%d").date()
-            created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],executive=usr)
+        try:
+
+            file = request.FILES.get('up_ld_excel',None)
+            wb = load_workbook(file)
+            sheet = wb.active
+            count = 0
+            for row in sheet.iter_rows(values_only=True):
+                if count == 0:
+                    pass
+                else:
+                    if daily_leeds.objects.filter(name=row[2],email_id=row[1],ph_no=row[3]).exists():
+                        pass
+                    else:
+                        print(count)
+                        print(row[11].date())
+                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                        created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],daily=dl)
+                count+=1
+            
+            counts = 0
+            for row in sheet.iter_rows(values_only=True):
+                if counts == 0:
+                    pass
+                else:
+                    if All_leads.objects.filter(name=row[2],email_id=row[1],ph_no=row[3]).exists():
+                        pass
+                    else:
+                        print(counts)
+                        print(row[11].date())
+                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                        created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],executive=usr,assign_status="no")
+                counts+=1
+        except:
+            pass
+        
+        print(work.sub_task)
+        if dl.task == "Leads Collection":
+            dls = daily_work.objects.filter(work=id)
+            dl_cnt=0
+            for l in dls:
+                dl_cnt+=int(daily_leeds.objects.filter(daily=l.id).count())
+
+            print(dl_cnt)
+            print(work.target)
+            if int(dl_cnt) >= int(work.target):
+                dl.status = "yes"
+                dl.status_date=date.today()
+            else:
+                dl.status = "no"
+                dl.status_date=date.today()
+            dl.save()
+        
+        elif work.sub_task == "Off page":
+            
+            dls2 = daily_work.objects.filter(work=id)
+            dlks=daily_work.objects.filter(work=work).count()
+            if daily_off_sub.objects.filter(daily=dl).exists():
+                dl_cnt2=0
+                for l2 in dls2:
+                    dl_cnt2+=int(daily_off_sub.objects.filter(daily=l2.id).count())
+                dlk=int(dlks)+int(dl_cnt2)
+            else:
+                dlk=daily_work.objects.filter(work=work).count()
+        
+            if int(dlk) >= int(work.target):
+                dl.status = "yes"
+                dl.status_date=date.today()
+            else:
+                dl.status = "no"
+                
+            dl.save()
+        else:
+            dls3 = daily_work.objects.filter(work=id).count()
+          
+
+        
+            if int(dls3) >= int(work.target):
+                dl.status = "yes"
+                dl.status_date=date.today()
+            else:
+                dl.status = "no"
+                
+            dl.save()
+       
     
         return redirect("ex_daily_work_det",work.client_name_id)
     return redirect("ex_daily_work_det",work.client_name_id)
