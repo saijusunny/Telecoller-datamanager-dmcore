@@ -17,11 +17,13 @@
               <th scope="col" style="color:#6C7293;">EXECUTIVE NAME</th> 
               <th scope="col" style="color:#6C7293;">FILE</th> 
               <th scope="col" style="color:#6C7293;">TARGET STATUS</th>
-              <th scope="col" style="color:#6C7293;">CORRECTION</th>  
+              <th scope="col" style="color:#6C7293;">CORRECTION</th> 
+              <th scope="col" style="color:#6C7293;">DELAY</th>
             </tr>
           </thead>
           <tbody id="myTable">
             {% for i in work %}
+            
               <tr>
               <td style="color:white;">{{i.work.client_name.client_name}}</td>
               <td style="color:white;" data-toggle="modal" data-target="#workdetails{{i.id}}">{{i.task}}</td>
@@ -38,10 +40,33 @@
                
               </td>
               <td style="color:white;" data-toggle="modal" data-target="#status{{i.id}}">
-               <div class="badge badge-outline-success mt-1">Status</div>
+              
+                {% if i.status == "no"%}
+                    <div class="badge badge-outline-danger">
+                    Target Not Achieved</div>
+                    {% elif i.status == ""%}
+                    <div class="badge badge-outline-danger">
+                      Target Not Achieved</div>
+                    {%else%}
+                    <div class="badge badge-outline-success">
+                      Target Achieved</div>
+                    
+              
+                    {%endif%}
+               
               </td> 
               <td style="color:white;" data-toggle="modal" data-target="#correction{{i.id}}"><div class="badge badge-outline-danger mt-1">Correction</div></td>
-
+              <td>
+                {% for l in master %}
+                {% if i.work_id == l.id %}
+                {% if l.status == "yes" %}
+                <div class="badge badge-outline-danger">{{l.delay}}</div>
+                {%else%}
+                {%endif%}
+                {%else%}
+                {%endif%}
+                {% endfor %}
+              </td>
 
               <div class="rowmt-5 hidden modal fade" id="correction{{i.id}}">
                 <div class="modal-dialog bd-example-modal-xl modal-dialog-centered" role="document" tabindex="-1" role="dialog"
@@ -88,11 +113,24 @@
                           <div class="row pt-1">
                             <div class="row mt-3">
                               <div class="col-md-6">
-                              <input type="radio" id="option1" name="status" value="yes" >
+                              {% if i.status == "yes" %}
+                                <input type="radio" id="option1" name="status" value="yes" checked>
+                              {% elif i.status == ""%}
+                              <input type="radio" id="option1" name="status" value="yes">
+                              {%else%}
+                                <input type="radio" id="option1" name="status" value="yes">
+                              {%endif%}
                               <label for="option1">Achieved</label>
                               </div>
                               <div class="col-md-6">
-                              <input type="radio" id="option2" name="status" value="no">      
+                              {% if i.status == "no" %}
+                                <input type="radio" id="option2" name="status" value="no" checked>
+                              {% elif i.status == ""%}
+                              <input type="radio" id="option2" name="status" value="no"> 
+                              {%else%}
+                                <input type="radio" id="option2" name="status" value="no"> 
+                              {%endif%}
+                                   
                               <label for="option2">Not Achieved</label>       
                               </div>
                             </div> 
@@ -110,6 +148,7 @@
               </div>
             </tr>
             {% endfor %}
+            
         </table>
       </div>
     </div>

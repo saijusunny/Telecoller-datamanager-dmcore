@@ -738,7 +738,7 @@ def ad_daily_work_det(request):
     ids=request.session['userid']
     usr = user_registration.objects.get(id=ids)
     dl_work=daily_work.objects.filter(date=date.today())
-
+    master=Work.objects.all()
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
     dl_leeds=daily_leeds.objects.all()
@@ -748,7 +748,8 @@ def ad_daily_work_det(request):
         "dl_work":dl_work,
         "dl_leeds":dl_leeds,
         "dl_off":dl_off,
-        "dl_sub":dl_sub
+        "dl_sub":dl_sub,
+        "master":master
 
     }
     return render(request, 'admin/ad_daily_work_det.html',context)
@@ -760,14 +761,15 @@ def ad_work_analiz_det(request):
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
     dl_leeds=daily_leeds.objects.all()
-
+    master=Work.objects.all()
     dl_work=daily_work.objects.all()
     context={
         "usr":usr,
         "dl_work":dl_work,
         "dl_sub":dl_sub,
         "dl_off":dl_off,
-        "dl_leeds":dl_leeds
+        "dl_leeds":dl_leeds,
+        "master":master
 
     }
     return render(request, 'admin/ad_work_analiz_det.html',context)
@@ -1566,6 +1568,144 @@ def ad_export_excel(request,id):
 
     return response
 
+def ad_leave_home(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    
+    context={
+        "usr":usr,
+      
+    }
+    return render(request, 'admin/ad_leave_home.html',context)
+
+def ad_tl_det(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=user_registration.objects.filter(department="Digital Marketing Head")
+    context={
+        "usr":usr,
+        "tls":tls
+      
+    }
+    return render(request, 'admin/ad_tl_det.html',context)
+
+def view_tl_leave(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=leave.objects.filter(user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+      
+    }
+    return render(request, 'admin/ad_view_tl_leave.html',context)
+
+def flt_leave_tl(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    st_dt=request.POST.get('str_dt')
+    en_dt=request.POST.get('end_dt')
+    
+    tls=leave.objects.filter(from_date__gte=st_dt,from_date__lte=en_dt,user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+
+    }
+    return render(request, 'admin/ad_view_tl_leave.html',context)
+
+
+def ad_exe_det(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=user_registration.objects.filter(department="Digital Marketing Executive")
+    context={
+        "usr":usr,
+        "tls":tls
+      
+    }
+    return render(request, 'admin/ad_exe_det.html',context)
+
+
+
+def view_exe_leave(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=leave.objects.filter(user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+      
+    }
+    return render(request, 'admin/ad_view_exe_leave.html',context)
+
+def flt_leave_exe(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    st_dt=request.POST.get('str_dt')
+    en_dt=request.POST.get('end_dt')
+    
+    tls=leave.objects.filter(from_date__gte=st_dt,from_date__lte=en_dt,user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+
+    }
+    return render(request, 'admin/ad_view_exe_leave.html',context)
+
+def ad_tele_det(request):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=user_registration.objects.filter(department="Telecaller")
+    context={
+        "usr":usr,
+        "tls":tls
+      
+    }
+    return render(request, 'admin/ad_tele_det.html',context)
+
+def view_tele_leave(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=leave.objects.filter(user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+      
+    }
+    return render(request, 'admin/ad_view_tele_leave.html',context)
+
+def view_tele_leave(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    tls=leave.objects.filter(user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+      
+    }
+    return render(request, 'admin/ad_view_tele_leave.html',context)
+
+def flt_leave_tele(request,id):
+    ids=request.session['userid']
+    usr = user_registration.objects.get(id=ids)
+    st_dt=request.POST.get('str_dt')
+    en_dt=request.POST.get('end_dt')
+    
+    tls=leave.objects.filter(from_date__gte=st_dt,from_date__lte=en_dt,user=id)
+    context={
+        "usr":usr,
+        "tls":tls,
+        "id":id
+
+    }
+    return render(request, 'admin/ad_view_tele_leave.html',context)
 # -----------------------------------------------------------------------------Executive Section
 
 def ex_base(request):
@@ -1825,21 +1965,24 @@ def daily_work_done(request,id):
         except:
             pass
         
-        print(work.sub_task)
+       
         if dl.task == "Leads Collection":
             dls = daily_work.objects.filter(work=id)
             dl_cnt=0
             for l in dls:
                 dl_cnt+=int(daily_leeds.objects.filter(daily=l.id).count())
 
-            print(dl_cnt)
-            print(work.target)
-            if int(dl_cnt) >= int(work.target):
+        
+            if int(dl_cnt) >= int(int(work.target)-10):
                 dl.status = "yes"
                 dl.status_date=date.today()
+                delays=dl.status_date - work.end_date
+                work.delay=int(delays.days)
+                work.status = "yes"
+                work.save()
             else:
                 dl.status = "no"
-                dl.status_date=date.today()
+                
             dl.save()
         
         elif work.sub_task == "Off page":
@@ -1853,10 +1996,14 @@ def daily_work_done(request,id):
                 dlk=int(dlks)+int(dl_cnt2)
             else:
                 dlk=daily_work.objects.filter(work=work).count()
-        
-            if int(dlk) >= int(work.target):
+            
+            if int(dlk) >= int(int(work.target)-10):
                 dl.status = "yes"
                 dl.status_date=date.today()
+                delays=dl.status_date - work.end_date
+                work.delay=int(delays.days)
+                work.status = "yes"
+                work.save()
             else:
                 dl.status = "no"
                 
@@ -1866,9 +2013,15 @@ def daily_work_done(request,id):
           
 
         
-            if int(dls3) >= int(work.target):
+            if int(dls3) >= int(int(work.target)-10):
                 dl.status = "yes"
                 dl.status_date=date.today()
+                delays=dl.status_date - work.end_date
+               
+                work.delay=int(delays.days)
+                work.status = "yes"
+                work.save()
+                
             else:
                 dl.status = "no"
                 
@@ -2363,6 +2516,70 @@ def ex_save_shedule(request):
                 created = addi_smo_post.objects.get_or_create(label=ele[0],date=ele[1],file=ele[2],executive=usr_lg,smo=usr,post=b)
         return redirect('ex_calander')
     return redirect('ex_calander')
+
+
+def leave_home(request):
+    if 'userid' in request.session:
+        
+        ids=request.session['userid']
+        usr = user_registration.objects.get(id=ids)
+        
+     
+        return render(request, 'executive/leave_home.html',{'usr':usr})
+    else:
+        return redirect('/')
+
+def leave_aply(request):
+    if 'userid' in request.session:
+        ids=request.session['userid']
+        usr = user_registration.objects.get(id=ids)
+        return render(request, 'executive/leave_apply.html',{'usr':usr})
+    else:
+        return redirect('/')
+
+def ex_leave_form(request):
+    if 'userid' in request.session:
+        if 'userid' in request.session:
+            ids=request.session['userid']
+            usr = user_registration.objects.get(id=ids)
+        else:
+           return redirect('/')
+        mem = user_registration.objects.filter(id=ids)
+        des1 = user_registration.objects.get(id=ids)
+        if request.method == "POST":
+            leaves = leave()
+            leaves.from_date = request.POST['from']
+            leaves.to_date = request.POST['to']
+            leaves.leave_status = request.POST['haful']
+            leaves.reason = request.POST['reason']
+            leaves.user_id = ids
+            leaves.status = "submitted"
+            leaves.designation_id = des1.id
+            leaves.leaveapprovedstatus=0
+            
+            start = datetime.strptime(leaves.from_date, '%Y-%m-%d').date() 
+            end = datetime.strptime(leaves.to_date, '%Y-%m-%d').date()
+
+            diff = (end  - start).days
+    
+            leaves.save()
+        return  redirect('ex_all_leave')  
+    else:
+        return redirect('/')
+
+def ex_all_leave(request):
+    if 'userid' in request.session:
+        if 'userid' in request.session:
+            ids=request.session['userid']
+            usr = user_registration.objects.get(id=ids)
+        else:
+           return redirect('/')
+        mem = user_registration.objects.filter(id=ids)
+        var = leave.objects.filter(user_id=ids)
+        return render(request, 'executive/ex_all_leave.html',{'var': var,'usr':usr})
+    else:
+        return redirect('/')
+
 #---------------------------------marketing section
 
     
@@ -2409,12 +2626,13 @@ def he_daily_task(request):
     usr = user_registration.objects.get(id=ids)
     today=date.today()
     work=daily_work.objects.filter(date=today)
+    master=Work.objects.all()
     sub_work=daily_work_sub.objects.all()
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
 
     dl_leeds=daily_leeds.objects.all()
-    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,"sub":sub_work,"dl_sub":dl_sub,"dl_off":dl_off,"dl_leeds":dl_leeds})
+    return render(request,'head/he_daily_task.html',{'work':work,"usr":usr,"sub":sub_work,"dl_sub":dl_sub,"dl_off":dl_off,"dl_leeds":dl_leeds,'master':master})
 
 
 def he_workprogress_executive(request):
@@ -2679,6 +2897,68 @@ def he_cor_exe_det(request,id):
 
     }
     return render(request, 'head/he_cor_exe_det.html',context)
+
+def he_leave_home(request):
+    if 'userid' in request.session:
+        
+        ids=request.session['userid']
+        usr = user_registration.objects.get(id=ids)
+        
+     
+        return render(request, 'head/he_leave_home.html',{'usr':usr})
+    else:
+        return redirect('/')
+
+def he_leave_aply(request):
+    if 'userid' in request.session:
+        ids=request.session['userid']
+        usr = user_registration.objects.get(id=ids)
+        return render(request, 'head/he_leave_apply.html',{'usr':usr})
+    else:
+        return redirect('/')
+
+def he_leave_form(request):
+    if 'userid' in request.session:
+        if 'userid' in request.session:
+            ids=request.session['userid']
+            usr = user_registration.objects.get(id=ids)
+        else:
+           return redirect('/')
+        mem = user_registration.objects.filter(id=ids)
+        des1 = user_registration.objects.get(id=ids)
+        if request.method == "POST":
+            leaves = leave()
+            leaves.from_date = request.POST['from']
+            leaves.to_date = request.POST['to']
+            leaves.leave_status = request.POST['haful']
+            leaves.reason = request.POST['reason']
+            leaves.user_id = ids
+            leaves.status = "submitted"
+            leaves.designation_id = des1.id
+            leaves.leaveapprovedstatus=0
+            
+            start = datetime.strptime(leaves.from_date, '%Y-%m-%d').date() 
+            end = datetime.strptime(leaves.to_date, '%Y-%m-%d').date()
+
+            diff = (end  - start).days
+    
+            leaves.save()
+        return  redirect('he_all_leave')  
+    else:
+        return redirect('/')
+
+def he_all_leave(request):
+    if 'userid' in request.session:
+        if 'userid' in request.session:
+            ids=request.session['userid']
+            usr = user_registration.objects.get(id=ids)
+        else:
+           return redirect('/')
+        mem = user_registration.objects.filter(id=ids)
+        var = leave.objects.filter(user_id=ids)
+        return render(request, 'head/he_all_leave.html',{'var': var,'usr':usr})
+    else:
+        return redirect('/')
 
 
 #-------------------------------------------------------------------------------Smo Submission

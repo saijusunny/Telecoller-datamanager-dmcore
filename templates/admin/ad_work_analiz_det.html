@@ -63,6 +63,7 @@
               <th scope="col" style="color:#6C7293;">Description</th>
               <th scope="col" style="color:#6C7293;">Attached File</th>
               <th scope="col" style="color:#6C7293;">Target</th>
+              <th scope="col" style="color:#6C7293;">Delay</th>
               
             </tr>
           </thead>
@@ -101,6 +102,17 @@
               <div class="badge badge-outline-success">
                 Target Achieved</div>
                 {%endif%}
+            </td>
+            <td>
+              {% for l in master %}
+              {% if work.work_id == l.id %}
+              {% if l.status == "yes" %}
+              <div class="badge badge-outline-danger">{{l.delay}}</div>
+              {%else%}
+              {%endif%}
+              {%else%}
+              {%endif%}
+              {% endfor %}
             </td>
               </tr>
             {%endfor%}

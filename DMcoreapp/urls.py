@@ -79,9 +79,21 @@ urlpatterns = [
     path('ex_shedule_work', views.ex_shedule_work, name='ex_shedule_work'),
     path('ex_edit_post_status/<int:id>', views.ex_edit_post_status, name='ex_edit_post_status'),
     path('ex_save_shedule', views.ex_save_shedule, name='ex_save_shedule'),
-    
-
-    #---------------marketing head
+    path('leave_home', views.leave_home, name='leave_home'),
+    path('leave_aply', views.leave_aply, name='leave_aply'),
+    path('ex_all_leave', views.ex_all_leave, name='ex_all_leave'),
+    path('ex_leave_form', views.ex_leave_form, name='ex_leave_form'),
+    path('ad_leave_home', views.ad_leave_home, name='ad_leave_home'),
+    path('ad_tl_det', views.ad_tl_det, name='ad_tl_det'),
+    path('view_tl_leave/<int:id>', views.view_tl_leave, name='view_tl_leave'),
+    path('ad_exe_det', views.ad_exe_det, name='ad_exe_det'),
+    path('view_exe_leave/<int:id>', views.view_exe_leave, name='view_exe_leave'),
+    path('ad_tele_det', views.ad_tele_det, name='ad_tele_det'),
+    path('view_tele_leave<int:id>', views.view_tele_leave, name='view_tele_leave'),
+    path('flt_leave_tl/<int:id>', views.flt_leave_tl, name='flt_leave_tl'),
+    path('flt_leave_exe/<int:id>', views.flt_leave_exe, name='flt_leave_exe'),
+    path('flt_leave_tele/<int:id>', views.flt_leave_tele, name='flt_leave_tele'),
+    #---------------marketing head 
     
     path('he_profile', views.he_profile, name='he_profile'),
     path('he_project', views.he_project, name='he_project'),
@@ -109,7 +121,10 @@ urlpatterns = [
     path('he_cor_exe',views.he_cor_exe,name='he_cor_exe'),
     path('he_cor_exe_det/<int:id>',views.he_cor_exe_det,name='he_cor_exe_det'),
     
-
+    path('he_leave_home', views.he_leave_home, name='he_leave_home'),
+    path('he_leave_aply', views.he_leave_aply, name='he_leave_aply'),
+    path('he_all_leave', views.he_all_leave, name='he_all_leave'),
+    path('he_leave_form', views.he_leave_form, name='he_leave_form'),
     #--------------------------------------------------------------Smo Submission
     
     path('smo_login/<int:id>',views.smo_login,name='smo_login'),

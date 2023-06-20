@@ -60,7 +60,7 @@
                             </div>
                             <div class="profile-name">
                                 <h5 class="mb-0 font-weight-normal">{{usr.fullname}}</h5>
-                                <span>{{usr.designation}}</span>
+                                <span>{{usr.department}}</span>
                             </div>
                         </div>
                         <a href="#" id="profile-dropdown" data-bs-toggle="dropdown"><i
@@ -99,7 +99,7 @@
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="{% url 'he_profile' %}">
                         <span class="menu-icon">
-                            <i class="mdi mdi-apps"></i>
+                            <i class="icon-lg mdi mdi-account"></i>
                         </span>
                         <span class="menu-title">Profile</span>
                     </a>
@@ -107,7 +107,7 @@
                <li class="nav-item menu-items">
                     <a class="nav-link" href="{% url 'he_project' %}">
                         <span class="menu-icon">
-                            <i class="mdi mdi-currency-inr"></i>
+                            <i class="mdi mdi-view-dashboard"></i>
                         </span>
                         <span class="menu-title">Dashboard</span>
                     </a>
@@ -115,11 +115,21 @@
                 <li class="nav-item menu-items">
                     <a class="nav-link" href="{% url 'he_feedback' %}">
                         <span class="menu-icon">
-                            <i class="mdi mdi-currency-inr"></i>
+                            <i class="mdi mdi-message-alert"></i>
                         </span>
                         <span class="menu-title">Feedback</span>
                     </a>
                 </li>
+                <li class="nav-item menu-items">
+                    <a class="nav-link" href="{% url 'he_leave_home' %}">
+                        <span class="menu-icon">
+                            <i class="mdi mdi-file-document-outline"></i>
+                        </span>
+                        <span class="menu-title">Apply Leave</span>
+                    </a>
+                </li>
+
+                
                 
                
             </ul>

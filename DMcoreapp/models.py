@@ -242,6 +242,9 @@ class Work(models.Model):
     end_date=models.DateField(auto_now_add=False, auto_now=False,  null=True, blank=True)
     file_2=models.FileField(upload_to='images/pdf/',default='', null=True, blank=True)
     target=models.IntegerField(default=0, null=True, blank=True)
+    delay=models.IntegerField(default=0, null=True, blank=True)
+    status= models.CharField(max_length=200,default='', null=True, blank=True)
+
 
 class work_asign(models.Model):
     client_name = models.ForeignKey(client_information, on_delete=models.CASCADE, null=True, blank=True) 
@@ -506,5 +509,24 @@ class All_leads(models.Model):
     executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
     telecaller_id = models.IntegerField(null=True,blank=True)
     data_manager_id = models.IntegerField(null=True,blank=True)
+
+class leave(models.Model):
+    user = models.ForeignKey(user_registration, on_delete=models.SET_NULL,
+                             related_name='leaveuser', null=True, blank=True)
+    from_date = models.DateField(
+        auto_now_add=False, auto_now=False,  null=True, blank=True)
+    to_date = models.DateField(
+        auto_now_add=False, auto_now=False,  null=True, blank=True)
+    reason = models.TextField()
+    leave_status = models.CharField(max_length=200)
+    status = models.CharField(max_length=200)
+    designation_id = models.CharField(max_length=200)
+    leaveapprovedstatus = models.CharField(max_length=200, default="0")
+    leave_rejected_reason = models.CharField(max_length=300)
+    days = models.IntegerField(default=0)
+
+    
+    def __str__(self):
+        return self.user
 
    
