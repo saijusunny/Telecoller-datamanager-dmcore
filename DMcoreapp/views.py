@@ -1548,14 +1548,14 @@ def ad_export_excel(request,id):
     sheet = workbook.active
 
     # Add column headers to the Excel sheet
-    headers = ['No.',"name","email_id","ph_no","location","qualification","year_of_passout","collegename","internship","internship_institute","internship_topic","internship_start","internship_end","duration","fresher_experience","previous_experience","company_name","register for what",]  # "Replace with your actual column names
+    headers = ['No.',"name","email_id","ph_no","location","qualification","year_of_passout","collegename","internship","internship_institute","internship_topic","internship_start","internship_end","duration","fresher_experience","previous_experience","company_name","register for what",'Duration' 'Experiense','Internship']  # "Replace with your actual column names
     sheet.append(headers)
 
     # Add data rows to the Excel sheet
     count = 1
     for item in filtered_data:
         
-        row = [count,item.name,item.email_id,item.ph_no,item.location,item.qualification,item.year_of_passout,item.collegename,item.internship,item.internship_institute,item.internship_topic,item.internship_start,item.internship_end,item.duration,item.fresher_experience,item.previous_experience,item.company_name,item.register] # Replace with your actual column names
+        row = [count,item.name,item.email_id,item.ph_no,item.location,item.qualification,item.year_of_passout,item.collegename,item.internship,item.internship_institute,item.internship_topic,item.internship_start,item.internship_end,item.duration,item.fresher_experience,item.previous_experience,item.company_name,item.register,item.ex_duration] # Replace with your actual column names
         sheet.append(row)
         count+=1
 
@@ -1763,7 +1763,7 @@ def ex_daily_work_det(request,id):
     daily=daily_work.objects.filter(user=ids)
     dl_sub=daily_work_sub.objects.all() 
     dl_off=daily_off_sub.objects.all()
-
+    dts=date.today()
     dl_leeds=daily_leeds.objects.all()
     cr_date=date.today()
     
@@ -1775,7 +1775,8 @@ def ex_daily_work_det(request,id):
         "works":works,
         "dl_sub":dl_sub,
         "dl_off":dl_off,
-        "dl_leeds":dl_leeds
+        "dl_leeds":dl_leeds,
+        "dts":dts,
         
     }
     return render(request, 'executive/ex_daily_work_det.html',context)
@@ -1900,70 +1901,173 @@ def daily_work_done(request,id):
         company_name=request.POST.getlist('lc_company_name[]')
         register=request.POST.getlist('lc_register[]')
         duration=request.POST.getlist('lc_duration[]')
-        
-        if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration):
-            mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration)
+        ex_duration=request.POST.getlist('ex_duration[]')
+        print("ex_duration")
+        print(ex_duration)
+        if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration)==len(ex_duration):
+            mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration,ex_duration)
             mapped2=list(mapped2)
             for ele in mapped2:
+                tp=int(ele[17])
+                print(type(tp))
+                print("ele[17]")
                 if daily_leeds.objects.filter(name=ele[0],email_id=ele[1],ph_no=ele[2]).exists():
                     pass
                 else:
+                    if int(ele[16]) > 6:
+                        pass
+                    else:
+                        
+                        if int(ele[17]) > 12:
+                            pass
+                        else:
+                            
+                            if str(ele[7]) == "no":
+                                if str(ele[12]) == "fresher":
+                                    created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=ele[12],previous_experience=None,company_name=None,register=ele[15],duration=None,daily=dl,ex_duration=None)
+                                else:
+                                    created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=None,daily=dl,ex_duration=ele[17])
 
-                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
-                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
-                    created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],duration=ele[16],register=ele[15],daily=dl)
+                            else:
+                                if str(ele[12]) == "fresher":
+                                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                                    created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=None,company_name=None,register=None,duration=ele[16],daily=dl,ex_duration=None)
+                                else:
+                                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                                    created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=ele[16],daily=dl,ex_duration=ele[17])
 
-        if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration):
-            mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration)
+                    
+                    # fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                    # todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                    # created = daily_leeds.objects.get_or_create(name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],duration=ele[16],register=ele[15],daily=dl)
+
+                    
+
+        if len(name)==len(email_id)==len(ph_no)==len(location)==len(qualification)==len(year_of_passout)==len(collegename)==len(internship)==len(internship_institute)==len(internship_topic)==len(internship_start)==len(internship_end)==len(fresher_experience)==len(previous_experience)==len(company_name)==len(register)==len(duration)==len(ex_duration):
+            mapped2 = zip(name,email_id,ph_no,location,qualification,year_of_passout,collegename,internship,internship_institute,internship_topic,internship_start,internship_end,fresher_experience,previous_experience,company_name,register,duration,ex_duration)
             mapped2=list(mapped2)
             for ele in mapped2:
-                if daily_leeds.objects.filter(name=ele[0],email_id=ele[1],ph_no=ele[2]).exists():
+                
+                if All_leads.objects.filter(name=ele[0],email_id=ele[1],ph_no=ele[2]).exists():
+                    
                     pass
                 else:
+                    print(ele[16])
+                    if int(ele[16]) > 6:
+                        pass
+                    else:
+                        
+                        if int(ele[17]) > 12:
+                            pass
+                        else:
+                            print(ele[16])
+                            if str(ele[7]) == "no":
+                                if str(ele[12]) == "fresher":
+                                    created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=ele[12],previous_experience=None,company_name=None,register=ele[15],duration=None,ex_duration=None,executive=usr)
+                                else:
+                                    created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=None,ex_duration=ele[17],executive=usr)
 
-                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
-                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
-                    created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=row[16],executive=usr)
-
+                            else:
+                                if str(ele[12]) == "fresher":
+                                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                                    created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=None,company_name=None,register=ele[15],duration=ele[16],executive=usr)
+                                else:
+                                    fromdate=datetime.strptime(str(ele[10]), "%Y-%m-%d").date()
+                                    todate=datetime.strptime(str(ele[11]), "%Y-%m-%d").date()
+                                    created = All_leads.objects.get_or_create(date=date.today(),name=ele[0],email_id=ele[1],ph_no=ele[2],location=ele[3],qualification=ele[4],year_of_passout=ele[5],collegename=ele[6],internship=ele[7],internship_institute=ele[8],internship_topic=ele[9],internship_start=fromdate,internship_end=todate,fresher_experience=ele[12],previous_experience=ele[13],company_name=ele[14],register=ele[15],duration=ele[16],executive=usr,ex_duration=ele[17])
+                            
         # file_up=request.FILES.get('up_ld_excel',None)
         # excel_contents = file_up.read_excel()
 
+        
         try:
-
             file = request.FILES.get('up_ld_excel',None)
             wb = load_workbook(file)
             sheet = wb.active
             count = 0
             for row in sheet.iter_rows(values_only=True):
+
+                print(row[16])
+                print(row[18])
+                print(row[9])
+                print(row[8])
                 if count == 0:
                     pass
                 else:
                     if daily_leeds.objects.filter(name=row[2],email_id=row[1],ph_no=row[3]).exists():
                         pass
                     else:
-                        print(count)
-                        print(row[11].date())
-                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
-                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
-                        created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],daily=dl)
-                count+=1
-            
-            counts = 0
-            for row in sheet.iter_rows(values_only=True):
-                if counts == 0:
-                    pass
-                else:
+                        # print(count)
+                        # print(row[11].date())
+                        # fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                        # todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                        # created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],daily=dl)
+
+                        if int(row[16]) > 6:
+                            pass
+                        else:
+                            
+                            if int(row[18]) > 12:
+                                pass
+                            else:
+
+                                if str(row[9]) == "no":
+                                    if str(row[8]) == "fresher":
+                                    
+                                        created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=row[8],previous_experience=None,company_name=None,duration=None, register=row[17],daily=dl,ex_duration=None)
+                                    else:
+                                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=int(row[16]), register=row[17],daily=dl,ex_duration=int(row[18]))
+
+                                else:
+                                    if str(row[8]) == "fresher":
+                                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=None,company_name=None,duration=None, register=row[17],daily=dl,ex_duration=None)
+                                    else:
+                                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        created = daily_leeds.objects.get_or_create(name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=int(row[16]), register=row[17],daily=dl,ex_duration=int(row[18]))
+
+                    
                     if All_leads.objects.filter(name=row[2],email_id=row[1],ph_no=row[3]).exists():
                         pass
                     else:
-                        print(counts)
-                        print(row[11].date())
-                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
-                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
-                        created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=row[5],collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=row[16], register=row[17],executive=usr,assign_status="no")
-                counts+=1
+                        if int(row[16]) > 6:
+                            pass
+                        else:
+                            
+                            if int(row[18]) > 12:
+                                pass
+                            else:
+                                if str(row[9]) == "no":
+                                    if str(row[8]) == "fresher":
+                                    
+                                        created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=row[8],previous_experience=None,company_name=None,duration=None, register=row[17],executive=usr,assign_status="no",ex_duration=None)
+                                    else:
+                                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=None,internship_topic=None,internship_start=None,internship_end=None,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=None, register=row[17],executive=usr,assign_status="no",ex_duration=int(row[18]))
+
+                                else:
+                                    if str(row[8]) == "fresher":
+                                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=None,company_name=None,duration=int(row[16]), register=row[17],executive=usr,assign_status="no",ex_duration=None)
+                                    else:
+                                        fromdate=datetime.strptime(str(row[11].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        todate=datetime.strptime(str(row[12].date()), '%Y-%m-%d').strftime('%Y-%m-%d')
+                                        created = All_leads.objects.get_or_create(date=date.today(),name=row[2],email_id=row[1],ph_no=row[3],location=row[7],qualification=row[4],year_of_passout=int(row[5]),collegename=row[6],internship=row[9],internship_institute=row[13],internship_topic=row[10],internship_start=fromdate,internship_end=todate,fresher_experience=row[8],previous_experience=row[14],company_name=row[15],duration=int(row[16]), register=row[17],executive=usr,assign_status="no",ex_duration=int(row[18]))
+
+
+                count+=1
         except:
             pass
+    
         
        
         if dl.task == "Leads Collection":

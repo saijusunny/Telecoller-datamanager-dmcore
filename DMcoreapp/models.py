@@ -345,6 +345,7 @@ class daily_leeds(models.Model):
     previous_experience = models.CharField(max_length=255,null=True,blank=True,default='')
     company_name = models.CharField(max_length=255,null=True,blank=True,default='')
     register = models.CharField(max_length=255,null=True,blank=True,default='')
+    ex_duration = models.CharField(max_length=255,null=True,blank=True,default='')
 
 class progress_report(models.Model):
     work=models.ForeignKey(Work,on_delete=models.CASCADE,null=True,blank=True)
@@ -509,6 +510,7 @@ class All_leads(models.Model):
     executive=models.ForeignKey(user_registration, on_delete=models.CASCADE, null=True, blank=True)
     telecaller_id = models.IntegerField(null=True,blank=True)
     data_manager_id = models.IntegerField(null=True,blank=True)
+    ex_duration = models.CharField(max_length=255,null=True,blank=True,default='')
 
 class leave(models.Model):
     user = models.ForeignKey(user_registration, on_delete=models.SET_NULL,
